@@ -118,11 +118,11 @@ export default function StaffChairSchedulePage() {
           </Link>
 
           {/* Barber Switcher */}
-          <div className="text-center">
+          <div className="text-center min-w-0 px-1">
             <select
               value={selectedStaffId}
               onChange={(e) => setSelectedStaffId(e.target.value)}
-              className="font-bold text-sm bg-transparent border-0 focus:outline-none cursor-pointer text-center text-[#222222]"
+              className="font-bold text-sm bg-transparent border-0 focus:outline-none cursor-pointer text-center text-[#222222] max-w-[160px] sm:max-w-xs truncate"
             >
               {staffList.map((st) => (
                 <option key={st.id} value={st.id}>
@@ -130,7 +130,7 @@ export default function StaffChairSchedulePage() {
                 </option>
               ))}
             </select>
-            <span className="text-[10px] text-emerald-600 font-semibold block flex items-center justify-center gap-1">
+            <span className="text-[10px] text-emerald-600 font-semibold flex items-center justify-center gap-1">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
               Chair Active
             </span>
@@ -138,14 +138,14 @@ export default function StaffChairSchedulePage() {
 
           <Link
             href="/dashboard"
-            className="text-xs font-semibold text-[#ff385c] hover:underline"
+            className="text-xs font-semibold text-[#ff385c] hover:underline shrink-0"
           >
             Manager
           </Link>
         </header>
 
         {/* Content */}
-        <main className="p-5 flex-1 space-y-4 overflow-y-auto">
+        <main className="p-4 sm:p-5 flex-1 space-y-4 overflow-y-auto">
           {/* Quick Metrics Bar */}
           <div className="grid grid-cols-2 gap-2 text-center">
             <div className="p-3 bg-[#fafafa] border border-[#ebebeb] rounded-xl">

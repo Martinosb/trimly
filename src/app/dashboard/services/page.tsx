@@ -109,9 +109,9 @@ export default function ServicesManagementPage() {
 
   return (
     <div className="flex-1 p-4 sm:p-6 lg:p-8 max-w-5xl mx-auto w-full">
-      <div className="flex items-center justify-between pb-6 border-b border-[#ebebeb]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-6 border-b border-[#ebebeb]">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-[#222222]">
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#222222]">
             Services & Pricing
           </h1>
           <p className="text-xs text-[#717171] mt-0.5">
@@ -122,7 +122,7 @@ export default function ServicesManagementPage() {
         <button
           type="button"
           onClick={() => setShowAddForm(!showAddForm)}
-          className="py-2.5 px-4 rounded-xl bg-[#ff385c] hover:bg-[#e00b41] text-white text-xs font-bold flex items-center gap-1.5 shadow-sm transition-all"
+          className="py-2.5 px-4 rounded-xl bg-[#ff385c] hover:bg-[#e00b41] text-white text-xs font-bold flex items-center gap-1.5 shadow-sm transition-all self-start sm:self-auto"
         >
           <Plus className="w-4 h-4" />
           <span>Add Service</span>
@@ -239,20 +239,20 @@ export default function ServicesManagementPage() {
           services.map((svc) => (
             <div
               key={svc.id}
-              className={`p-4 rounded-2xl border bg-white flex items-center justify-between transition-all ${
+              className={`p-4 rounded-2xl border bg-white flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-all ${
                 svc.is_active ? "border-[#ebebeb]" : "border-[#ebebeb] opacity-50"
               }`}
             >
-              <div className="space-y-1">
-                <div className="flex items-center gap-2">
-                  <h3 className="font-bold text-sm text-[#222222]">{svc.name}</h3>
+              <div className="space-y-1 min-w-0 flex-1">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <h3 className="font-bold text-sm text-[#222222] truncate">{svc.name}</h3>
                   {svc.is_popular && (
-                    <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 bg-[#ff385c]/10 text-[#ff385c] rounded-full flex items-center gap-1">
+                    <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 bg-[#ff385c]/10 text-[#ff385c] rounded-full flex items-center gap-1 shrink-0">
                       <Sparkles className="w-2.5 h-2.5" /> Popular
                     </span>
                   )}
                   {!svc.is_active && (
-                    <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 bg-neutral-100 text-neutral-600 rounded-full">
+                    <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 bg-neutral-100 text-neutral-600 rounded-full shrink-0">
                       Archived
                     </span>
                   )}
@@ -269,7 +269,7 @@ export default function ServicesManagementPage() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 shrink-0">
+              <div className="flex items-center gap-2 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-[#f0f0f0] justify-end">
                 <button
                   type="button"
                   onClick={() => handleTogglePopular(svc)}

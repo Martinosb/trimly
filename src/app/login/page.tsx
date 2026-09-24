@@ -235,7 +235,7 @@ function LoginForm() {
             <p className="text-xs font-medium text-[#717171] mb-2 text-center">
               Quick demo shortcuts for review:
             </p>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               <button
                 type="button"
                 onClick={() => handleQuickLogin("info@gentlemenscut.com")}

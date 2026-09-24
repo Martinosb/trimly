@@ -422,7 +422,7 @@ export default function BookingPortalPage({
 
         {/* Step Indicator */}
         {bookingStep < 5 && (
-          <div className="flex border-b border-[#f0f0f0] bg-[#fafafa] text-xs font-semibold">
+          <div className="flex border-b border-[#f0f0f0] bg-[#fafafa] text-[11px] sm:text-xs font-semibold">
             {[
               { step: 1, label: "Service" },
               { step: 2, label: "Barber" },
@@ -875,7 +875,7 @@ export default function BookingPortalPage({
                     <span className="text-[11px] font-semibold text-[#595959] uppercase tracking-wider block mb-2">
                       Select MoMo Network
                     </span>
-                    <div className="grid grid-cols-3 gap-2">
+                    <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
                       {[
                         { id: "momo_mtn", name: "MTN MoMo" },
                         { id: "momo_voda", name: "Telecel Cash" },
@@ -885,7 +885,7 @@ export default function BookingPortalPage({
                           key={net.id}
                           type="button"
                           onClick={() => setMomoProvider(net.id as any)}
-                          className={`py-2 px-1 text-center rounded-lg border text-xs font-semibold transition-all ${
+                          className={`py-2 px-1 text-center rounded-lg border text-[11px] sm:text-xs font-semibold truncate leading-tight transition-all ${
                             momoProvider === net.id
                               ? "border-[#ff385c] bg-white text-[#ff385c] shadow-xs"
                               : "border-[#dddddd] bg-white text-[#595959]"
@@ -1013,10 +1013,10 @@ export default function BookingPortalPage({
                 onClick={() => setBookingStep(2)}
                 className="w-full py-3.5 px-4 rounded-xl bg-[#ff385c] hover:bg-[#e00b41] text-white font-semibold text-sm shadow-sm transition-all flex items-center justify-between disabled:opacity-40 disabled:pointer-events-none"
               >
-                <span>
+                <span className="truncate pr-2">
                   {selectedService ? `Continue with ${selectedService.name}` : "Select a Service to Continue"}
                 </span>
-                <ChevronRight className="w-4 h-4" />
+                <ChevronRight className="w-4 h-4 shrink-0" />
               </button>
             )}
 
@@ -1026,8 +1026,8 @@ export default function BookingPortalPage({
                 onClick={() => setBookingStep(3)}
                 className="w-full py-3.5 px-4 rounded-xl bg-[#ff385c] hover:bg-[#e00b41] text-white font-semibold text-sm shadow-sm transition-all flex items-center justify-between"
               >
-                <span>Continue to Date & Time</span>
-                <ChevronRight className="w-4 h-4" />
+                <span className="truncate pr-2">Continue to Date & Time</span>
+                <ChevronRight className="w-4 h-4 shrink-0" />
               </button>
             )}
 
@@ -1038,10 +1038,10 @@ export default function BookingPortalPage({
                 onClick={() => setBookingStep(4)}
                 className="w-full py-3.5 px-4 rounded-xl bg-[#ff385c] hover:bg-[#e00b41] text-white font-semibold text-sm shadow-sm transition-all flex items-center justify-between disabled:opacity-40 disabled:pointer-events-none"
               >
-                <span>
+                <span className="truncate pr-2">
                   {selectedSlot ? `Book for ${selectedSlot.formattedTime}` : "Select a Time Slot"}
                 </span>
-                <ChevronRight className="w-4 h-4" />
+                <ChevronRight className="w-4 h-4 shrink-0" />
               </button>
             )}
 

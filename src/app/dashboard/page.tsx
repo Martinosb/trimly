@@ -260,11 +260,11 @@ export default function OwnerTimelineDashboard() {
       {/* Header bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#ebebeb]">
         <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-bold tracking-tight text-[#222222]">
+          <div className="flex items-center gap-2 flex-wrap">
+            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#222222]">
               {shop?.name || "Shop Timeline"}
             </h1>
-            <span className="text-xs font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-full flex items-center gap-1">
+            <span className="text-xs font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-full flex items-center gap-1 shrink-0">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-ping" />
               Live Chairs
             </span>
@@ -275,7 +275,7 @@ export default function OwnerTimelineDashboard() {
         </div>
 
         {/* Date Switcher & Walk-In Button */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
           <div className="flex items-center bg-white border border-[#dddddd] rounded-xl px-2 py-1 shadow-2xs">
             <button
               type="button"
@@ -284,7 +284,7 @@ export default function OwnerTimelineDashboard() {
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
-            <span className="text-xs font-bold px-2 text-[#222222]">
+            <span className="text-xs font-bold px-2 text-[#222222] whitespace-nowrap">
               {new Date(date).toLocaleDateString("en-US", {
                 weekday: "short",
                 month: "short",
@@ -303,7 +303,7 @@ export default function OwnerTimelineDashboard() {
           <button
             type="button"
             onClick={() => setShowWalkInModal(true)}
-            className="py-2 px-4 rounded-xl bg-[#ff385c] hover:bg-[#e00b41] text-white text-xs font-bold flex items-center gap-1.5 shadow-sm transition-all"
+            className="py-2 px-3.5 sm:px-4 rounded-xl bg-[#ff385c] hover:bg-[#e00b41] text-white text-xs font-bold flex items-center gap-1.5 shadow-sm transition-all whitespace-nowrap"
           >
             <Plus className="w-4 h-4 stroke-[3]" />
             <span>Walk-In</span>
@@ -312,8 +312,8 @@ export default function OwnerTimelineDashboard() {
       </div>
 
       {/* Metrics Banner */}
-      <div className="grid grid-cols-3 gap-3 my-6">
-        <div className="p-4 rounded-2xl bg-white border border-[#ebebeb] shadow-2xs">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 my-6">
+        <div className="p-3.5 sm:p-4 rounded-2xl bg-white border border-[#ebebeb] shadow-2xs">
           <span className="text-[11px] font-semibold text-[#717171] uppercase tracking-wider block">
             Today&apos;s Revenue
           </span>
@@ -322,7 +322,7 @@ export default function OwnerTimelineDashboard() {
           </span>
         </div>
 
-        <div className="p-4 rounded-2xl bg-white border border-[#ebebeb] shadow-2xs">
+        <div className="p-3.5 sm:p-4 rounded-2xl bg-white border border-[#ebebeb] shadow-2xs">
           <span className="text-[11px] font-semibold text-[#717171] uppercase tracking-wider block">
             Appointments
           </span>
@@ -331,7 +331,7 @@ export default function OwnerTimelineDashboard() {
           </span>
         </div>
 
-        <div className="p-4 rounded-2xl bg-white border border-[#ebebeb] shadow-2xs">
+        <div className="p-3.5 sm:p-4 rounded-2xl bg-white border border-[#ebebeb] shadow-2xs">
           <span className="text-[11px] font-semibold text-[#717171] uppercase tracking-wider block">
             Active Chairs
           </span>
@@ -342,15 +342,15 @@ export default function OwnerTimelineDashboard() {
       </div>
 
       {/* Timeline Columns per Staff */}
-      <div className="flex-1">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="flex-1 min-w-0">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {staffList.map((st) => {
             const staffBookings = bookings.filter((b) => b.staff_id === st.id);
 
             return (
               <div
                 key={st.id}
-                className="bg-white rounded-2xl border border-[#ebebeb] p-4 flex flex-col shadow-xs"
+                className="bg-white rounded-2xl border border-[#ebebeb] p-4 flex flex-col shadow-xs min-w-0"
               >
                 {/* Staff Column Header */}
                 <div className="flex items-center justify-between pb-3 border-b border-[#f0f0f0] mb-3">
@@ -491,7 +491,7 @@ export default function OwnerTimelineDashboard() {
             )}
 
             {/* Quick Contact Buttons */}
-            <div className="grid grid-cols-2 gap-2 pt-1">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
               <a
                 href={`tel:${selectedBooking.client_phone}`}
                 className="py-2.5 px-3 rounded-xl border border-[#dddddd] hover:border-[#222222] text-xs font-semibold text-[#222222] flex items-center justify-center gap-1.5 transition-colors"
@@ -516,35 +516,35 @@ export default function OwnerTimelineDashboard() {
               <span className="text-[11px] font-bold text-[#717171] uppercase tracking-wider block">
                 Update Appointment Status
               </span>
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
                 <button
                   type="button"
                   disabled={updatingStatus}
                   onClick={() => handleStatusUpdate("completed")}
-                  className="py-2.5 px-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-1 transition-colors disabled:opacity-50"
+                  className="py-2.5 px-1 sm:px-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] sm:text-xs flex items-center justify-center gap-1 transition-colors disabled:opacity-50"
                 >
-                  <CheckCircle2 className="w-3.5 h-3.5" />
-                  <span>Completed</span>
+                  <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+                  <span className="truncate">Done</span>
                 </button>
 
                 <button
                   type="button"
                   disabled={updatingStatus}
                   onClick={() => handleStatusUpdate("no_show")}
-                  className="py-2.5 px-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs flex items-center justify-center gap-1 transition-colors disabled:opacity-50"
+                  className="py-2.5 px-1 sm:px-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-[11px] sm:text-xs flex items-center justify-center gap-1 transition-colors disabled:opacity-50"
                 >
-                  <AlertCircle className="w-3.5 h-3.5" />
-                  <span>No-Show</span>
+                  <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                  <span className="truncate">No-Show</span>
                 </button>
 
                 <button
                   type="button"
                   disabled={updatingStatus}
                   onClick={() => handleStatusUpdate("cancelled")}
-                  className="py-2.5 px-2 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs flex items-center justify-center gap-1 transition-colors disabled:opacity-50"
+                  className="py-2.5 px-1 sm:px-2 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-[11px] sm:text-xs flex items-center justify-center gap-1 transition-colors disabled:opacity-50"
                 >
-                  <XCircle className="w-3.5 h-3.5" />
-                  <span>Cancel</span>
+                  <XCircle className="w-3.5 h-3.5 shrink-0" />
+                  <span className="truncate">Cancel</span>
                 </button>
               </div>
             </div>
@@ -555,7 +555,7 @@ export default function OwnerTimelineDashboard() {
       {/* Walk-in Booking Modal */}
       {showWalkInModal && (
         <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="w-full max-w-md bg-white rounded-2xl p-6 shadow-2xl space-y-4">
+          <div className="w-full max-w-md bg-white rounded-2xl p-5 sm:p-6 shadow-2xl space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-[#f0f0f0]">
               <h3 className="text-lg font-bold text-[#222222]">Add Walk-In Client</h3>
               <button
@@ -591,7 +591,7 @@ export default function OwnerTimelineDashboard() {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <div>
                   <label className="block font-semibold text-[#222222] mb-1">Barber Chair *</label>
                   <select

@@ -177,7 +177,7 @@ export default function PlatformAdminConsole() {
         </header>
 
         {/* Global Platform KPIs */}
-        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="p-5 rounded-2xl bg-white border border-[#ebebeb] shadow-2xs">
             <div className="flex items-center justify-between text-[#717171]">
               <span className="text-xs font-semibold uppercase tracking-wider">Active Shops</span>
@@ -232,7 +232,7 @@ export default function PlatformAdminConsole() {
         </div>
 
         {/* Search & Shops Directory */}
-        <div className="p-5 rounded-2xl bg-white border border-[#ebebeb] shadow-2xs space-y-4">
+        <div className="p-4 sm:p-5 rounded-2xl bg-white border border-[#ebebeb] shadow-2xs space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <h2 className="text-lg font-bold text-[#222222]">Shops Directory</h2>
@@ -252,8 +252,8 @@ export default function PlatformAdminConsole() {
           </div>
 
           {/* Table */}
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
+          <div className="overflow-x-auto w-full">
+            <table className="w-full min-w-[620px] text-left text-xs">
               <thead className="border-b border-[#f0f0f0] text-[#717171] uppercase tracking-wider font-semibold">
                 <tr>
                   <th className="pb-3 px-3">Shop</th>
@@ -348,7 +348,7 @@ export default function PlatformAdminConsole() {
               <div className="grid grid-cols-2 gap-3 text-xs bg-[#fafafa] p-4 rounded-xl border border-[#ebebeb]">
                 <div>
                   <span className="text-[#717171] block">Slug URL</span>
-                  <span className="font-mono font-bold text-[#222222]">/book/{selectedShop.slug}</span>
+                  <span className="font-mono font-bold text-[#222222] break-all">/book/{selectedShop.slug}</span>
                 </div>
                 <div>
                   <span className="text-[#717171] block">Location</span>

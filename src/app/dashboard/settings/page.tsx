@@ -107,16 +107,16 @@ export default function ShopSettingsPage() {
 
       {/* Share Booking Link Box */}
       <div className="my-6 p-4 rounded-2xl bg-white border border-[#ebebeb] shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div>
+        <div className="min-w-0 flex-1">
           <span className="text-xs font-bold text-[#ff385c] uppercase tracking-wider block">
             Public Booking Link
           </span>
-          <span className="text-sm font-semibold text-[#222222] mt-0.5 block">
+          <span className="text-xs sm:text-sm font-semibold text-[#222222] mt-0.5 block break-all">
             {typeof window !== "undefined" ? `${window.location.origin}/book/${slug}` : `/book/${slug}`}
           </span>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 shrink-0">
           <button
             type="button"
             onClick={copyBookingLink}
@@ -148,7 +148,7 @@ export default function ShopSettingsPage() {
       {/* Form */}
       <form onSubmit={handleSave} className="space-y-6">
         {/* Deposit Policy */}
-        <div className="p-5 rounded-2xl bg-white border border-[#ebebeb] shadow-2xs space-y-4">
+        <div className="p-4 sm:p-5 rounded-2xl bg-white border border-[#ebebeb] shadow-2xs space-y-4">
           <h2 className="text-base font-bold text-[#222222] flex items-center gap-2">
             <Store className="w-4 h-4 text-[#ff385c]" />
             <span>No-Show Protection & Deposits</span>
@@ -158,44 +158,44 @@ export default function ShopSettingsPage() {
             <label className="block text-xs font-semibold text-[#222222] uppercase tracking-wider">
               Deposit Rule
             </label>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
               <button
                 type="button"
                 onClick={() => setDepositType("none")}
-                className={`p-3 rounded-xl border text-center transition-all ${
+                className={`p-2.5 sm:p-3 rounded-xl border text-center transition-all ${
                   depositType === "none"
                     ? "border-[#ff385c] bg-[#ff385c]/5 font-bold text-[#ff385c]"
                     : "border-[#dddddd] text-[#717171]"
                 }`}
               >
-                <div className="text-xs">No Deposit</div>
-                <div className="text-[10px] opacity-70">Pay in shop</div>
+                <div className="text-xs truncate">No Deposit</div>
+                <div className="text-[10px] opacity-70 truncate">Pay in shop</div>
               </button>
 
               <button
                 type="button"
                 onClick={() => setDepositType("fixed")}
-                className={`p-3 rounded-xl border text-center transition-all ${
+                className={`p-2.5 sm:p-3 rounded-xl border text-center transition-all ${
                   depositType === "fixed"
                     ? "border-[#ff385c] bg-[#ff385c]/5 font-bold text-[#ff385c]"
                     : "border-[#dddddd] text-[#717171]"
                 }`}
               >
-                <div className="text-xs">Fixed Amount</div>
-                <div className="text-[10px] opacity-70">Flat GHS</div>
+                <div className="text-xs truncate">Fixed</div>
+                <div className="text-[10px] opacity-70 truncate">Flat GHS</div>
               </button>
 
               <button
                 type="button"
                 onClick={() => setDepositType("percentage")}
-                className={`p-3 rounded-xl border text-center transition-all ${
+                className={`p-2.5 sm:p-3 rounded-xl border text-center transition-all ${
                   depositType === "percentage"
                     ? "border-[#ff385c] bg-[#ff385c]/5 font-bold text-[#ff385c]"
                     : "border-[#dddddd] text-[#717171]"
                 }`}
               >
-                <div className="text-xs">Percentage</div>
-                <div className="text-[10px] opacity-70">% of cut</div>
+                <div className="text-xs truncate">Percentage</div>
+                <div className="text-[10px] opacity-70 truncate">% of cut</div>
               </button>
             </div>
           </div>

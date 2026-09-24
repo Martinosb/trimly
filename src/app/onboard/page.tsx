@@ -304,7 +304,7 @@ export default function OnboardingPage() {
         )}
 
         {/* Wizard Body */}
-        <main className="p-6 flex-1">
+        <main className="p-4 sm:p-6 flex-1">
           {/* STEP 1: Details & Slug */}
           {step === 1 && (
             <div className="space-y-4">
@@ -335,8 +335,8 @@ export default function OnboardingPage() {
                 <label className="block text-xs font-semibold text-[#222222] uppercase tracking-wider mb-1">
                   Your Custom Booking Link *
                 </label>
-                <div className="flex items-center rounded-xl border border-[#dddddd] px-3 py-2 bg-[#fcfcfc] focus-within:border-[#ff385c]">
-                  <span className="text-xs text-[#717171] select-none">trimly.cut/book/</span>
+                <div className="flex items-center rounded-xl border border-[#dddddd] px-2.5 sm:px-3 py-2 bg-[#fcfcfc] focus-within:border-[#ff385c] min-w-0">
+                  <span className="text-[11px] sm:text-xs text-[#717171] select-none shrink-0">trimly.cut/book/</span>
                   <input
                     type="text"
                     required
@@ -347,23 +347,23 @@ export default function OnboardingPage() {
                       setSlugStatus("idle");
                     }}
                     onBlur={() => checkSlugAvailability(slug)}
-                    className="flex-1 bg-transparent text-xs font-medium text-[#222222] focus:outline-none px-1"
+                    className="flex-1 min-w-0 bg-transparent text-xs font-medium text-[#222222] focus:outline-none px-1"
                   />
                   {slugStatus === "checking" && (
-                    <span className="text-xs text-[#717171] animate-pulse">Checking...</span>
+                    <span className="text-[11px] text-[#717171] animate-pulse shrink-0">Checking...</span>
                   )}
                   {slugStatus === "available" && (
-                    <span className="text-xs text-emerald-600 font-semibold flex items-center gap-1">
+                    <span className="text-[11px] text-emerald-600 font-semibold flex items-center gap-1 shrink-0">
                       <Check className="w-3.5 h-3.5" /> Available
                     </span>
                   )}
                   {slugStatus === "taken" && (
-                    <span className="text-xs text-red-500 font-semibold">Taken</span>
+                    <span className="text-[11px] text-red-500 font-semibold shrink-0">Taken</span>
                   )}
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-semibold text-[#222222] uppercase tracking-wider mb-1">
                     City *
@@ -473,12 +473,12 @@ export default function OnboardingPage() {
                     placeholder="Service Name"
                     value={newServiceName}
                     onChange={(e) => setNewServiceName(e.target.value)}
-                    className="col-span-6 px-3 py-2 rounded-xl border border-[#dddddd] text-xs focus:outline-none focus:border-[#ff385c]"
+                    className="col-span-12 sm:col-span-6 px-3 py-2 rounded-xl border border-[#dddddd] text-xs focus:outline-none focus:border-[#ff385c]"
                   />
                   <select
                     value={newServiceDuration}
                     onChange={(e) => setNewServiceDuration(Number(e.target.value))}
-                    className="col-span-3 px-2 py-2 rounded-xl border border-[#dddddd] text-xs bg-white"
+                    className="col-span-6 sm:col-span-3 px-2 py-2 rounded-xl border border-[#dddddd] text-xs bg-white"
                   >
                     <option value={15}>15 min</option>
                     <option value={30}>30 min</option>
@@ -492,7 +492,7 @@ export default function OnboardingPage() {
                     placeholder="GHS"
                     value={newServicePrice}
                     onChange={(e) => setNewServicePrice(Number(e.target.value))}
-                    className="col-span-3 px-2 py-2 rounded-xl border border-[#dddddd] text-xs focus:outline-none focus:border-[#ff385c]"
+                    className="col-span-6 sm:col-span-3 px-2 py-2 rounded-xl border border-[#dddddd] text-xs focus:outline-none focus:border-[#ff385c]"
                   />
                 </div>
                 <button
@@ -546,7 +546,7 @@ export default function OnboardingPage() {
                 <span className="text-xs font-semibold text-[#222222] uppercase tracking-wider block">
                   Add team member
                 </span>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   <input
                     type="text"
                     placeholder="Barber's Full Name"
@@ -589,44 +589,44 @@ export default function OnboardingPage() {
                 <label className="block text-xs font-semibold text-[#222222] uppercase tracking-wider">
                   Deposit Requirement
                 </label>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
                   <button
                     type="button"
                     onClick={() => setDepositType("none")}
-                    className={`p-3 rounded-xl border text-center transition-all ${
+                    className={`p-2.5 sm:p-3 rounded-xl border text-center transition-all ${
                       depositType === "none"
                         ? "border-[#ff385c] bg-[#ff385c]/5 font-semibold text-[#ff385c]"
                         : "border-[#dddddd] text-[#717171]"
                     }`}
                   >
-                    <div className="text-sm">No Deposit</div>
-                    <div className="text-[10px] mt-0.5">Pay in shop</div>
+                    <div className="text-xs sm:text-sm truncate">No Deposit</div>
+                    <div className="text-[10px] mt-0.5 opacity-70 truncate">Pay in shop</div>
                   </button>
 
                   <button
                     type="button"
                     onClick={() => setDepositType("fixed")}
-                    className={`p-3 rounded-xl border text-center transition-all ${
+                    className={`p-2.5 sm:p-3 rounded-xl border text-center transition-all ${
                       depositType === "fixed"
                         ? "border-[#ff385c] bg-[#ff385c]/5 font-semibold text-[#ff385c]"
                         : "border-[#dddddd] text-[#717171]"
                     }`}
                   >
-                    <div className="text-sm">Fixed (GHS)</div>
-                    <div className="text-[10px] mt-0.5">Flat amount</div>
+                    <div className="text-xs sm:text-sm truncate">Fixed</div>
+                    <div className="text-[10px] mt-0.5 opacity-70 truncate">Flat amount</div>
                   </button>
 
                   <button
                     type="button"
                     onClick={() => setDepositType("percentage")}
-                    className={`p-3 rounded-xl border text-center transition-all ${
+                    className={`p-2.5 sm:p-3 rounded-xl border text-center transition-all ${
                       depositType === "percentage"
                         ? "border-[#ff385c] bg-[#ff385c]/5 font-semibold text-[#ff385c]"
                         : "border-[#dddddd] text-[#717171]"
                     }`}
                   >
-                    <div className="text-sm">Percentage (%)</div>
-                    <div className="text-[10px] mt-0.5">% of service</div>
+                    <div className="text-xs sm:text-sm truncate">Percentage</div>
+                    <div className="text-[10px] mt-0.5 opacity-70 truncate">% of service</div>
                   </button>
                 </div>
               </div>

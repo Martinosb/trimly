@@ -124,9 +124,9 @@ export default function StaffManagementPage() {
 
   return (
     <div className="flex-1 p-4 sm:p-6 lg:p-8 max-w-5xl mx-auto w-full">
-      <div className="flex items-center justify-between pb-6 border-b border-[#ebebeb]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-6 border-b border-[#ebebeb]">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-[#222222]">
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#222222]">
             Barbers & Chair Stations
           </h1>
           <p className="text-xs text-[#717171] mt-0.5">
@@ -137,7 +137,7 @@ export default function StaffManagementPage() {
         <button
           type="button"
           onClick={() => setShowAddForm(!showAddForm)}
-          className="py-2.5 px-4 rounded-xl bg-[#ff385c] hover:bg-[#e00b41] text-white text-xs font-bold flex items-center gap-1.5 shadow-sm transition-all"
+          className="py-2.5 px-4 rounded-xl bg-[#ff385c] hover:bg-[#e00b41] text-white text-xs font-bold flex items-center gap-1.5 shadow-sm transition-all self-start sm:self-auto"
         >
           <Plus className="w-4 h-4" />
           <span>Add Barber</span>
@@ -261,16 +261,16 @@ export default function StaffManagementPage() {
               <p className="text-xs text-[#717171] leading-relaxed">{member.bio}</p>
             )}
 
-            <div className="pt-2 border-t border-[#f0f0f0] flex items-center justify-between text-xs text-[#717171]">
+            <div className="pt-2 border-t border-[#f0f0f0] flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs text-[#717171]">
               <div className="flex items-center gap-1">
-                <Clock className="w-3.5 h-3.5" />
+                <Clock className="w-3.5 h-3.5 shrink-0" />
                 <span>Mon-Sat: 8:30 AM - 6:30 PM</span>
               </div>
 
               <button
                 type="button"
                 onClick={() => handleToggleActive(member)}
-                className="px-2.5 py-1 rounded-lg border border-[#dddddd] font-medium hover:border-[#222222] transition-colors"
+                className="px-2.5 py-1.5 rounded-lg border border-[#dddddd] font-medium hover:border-[#222222] transition-colors self-start sm:self-auto"
               >
                 {member.is_active ? "Set Off Duty" : "Activate Chair"}
               </button>

@@ -18,9 +18,9 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-[#f7f7f7] text-[#222222] font-sans flex flex-col md:flex-row antialiased">
+    <div className="min-h-screen bg-[#f7f7f7] text-[#222222] font-sans flex flex-col lg:flex-row antialiased">
       {/* Desktop Sidebar (Airbnb style) */}
-      <aside className="hidden md:flex flex-col justify-between w-64 bg-white border-r border-[#ebebeb] p-5 shrink-0 min-h-screen sticky top-0">
+      <aside className="hidden lg:flex flex-col justify-between w-64 bg-white border-r border-[#ebebeb] p-5 shrink-0 min-h-screen sticky top-0">
         <div className="space-y-6">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
@@ -105,15 +105,15 @@ export default function DashboardLayout({
       </aside>
 
       {/* Main Content View */}
-      <div className="flex-1 flex flex-col min-w-0 pb-16 md:pb-0">
+      <div className="flex-1 flex flex-col min-w-0 pb-16 lg:pb-0">
         {children}
       </div>
 
       {/* Mobile Bottom Navigation Bar (Stitch 12) */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-30 bg-white border-t border-[#ebebeb] flex items-center justify-around px-2 py-1.5 shadow-lg">
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-30 bg-white border-t border-[#ebebeb] flex items-center justify-around px-1 py-1 shadow-lg min-h-[52px]">
         <Link
           href="/dashboard"
-          className="flex flex-col items-center py-1 px-3 text-[#ff385c]"
+          className="flex flex-col items-center justify-center py-1 px-2.5 text-[#ff385c] min-h-[44px] min-w-[44px]"
         >
           <Calendar className="w-5 h-5" />
           <span className="text-[10px] font-bold mt-0.5">Timeline</span>
@@ -121,7 +121,7 @@ export default function DashboardLayout({
 
         <Link
           href="/dashboard/services"
-          className="flex flex-col items-center py-1 px-3 text-[#717171] hover:text-[#222222]"
+          className="flex flex-col items-center justify-center py-1 px-2.5 text-[#717171] hover:text-[#222222] min-h-[44px] min-w-[44px]"
         >
           <Tag className="w-5 h-5" />
           <span className="text-[10px] font-medium mt-0.5">Services</span>
@@ -129,7 +129,7 @@ export default function DashboardLayout({
 
         <Link
           href="/dashboard/staff"
-          className="flex flex-col items-center py-1 px-3 text-[#717171] hover:text-[#222222]"
+          className="flex flex-col items-center justify-center py-1 px-2.5 text-[#717171] hover:text-[#222222] min-h-[44px] min-w-[44px]"
         >
           <Users className="w-5 h-5" />
           <span className="text-[10px] font-medium mt-0.5">Chairs</span>
@@ -137,7 +137,7 @@ export default function DashboardLayout({
 
         <Link
           href="/dashboard/settings"
-          className="flex flex-col items-center py-1 px-3 text-[#717171] hover:text-[#222222]"
+          className="flex flex-col items-center justify-center py-1 px-2.5 text-[#717171] hover:text-[#222222] min-h-[44px] min-w-[44px]"
         >
           <Settings className="w-5 h-5" />
           <span className="text-[10px] font-medium mt-0.5">Settings</span>

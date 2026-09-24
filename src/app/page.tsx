@@ -30,44 +30,44 @@ export default async function HomePage() {
   return (
     <div className="min-h-screen bg-white text-[#222222] font-sans antialiased selection:bg-[#ffd1da] selection:text-[#ba0036]">
       {/* Top Navigation */}
-      <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-[#ebebeb] px-4 sm:px-8 py-3.5">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
+      <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-[#ebebeb] px-3.5 sm:px-8 py-3 sm:py-3.5">
+        <div className="max-w-6xl mx-auto flex items-center justify-between gap-2">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-9 h-9 rounded-full bg-[#ff385c] flex items-center justify-center text-white shadow-sm transition-transform group-hover:scale-105">
-              <Scissors className="w-5 h-5 fill-current rotate-45" />
+          <Link href="/" className="flex items-center gap-2 group shrink-0">
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#ff385c] flex items-center justify-center text-white shadow-xs transition-transform group-hover:scale-105">
+              <Scissors className="w-4 h-4 sm:w-5 sm:h-5 fill-current rotate-45" />
             </div>
-            <span className="font-extrabold text-2xl tracking-tight text-[#222222]">
+            <span className="font-extrabold text-xl sm:text-2xl tracking-tight text-[#222222]">
               Trimly
             </span>
           </Link>
 
           {/* Right Action Buttons */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
             <Link
               href="/login"
-              className="text-xs sm:text-sm font-semibold px-3 py-2 rounded-full hover:bg-[#f7f7f7] text-[#222222] transition-colors"
+              className="text-xs sm:text-sm font-semibold px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-full hover:bg-[#f7f7f7] text-[#222222] transition-colors"
             >
               Shop Login
             </Link>
             <Link
               href="/onboard"
-              className="text-xs sm:text-sm font-semibold px-4 py-2 rounded-full bg-[#222222] text-white hover:bg-black transition-all shadow-sm"
+              className="text-xs sm:text-sm font-semibold px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-[#222222] text-white hover:bg-black transition-all shadow-xs whitespace-nowrap"
             >
-              List Your Shop
+              List Shop
             </Link>
           </div>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="px-4 sm:px-8 pt-10 sm:pt-16 pb-12 sm:pb-20 max-w-4xl mx-auto text-center">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ff385c]/10 text-[#ff385c] text-xs font-bold uppercase tracking-wider mb-6">
+      <section className="px-4 sm:px-8 pt-8 sm:pt-16 pb-10 sm:pb-20 max-w-4xl mx-auto text-center">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ff385c]/10 text-[#ff385c] text-[11px] sm:text-xs font-bold uppercase tracking-wider mb-5 sm:mb-6">
           <Sparkles className="w-3.5 h-3.5" />
           <span>Accra • Kumasi • Tema</span>
         </div>
 
-        <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-[#222222] leading-[1.1] sm:leading-[1.15]">
+        <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-[#222222] leading-[1.12]">
           The new way to get a{" "}
           <span className="text-[#ff385c] underline decoration-wavy decoration-[#ff385c]/30">
             beautiful cut
@@ -75,23 +75,23 @@ export default async function HomePage() {
           .
         </h1>
 
-        <p className="mt-5 text-base sm:text-xl text-[#717171] max-w-2xl mx-auto font-normal leading-relaxed">
+        <p className="mt-4 sm:mt-5 text-sm sm:text-lg md:text-xl text-[#717171] max-w-2xl mx-auto font-normal leading-relaxed">
           Book top-tier barbers and grooming lounges in Ghana. Live open chairs, zero waiting in line, and instant MoMo deposits.
         </p>
 
         {/* Quick Search & Explore CTA */}
-        <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+        <div className="mt-7 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
           <Link
             href="/book/gentlemens-cut"
-            className="w-full sm:w-auto px-8 py-4 rounded-full bg-[#ff385c] hover:bg-[#e00b41] active:scale-[0.98] text-white font-bold text-base shadow-lg shadow-[#ff385c]/25 transition-all flex items-center justify-center gap-2"
+            className="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-full bg-[#ff385c] hover:bg-[#e00b41] active:scale-[0.98] text-white font-bold text-sm sm:text-base shadow-lg shadow-[#ff385c]/25 transition-all flex items-center justify-center gap-2"
           >
             <span>Book at Gentlemen&apos;s Cut</span>
-            <ChevronRight className="w-5 h-5 stroke-[2.5]" />
+            <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5]" />
           </Link>
 
           <Link
             href="/onboard"
-            className="w-full sm:w-auto px-6 py-4 rounded-full border border-[#dddddd] hover:border-[#222222] text-[#222222] font-semibold text-base transition-colors"
+            className="w-full sm:w-auto px-5 sm:px-6 py-3.5 sm:py-4 rounded-full border border-[#dddddd] hover:border-[#222222] text-[#222222] font-semibold text-sm sm:text-base transition-colors"
           >
             I&apos;m a Barber / Shop Owner
           </Link>
@@ -209,14 +209,14 @@ export default async function HomePage() {
 
       {/* Footer */}
       <footer className="border-t border-[#ebebeb] py-10 px-4 sm:px-8 bg-[#fafafa] text-xs text-[#717171]">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+          <div className="flex items-center gap-2 flex-wrap justify-center sm:justify-start">
             <Scissors className="w-4 h-4 text-[#ff385c]" />
             <span className="font-bold text-[#222222]">Trimly</span>
             <span>— The new way to get a beautiful cut.</span>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 flex-wrap justify-center sm:justify-end">
             <Link href="/login" className="hover:text-[#222222]">
               Shop Login
             </Link>
