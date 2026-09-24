@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Trimly - Barber Shop Dashboard</title>
+<!-- Google Fonts Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-error-container": "#93000a",
+            "surface-container-highest": "#e2e2e2",
+            "on-surface": "#1a1c1c",
+            "inverse-on-surface": "#f0f1f1",
+            "surface-tint": "#be0038",
+            "on-background": "#1a1c1c",
+            "background": "#f9f9f9",
+            "outline": "#906f70",
+            "surface-dim": "#dadada",
+            "on-primary-fixed-variant": "#920029",
+            "on-secondary-fixed-variant": "#474746",
+            "inverse-primary": "#ffb2b6",
+            "primary-fixed-dim": "#ffb2b6",
+            "on-tertiary-fixed-variant": "#005234",
+            "surface-bright": "#f9f9f9",
+            "primary-fixed": "#ffdada",
+            "on-secondary-container": "#636262",
+            "error-container": "#ffdad6",
+            "surface-container-lowest": "#ffffff",
+            "outline-variant": "#e5bdbe",
+            "surface": "#f9f9f9",
+            "primary": "#ba0036",
+            "inverse-surface": "#2f3131",
+            "on-primary": "#ffffff",
+            "on-primary-container": "#fffbff",
+            "primary-container": "#e21e4a",
+            "surface-container": "#eeeeee",
+            "on-tertiary-container": "#f6fff6",
+            "tertiary": "#006a45",
+            "tertiary-fixed": "#80f9bd",
+            "on-secondary": "#ffffff",
+            "tertiary-fixed-dim": "#62dca3",
+            "surface-variant": "#e2e2e2",
+            "surface-container-high": "#e8e8e8",
+            "secondary-fixed-dim": "#c8c6c5",
+            "error": "#ba1a1a",
+            "surface-container-low": "#f3f3f4",
+            "on-tertiary": "#ffffff",
+            "on-surface-variant": "#5c3f41",
+            "secondary-container": "#e2dfde",
+            "secondary": "#5f5e5e",
+            "tertiary-container": "#008558",
+            "secondary-fixed": "#e5e2e1",
+            "on-error": "#ffffff",
+            "on-primary-fixed": "#40000d",
+            "on-secondary-fixed": "#1b1c1c",
+            "on-tertiary-fixed": "#002113"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "2xl": "1rem",
+            "3xl": "1.5rem",
+            "full": "9999px"
+          },
+          "fontFamily": {
+            "headline": ["Inter", "sans-serif"],
+            "display": ["Inter", "sans-serif"],
+            "body": ["Inter", "sans-serif"],
+            "label": ["Inter", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .custom-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body antialiased flex justify-center min-h-screen">
+<!-- Mobile Viewport Container -->
+<div class="relative w-full max-w-md bg-surface-container-lowest min-h-screen overflow-x-hidden flex flex-col shadow-2xl">
+<!-- TopAppBar (from Shared Components JSON) -->
+<header class="fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-4 h-16 w-full max-w-md mx-auto bg-surface-container-lowest shadow-sm">
+<div class="flex items-center gap-2">
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-primary hover:bg-surface-container-low transition-colors duration-150 active:scale-95">
+<span class="material-symbols-outlined text-primary" data-icon="storefront">storefront</span>
+</button>
+<div>
+<h1 class="font-headline font-bold text-base tracking-tight text-on-surface">Gentlemen's Cut Osu</h1>
+<p class="font-label text-xs text-on-surface-variant flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-tertiary inline-block"></span>
+            3 Chairs Operating
+          </p>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<button class="w-9 h-9 rounded-full flex items-center justify-center text-secondary hover:bg-surface-container-low transition-colors duration-150 active:scale-95" title="Sync Schedule">
+<span class="material-symbols-outlined" data-icon="sync">sync</span>
+</button>
+<button class="w-9 h-9 rounded-full flex items-center justify-center text-secondary hover:bg-surface-container-low transition-colors duration-150 active:scale-95">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</header>
+<!-- Dimmed Dashboard Schedule Underlay (Visual Backdrop) -->
+<main class="pt-20 pb-20 px-4 space-y-4 filter blur-[1.5px] opacity-40 select-none pointer-events-none">
+<!-- Date Strip -->
+<div class="flex items-center justify-between bg-surface-container-low p-3 rounded-2xl">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="calendar_month">calendar_month</span>
+<span class="font-headline font-bold text-sm text-on-surface">Thursday, Sep 25</span>
+</div>
+<span class="px-2.5 py-1 text-xs font-semibold bg-primary-fixed text-on-primary-fixed-variant rounded-full">14 Bookings</span>
+</div>
+<!-- Chairs Column Header -->
+<div class="grid grid-cols-3 gap-2 text-center text-xs font-semibold text-secondary">
+<div class="bg-surface-container-high py-2 rounded-xl">Chair 1: Kojo</div>
+<div class="bg-surface-container py-2 rounded-xl">Chair 2: Kwame</div>
+<div class="bg-surface-container py-2 rounded-xl">Chair 3: Emmanuel</div>
+</div>
+<!-- Schedule Timeline Slots Mock -->
+<div class="space-y-3">
+<div class="flex items-center gap-2 text-xs text-secondary font-medium">
+<span class="w-12">3:00 PM</span>
+<div class="flex-1 h-px bg-surface-container-highest"></div>
+</div>
+<div class="grid grid-cols-3 gap-2 text-xs">
+<div class="bg-primary text-on-primary p-2.5 rounded-xl shadow-sm">
+<p class="font-bold">Kweku Annan</p>
+<p class="text-[10px] opacity-80">Cut &amp; Line-up</p>
+</div>
+<div class="bg-surface-container-high p-2.5 rounded-xl border border-secondary-fixed">
+<p class="font-medium text-on-surface">P. Boateng</p>
+<p class="text-[10px] text-secondary">Beard Sculpt</p>
+</div>
+<div class="bg-tertiary-container text-on-tertiary-container p-2.5 rounded-xl">
+<p class="font-semibold">Walk-in Slot</p>
+<p class="text-[10px] opacity-90">Open</p>
+</div>
+</div>
+<div class="flex items-center gap-2 text-xs text-secondary font-medium">
+<span class="w-12">4:00 PM</span>
+<div class="flex-1 h-px bg-surface-container-highest"></div>
+</div>
+<div class="grid grid-cols-3 gap-2 text-xs">
+<div class="bg-surface-container p-2.5 rounded-xl text-secondary">Break (15m)</div>
+<div class="bg-surface-container-high p-2.5 rounded-xl">
+<p class="font-medium">Yaw Darko</p>
+<p class="text-[10px] text-secondary">Fade + Wash</p>
+</div>
+<div class="bg-surface-container p-2.5 rounded-xl text-secondary">Available</div>
+</div>
+<!-- Shop Atmosphere image card behind modal -->
+<div class="relative rounded-2xl overflow-hidden shadow-sm h-36 bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Warm and stylish modern upscale barbershop in Accra with warm dark wood interior, brass gold accents, large arched mirrors, and barbers actively styling clients in bespoke vintage leather chairs under soft ceiling spotlights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNzUapd1fMSAZOA0FV42LDMUGMzpuDuX_UV_5Vda5fhAtkXVx-qUolmp-H0EmNw9aLttGlltOgwMU1LVOwnpsjiDV59SZXGbno-8eN3M5gS0iFsKqGfCuW4e6WndjXawxdfoRuaq2RNDWMm6BQZ9MtODKPzFUAykjaJdNtvVnAHbQEK8wvdqhGDueEu2NYifha7P3k7cHdr7j-tN7ZlLqxK26F8iEHxkIxatmUujjRnouYu_uPtWkeU-TnUSjhfJn0hXEGDYkvUXw"/>
+<div class="absolute inset-0 bg-inverse-surface/40 flex items-center justify-center">
+<p class="text-white text-xs font-semibold tracking-wider uppercase">Gentlemen's Cut Osu • Studio Live</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Dim Backdrop Overlay -->
+<div class="fixed inset-0 bg-inverse-surface/60 backdrop-blur-[2px] z-50 transition-opacity"></div>
+<!-- FOREGROUND: Active Bottom Sheet Modal (Drawer) -->
+<section class="fixed bottom-0 left-0 right-0 z-50 w-full max-w-md mx-auto bg-surface-container-lowest rounded-t-3xl shadow-2xl flex flex-col max-h-[813px] border-t border-surface-container-highest transition-all duration-300">
+<!-- Drawer Top Bar & Grab Handle -->
+<div class="w-full pt-3 pb-2 px-5 flex flex-col items-center border-b border-surface-container">
+<!-- Centered Grab Handle -->
+<div class="w-12 h-1.5 bg-surface-dim rounded-full mb-3 cursor-grab"></div>
+<!-- Header row with ID & Dismiss X -->
+<div class="w-full flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-md text-[11px] font-bold tracking-wider bg-surface-container-high text-on-surface">
+              #TRM-8492
+            </span>
+<span class="inline-flex items-center gap-1 text-[11px] font-semibold text-tertiary bg-tertiary-fixed/30 px-2 py-0.5 rounded-full">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+              Confirmed
+            </span>
+</div>
+<button aria-label="Close modal" class="w-8 h-8 rounded-full flex items-center justify-center bg-surface-container hover:bg-surface-container-high text-secondary transition-colors" id="closeDrawerBtn">
+<span class="material-symbols-outlined text-lg" data-icon="close">close</span>
+</button>
+</div>
+<!-- Segmented Pill Tabs Navigation -->
+<div class="w-full grid grid-cols-2 p-1 bg-surface-container rounded-full mt-3">
+<button class="py-2 text-xs font-bold rounded-full transition-all duration-150 shadow-sm bg-inverse-surface text-inverse-on-surface flex items-center justify-center gap-1.5" id="tabDetails">
+<span class="material-symbols-outlined text-sm" data-icon="receipt_long">receipt_long</span>
+            Booking Details
+          </button>
+<button class="py-2 text-xs font-semibold text-secondary hover:text-on-surface rounded-full transition-all duration-150 flex items-center justify-center gap-1" id="tabWalkin">
+<span class="material-symbols-outlined text-sm text-primary" data-icon="person_add">person_add</span>
+            + Add Walk-in
+          </button>
+</div>
+</div>
+<!-- Drawer Scrollable Content Area -->
+<div class="flex-1 overflow-y-auto px-5 py-4 space-y-4 custom-scrollbar">
+<!-- Client Header Card -->
+<div class="bg-surface-container-low rounded-2xl p-4 border border-surface-container">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-3">
+<div class="relative w-12 h-12 rounded-full overflow-hidden bg-primary-fixed flex items-center justify-center border-2 border-surface-container-lowest">
+<img class="w-full h-full object-cover" data-alt="Portrait of an African gentleman with a sharp fade haircut and neatly trimmed beard, smiling warmly against a bright neutral studio backdrop with soft natural lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCM-mx2FUbkBLaLcj9kU0_6CDLQ-zOcIwn7wWcRzJ3le2t6RYIwBDnSNB0Kk6PIAYutmbACe0-zX_qOGRs5IUVQGhgHJUkI5HAc6afpIK0sGi7zgxixPlkqSfdccrqidjd1HuTKynKVBzb_iT9-pwR0J_6vo-GOBnAZsDjc1vPvNP8GmBoatz8NtkHint6xXbMlZ6sPm_d-KbQADK-ObRe7UOr_Zy7tTypzZuLaLckWCE6EUgeqJgQeF3_GQ08WIMe__rU6eC2ALnk"/>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h3 class="font-headline font-bold text-base text-on-surface">Kweku Annan</h3>
+</div>
+<div class="flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-xs text-primary" data-icon="verified">verified</span>
+<span class="text-xs font-semibold text-primary">3rd visit</span>
+<span class="text-xs text-secondary">• Regular client</span>
+</div>
+</div>
+</div>
+<!-- Action Quick Dial / WhatsApp -->
+<div class="flex items-center gap-2">
+<a class="w-9 h-9 rounded-full bg-surface-container-lowest border border-surface-container-highest flex items-center justify-center text-on-surface hover:bg-surface-container transition-colors shadow-sm" href="tel:0249876543" title="Call Client">
+<span class="material-symbols-outlined text-base" data-icon="call">call</span>
+</a>
+<a class="h-9 px-2.5 rounded-full bg-tertiary text-on-tertiary flex items-center gap-1 font-semibold text-xs shadow-sm hover:opacity-95 transition-opacity" href="https://wa.me/233249876543" title="Chat on WhatsApp">
+<span class="material-symbols-outlined text-base" data-icon="chat">chat</span>
+                WhatsApp
+              </a>
+</div>
+</div>
+<!-- Contact Number & Client Preference Note -->
+<div class="mt-3 pt-3 border-t border-surface-container flex flex-col gap-2">
+<div class="flex items-center justify-between text-xs text-secondary">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="phone_iphone">phone_iphone</span>
+                024 987 6543
+              </span>
+<span class="text-[11px] text-on-surface-variant font-medium">Booked via Trimly Mobile</span>
+</div>
+<div class="bg-surface-container-lowest p-2.5 rounded-xl border border-secondary-fixed flex items-start gap-2">
+<span class="material-symbols-outlined text-primary text-sm mt-0.5" data-icon="sticky_note_2">sticky_note_2</span>
+<p class="text-xs text-on-surface leading-tight">
+<span class="font-semibold text-on-surface">Barber Note:</span>
+                "Low skin fade on sides, keep length on top."
+              </p>
+</div>
+</div>
+</div>
+<!-- Service & Assignment Details -->
+<div class="bg-surface-container-low rounded-2xl p-4 border border-surface-container space-y-3">
+<!-- Time & Date -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-lg" data-icon="schedule">schedule</span>
+</div>
+<div>
+<p class="text-xs text-secondary font-medium">Appointment Time</p>
+<p class="text-xs font-bold text-on-surface">Today, Sep 25 • 3:30 PM - 4:15 PM</p>
+</div>
+</div>
+<span class="text-xs font-semibold px-2 py-0.5 rounded-md bg-surface-container-high text-on-surface">
+              45 min
+            </span>
+</div>
+<div class="h-px bg-surface-container"></div>
+<!-- Service Title -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-lg" data-icon="content_cut">content_cut</span>
+</div>
+<div>
+<p class="text-xs text-secondary font-medium">Selected Service</p>
+<p class="text-sm font-bold text-on-surface">Signature Haircut &amp; Line-up</p>
+</div>
+</div>
+<span class="text-xs font-bold text-primary">GH₵ 80.00</span>
+</div>
+<div class="h-px bg-surface-container"></div>
+<!-- Barber Assigned -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="relative w-8 h-8 rounded-full overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Portrait of an experienced Ghanaian male barber wearing a black denim apron in a brightly lit modern barbershop, confident warm expression with clean fade haircut." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0Eksf11lxn7zzDevss2NPynodvcpCqecaLOi8GcSwJbgNA5Kq_bzUFhmoeA3w04x6K-eXYEmBJj5PZ2HA5bdbljQU2jcGKWuWGwZW790jW_cjFp505Oqx_Y98F3sfbZaeIApWH0TlBukgftRFL_Nv3L7FTGRE8fkXCN3FpBkNpmbYqbN1p4Jqrm4oLAXx0-uqVrwunGLzJK3JaoJ4PNOxzP--8eV1u1DD8WCM5edCwvwiOPhNvZ9bRST5L517Fq0wESBYm_XK7lE"/>
+<span class="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-tertiary ring-1 ring-white"></span>
+</div>
+<div>
+<p class="text-xs text-secondary font-medium">Assigned Barber</p>
+<p class="text-xs font-bold text-on-surface">Kojo Mensah <span class="font-normal text-secondary">(Chair 1)</span></p>
+</div>
+</div>
+<button class="text-xs font-semibold text-primary hover:underline">Reassign</button>
+</div>
+</div>
+<!-- Ghana MoMo Escrow Payment Box -->
+<div class="bg-surface-container-lowest rounded-2xl p-4 border-2 border-primary/20 shadow-sm relative overflow-hidden">
+<div class="absolute -right-4 -top-4 w-20 h-20 rounded-full bg-primary-fixed/20 pointer-events-none"></div>
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-tertiary text-base" data-icon="security">security</span>
+<span class="text-xs font-bold uppercase tracking-wider text-on-surface">MoMo Escrow Secured</span>
+</div>
+<span class="text-[11px] font-semibold bg-tertiary-fixed/40 text-on-tertiary-fixed-variant px-2 py-0.5 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]" data-icon="check_circle">check_circle</span>
+              GH₵ 30.00 Deposit Paid
+            </span>
+</div>
+<div class="space-y-1.5 my-3 text-xs">
+<div class="flex justify-between text-secondary">
+<span>Total Service Fee</span>
+<span class="font-semibold text-on-surface">GH₵ 80.00</span>
+</div>
+<div class="flex justify-between text-tertiary font-medium">
+<span class="flex items-center gap-1">
+<span>MoMo Advance Deposit</span>
+<span class="material-symbols-outlined text-[13px]" data-icon="verified_user">verified_user</span>
+</span>
+<span>- GH₵ 30.00</span>
+</div>
+<div class="pt-2 border-t border-surface-container flex justify-between items-baseline">
+<div>
+<span class="font-bold text-sm text-on-surface">Due at Chair</span>
+<p class="text-[10px] text-secondary">Payable via MoMo QR or Cash</p>
+</div>
+<span class="text-lg font-extrabold text-primary">GH₵ 50.00</span>
+</div>
+</div>
+<!-- Quick QR / Cash Payment Toggle Badges -->
+<div class="grid grid-cols-2 gap-2 mt-3 pt-2">
+<button class="flex items-center justify-center gap-1 py-1.5 px-2 rounded-xl bg-surface-container-low border border-surface-container text-xs font-medium text-on-surface hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-sm text-tertiary" data-icon="qr_code_2">qr_code_2</span>
+              Instant MoMo QR
+            </button>
+<button class="flex items-center justify-center gap-1 py-1.5 px-2 rounded-xl bg-surface-container-low border border-surface-container text-xs font-medium text-on-surface hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-sm text-secondary" data-icon="payments">payments</span>
+              Cash Collected
+            </button>
+</div>
+</div>
+<!-- Chair Operational Workflow Status -->
+<div class="space-y-2">
+<label class="text-[11px] font-bold text-secondary tracking-wider uppercase">Chair Status Progress</label>
+<div class="grid grid-cols-2 gap-2">
+<button class="py-2.5 px-3 rounded-xl border border-surface-container-highest bg-surface-container-lowest text-xs font-semibold text-on-surface hover:bg-surface-container transition-colors flex items-center justify-center gap-1.5 active:scale-95">
+<span class="material-symbols-outlined text-sm text-secondary" data-icon="how_to_reg">how_to_reg</span>
+              Mark Arrived
+            </button>
+<button class="py-2.5 px-3 rounded-xl bg-surface-container text-on-surface border border-secondary-fixed text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm active:scale-95">
+<span class="material-symbols-outlined text-sm text-primary" data-icon="chair">chair</span>
+              Mark In Chair
+            </button>
+</div>
+</div>
+<!-- Overflow Operational Actions -->
+<div class="pt-2 flex items-center justify-between text-xs text-secondary px-1 pb-1">
+<button class="flex items-center gap-1 font-medium hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="event_repeat">event_repeat</span>
+            Reschedule
+          </button>
+<button class="flex items-center gap-1 font-medium text-error hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-sm" data-icon="person_cancel">person_cancel</span>
+            Mark No-Show (Release Escrow)
+          </button>
+<button class="flex items-center gap-1 font-medium text-secondary hover:text-error transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="cancel">cancel</span>
+            Cancel
+          </button>
+</div>
+</div>
+<!-- Drawer Bottom Fixed CTA Button -->
+<div class="p-4 bg-surface-container-lowest border-t border-surface-container flex items-center gap-3">
+<button class="flex-1 py-3.5 px-5 rounded-full bg-primary-container hover:bg-primary text-on-primary font-headline font-bold text-sm tracking-wide shadow-md flex items-center justify-center gap-2 active:scale-[0.98] transition-transform">
+<span class="material-symbols-outlined text-base" data-icon="task_alt">task_alt</span>
+          Complete &amp; Settle GH₵ 50
+        </button>
+</div>
+</section>
+<!-- BottomNavBar (from Shared Components JSON - Active state: Schedule) -->
+<nav class="fixed bottom-0 left-0 right-0 z-30 flex justify-around items-center h-16 px-2 w-full max-w-md mx-auto bg-surface-container-lowest shadow-[0_-1px_3px_rgba(0,0,0,0.05)]">
+<!-- Destination 1: Schedule (Active as current page) -->
+<a class="flex flex-col items-center justify-center text-primary gap-1 py-1 active:scale-95 transition-transform duration-100" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="calendar_today" style="font-variation-settings: 'FILL' 1;">calendar_today</span>
+<span class="font-label font-medium text-[11px] tracking-tight">Schedule</span>
+</a>
+<!-- Destination 2: Services -->
+<a class="flex flex-col items-center justify-center text-secondary gap-1 py-1 hover:text-primary transition-colors duration-150 active:scale-95" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="content_cut">content_cut</span>
+<span class="font-label font-medium text-[11px] tracking-tight">Services</span>
+</a>
+<!-- Destination 3: Staff -->
+<a class="flex flex-col items-center justify-center text-secondary gap-1 py-1 hover:text-primary transition-colors duration-150 active:scale-95" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="groups">groups</span>
+<span class="font-label font-medium text-[11px] tracking-tight">Staff</span>
+</a>
+<!-- Destination 4: Settings -->
+<a class="flex flex-col items-center justify-center text-secondary gap-1 py-1 hover:text-primary transition-colors duration-150 active:scale-95" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="tune">tune</span>
+<span class="font-label font-medium text-[11px] tracking-tight">Settings</span>
+</a>
+</nav>
+</div>
+<!-- Interactive script for demo tabs switching -->
+<script>
+    const tabDetails = document.getElementById('tabDetails');
+    const tabWalkin = document.getElementById('tabWalkin');
+    const closeBtn = document.getElementById('closeDrawerBtn');
+
+    if (tabWalkin && tabDetails) {
+      tabWalkin.addEventListener('click', () => {
+        tabWalkin.className = "py-2 text-xs font-bold rounded-full transition-all duration-150 shadow-sm bg-inverse-surface text-inverse-on-surface flex items-center justify-center gap-1.5";
+        tabDetails.className = "py-2 text-xs font-semibold text-secondary hover:text-on-surface rounded-full transition-all duration-150 flex items-center justify-center gap-1";
+      });
+
+      tabDetails.addEventListener('click', () => {
+        tabDetails.className = "py-2 text-xs font-bold rounded-full transition-all duration-150 shadow-sm bg-inverse-surface text-inverse-on-surface flex items-center justify-center gap-1.5";
+        tabWalkin.className = "py-2 text-xs font-semibold text-secondary hover:text-on-surface rounded-full transition-all duration-150 flex items-center justify-center gap-1";
+      });
+    }
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        const bottomSheet = document.querySelector('section');
+        const backdrop = document.querySelector('.bg-inverse-surface\\/60');
+        if (bottomSheet) bottomSheet.style.transform = 'translateY(100%)';
+        if (backdrop) backdrop.style.opacity = '0';
+        setTimeout(() => {
+          if (bottomSheet) bottomSheet.style.transform = 'translateY(0)';
+          if (backdrop) backdrop.style.opacity = '1';
+        }, 1500);
+      });
+    }
+  </script>
+</body></html>

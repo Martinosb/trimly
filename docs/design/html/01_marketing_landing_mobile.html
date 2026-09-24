@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Trimly - Book Barbers &amp; Salons in Ghana</title>
+<!-- Material Symbols Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "secondary": "#5f5e5e",
+            "surface-container-lowest": "#ffffff",
+            "on-tertiary-container": "#f6fff6",
+            "outline": "#906f70",
+            "tertiary-fixed": "#80f9bd",
+            "surface-container-high": "#e8e8e8",
+            "outline-variant": "#e5bdbe",
+            "on-surface-variant": "#5c3f41",
+            "on-primary": "#ffffff",
+            "surface-dim": "#dadada",
+            "on-primary-container": "#fffbff",
+            "surface-container-low": "#f3f3f4",
+            "on-tertiary": "#ffffff",
+            "surface": "#f9f9f9",
+            "primary": "#ba0036",
+            "surface-tint": "#be0038",
+            "surface-container": "#eeeeee",
+            "error-container": "#ffdad6",
+            "on-tertiary-fixed": "#002113",
+            "tertiary-fixed-dim": "#62dca3",
+            "inverse-surface": "#2f3131",
+            "primary-container": "#e21e4a",
+            "on-error-container": "#93000a",
+            "secondary-container": "#e2dfde",
+            "on-secondary-fixed-variant": "#474746",
+            "on-primary-fixed-variant": "#920029",
+            "primary-fixed": "#ffdada",
+            "secondary-fixed": "#e5e2e1",
+            "on-error": "#ffffff",
+            "on-surface": "#1a1c1c",
+            "on-background": "#1a1c1c",
+            "surface-variant": "#e2e2e2",
+            "inverse-primary": "#ffb2b6",
+            "background": "#f9f9f9",
+            "on-secondary-container": "#636262",
+            "primary-fixed-dim": "#ffb2b6",
+            "on-secondary": "#ffffff",
+            "on-secondary-fixed": "#1b1c1c",
+            "tertiary-container": "#008558",
+            "on-tertiary-fixed-variant": "#005234",
+            "inverse-on-surface": "#f0f1f1",
+            "on-primary-fixed": "#40000d",
+            "tertiary": "#006a45",
+            "surface-bright": "#f9f9f9",
+            "surface-container-highest": "#e2e2e2",
+            "secondary-fixed-dim": "#c8c6c5",
+            "error": "#ba1a1a"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "fontFamily": {
+            "headline": ["Inter", "sans-serif"],
+            "display": ["Inter", "sans-serif"],
+            "body": ["Inter", "sans-serif"],
+            "label": ["Inter", "sans-serif"]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface font-body antialiased min-h-screen selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Mobile Container Wrapper -->
+<div class="max-w-md mx-auto min-h-screen bg-surface-container-lowest shadow-2xl relative pb-28">
+<!-- TopAppBar Shared Component -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 h-16 max-w-md mx-auto bg-surface-container-lowest shadow-sm">
+<div class="flex items-center gap-2">
+<div class="text-xl font-headline font-black tracking-tight text-primary flex items-center gap-1.5 cursor-pointer">
+<span class="material-symbols-outlined text-primary text-2xl font-bold" data-icon="content_cut">content_cut</span>
+<span>Trimly</span>
+</div>
+</div>
+<button class="px-3.5 py-1.5 rounded-full border border-secondary-fixed text-xs font-label font-semibold text-on-surface hover:bg-surface-container-low transition-colors duration-200 active:scale-95">
+        List your shop
+      </button>
+</header>
+<!-- Main Content Area -->
+<main class="pt-20 px-4 space-y-6">
+<!-- Hero Statement -->
+<section class="space-y-3">
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-fixed text-on-primary-fixed text-[11px] font-label font-bold tracking-wide">
+<span class="material-symbols-outlined text-xs" data-icon="local_fire_department" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+          Ghana's #1 Barbering Hub
+        </div>
+<h1 class="text-3xl font-headline font-black tracking-tight text-on-surface leading-[1.15]">
+          Book top barbers &amp; salons in Ghana without the queue
+        </h1>
+<p class="text-sm text-secondary font-normal leading-relaxed">
+          Instant slots across Accra, Kumasi &amp; Tema. Zero bench waiting, transparent rates &amp; secure MoMo checkout.
+        </p>
+</section>
+<!-- Airbnb Styled Floating Search Pill Bar -->
+<section>
+<div class="p-2.5 rounded-full bg-surface-container-lowest border border-surface-container shadow-md hover:shadow-lg transition-all duration-300 flex items-center gap-2.5 cursor-pointer group">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary shrink-0 transition-transform group-active:scale-95">
+<span class="material-symbols-outlined text-lg" data-icon="search">search</span>
+</div>
+<div class="flex-1 min-w-0 pr-1">
+<div class="text-xs font-headline font-bold text-on-surface truncate">Find barbershops, salons in Accra...</div>
+<div class="text-[11px] text-secondary flex items-center gap-1.5">
+<span>Anywhere</span>
+<span class="text-secondary-fixed-dim">•</span>
+<span>Any day</span>
+<span class="text-secondary-fixed-dim">•</span>
+<span class="text-primary font-medium">Slots today</span>
+</div>
+</div>
+<div class="px-2.5 py-1 rounded-full bg-surface-container-low text-on-surface text-[10px] font-label font-bold border border-surface-container">
+            Filter
+          </div>
+</div>
+</section>
+<!-- Hero Visual Showcase -->
+<section class="relative rounded-2xl overflow-hidden shadow-lg border border-surface-container">
+<div class="relative w-full aspect-[4/3] bg-surface-container">
+<img alt="Interior of modern Accra barbershop" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTZhEeVsW44ZF32JKHCrhPiqZK3h4Bgl_sxqIcSSNAlm-fc6QqMXgRyU50IYq475qs2koonZf3S1gVEYNjA78Vqdofdg1okoWi0IEL9_7n9mU59ddlivPprzatF-BgTcNhje3tcxEPn2GPNtD8zBZdetcaQ6Qxi3n0KmEF_WMMz-w6yYYqiIMhXTGk9wQD_3HQUlgmKxotP_0qY2snxE-rvPSUOGUiFMalmYVQ3X0IkgxWssNidifMFuJdcd6K8XMMaVGgJd0PWk0"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20"></div>
+<!-- Instant MoMo Floating Pill Badge -->
+<div class="absolute top-3 left-3 bg-surface-container-lowest/95 backdrop-blur-md px-3 py-1.5 rounded-full shadow-md flex items-center gap-1.5 border border-surface-container-lowest">
+<span class="material-symbols-outlined text-primary text-sm font-bold" data-icon="bolt">bolt</span>
+<span class="text-xs font-label font-bold text-on-surface">Instant MoMo Booking</span>
+</div>
+<!-- Rating Overlay Info -->
+<div class="absolute bottom-3 left-3 right-3 text-white flex justify-between items-end">
+<div>
+<p class="text-[11px] font-label uppercase tracking-widest text-primary-fixed-dim font-bold">Featured Spotlight</p>
+<h2 class="text-lg font-headline font-bold text-white drop-shadow">The Osei Kings Luxury Cuts</h2>
+<p class="text-xs text-surface-container-low font-normal">Airport Residential, Accra</p>
+</div>
+<div class="bg-surface-container-lowest/90 backdrop-blur-sm text-on-surface px-2.5 py-1 rounded-xl text-center shadow">
+<span class="text-xs font-headline font-black text-primary">★ 4.95</span>
+<span class="block text-[9px] text-secondary">210 cuts</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Category Filter Horizontal Strip -->
+<section class="space-y-2">
+<div class="flex items-center justify-between">
+<h3 class="text-sm font-headline font-bold text-on-surface">Explore Services</h3>
+<span class="text-xs font-label text-primary font-semibold cursor-pointer">View all</span>
+</div>
+<div class="flex gap-2.5 overflow-x-auto no-scrollbar py-1">
+<!-- Category 1 (Active) -->
+<button class="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-primary text-on-primary font-label text-xs font-semibold shrink-0 shadow-sm transition-transform active:scale-95">
+<span class="material-symbols-outlined text-base" data-icon="content_cut">content_cut</span>
+            Haircuts
+          </button>
+<!-- Category 2 -->
+<button class="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-surface-container-lowest text-on-surface border border-surface-container font-label text-xs font-medium shrink-0 hover:bg-surface-container-low transition-transform active:scale-95">
+<span class="material-symbols-outlined text-base text-secondary" data-icon="face">face</span>
+            Fades
+          </button>
+<!-- Category 3 -->
+<button class="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-surface-container-lowest text-on-surface border border-surface-container font-label text-xs font-medium shrink-0 hover:bg-surface-container-low transition-transform active:scale-95">
+<span class="material-symbols-outlined text-base text-secondary" data-icon="brush">brush</span>
+            Beard Grooming
+          </button>
+<!-- Category 4 -->
+<button class="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-surface-container-lowest text-on-surface border border-surface-container font-label text-xs font-medium shrink-0 hover:bg-surface-container-low transition-transform active:scale-95">
+<span class="material-symbols-outlined text-base text-secondary" data-icon="spa">spa</span>
+            Braiding
+          </button>
+<!-- Category 5 -->
+<button class="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-surface-container-lowest text-on-surface border border-surface-container font-label text-xs font-medium shrink-0 hover:bg-surface-container-low transition-transform active:scale-95">
+<span class="material-symbols-outlined text-base text-secondary" data-icon="auto_awesome">auto_awesome</span>
+            Locs &amp; Twists
+          </button>
+<!-- Category 6 -->
+<button class="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-surface-container-lowest text-on-surface border border-surface-container font-label text-xs font-medium shrink-0 hover:bg-surface-container-low transition-transform active:scale-95">
+<span class="material-symbols-outlined text-base text-secondary" data-icon="clean_hands">clean_hands</span>
+            Manicure
+          </button>
+</div>
+</section>
+<!-- Featured Barbershop Showcase Card (Airbnb Card Pattern) -->
+<section class="space-y-3">
+<div class="flex items-center justify-between">
+<div>
+<h3 class="text-base font-headline font-bold text-on-surface">Trending in Osu</h3>
+<p class="text-xs text-secondary">Verified masters &amp; vetted sanitization</p>
+</div>
+<span class="text-xs font-label text-primary font-semibold">12 shops</span>
+</div>
+<div class="bg-surface-container-lowest rounded-2xl border border-surface-container overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-200">
+<div class="relative w-full aspect-video bg-surface-container">
+<img alt="Barber working at Gentlemen's Cut Osu" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTZhEeVsW44ZF32JKHCrhPiqZK3h4Bgl_sxqIcSSNAlm-fc6QqMXgRyU50IYq475qs2koonZf3S1gVEYNjA78Vqdofdg1okoWi0IEL9_7n9mU59ddlivPprzatF-BgTcNhje3tcxEPn2GPNtD8zBZdetcaQ6Qxi3n0KmEF_WMMz-w6yYYqiIMhXTGk9wQD_3HQUlgmKxotP_0qY2snxE-rvPSUOGUiFMalmYVQ3X0IkgxWssNidifMFuJdcd6K8XMMaVGgJd0PWk0"/>
+<button class="absolute top-3 right-3 w-8 h-8 rounded-full bg-surface-container-lowest/80 backdrop-blur-sm flex items-center justify-center text-on-surface hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="favorite">favorite</span>
+</button>
+<div class="absolute bottom-2.5 left-2.5 bg-surface-container-lowest/90 backdrop-blur-sm px-2 py-0.5 rounded-full text-[11px] font-label font-bold text-on-surface flex items-center gap-1">
+<span class="material-symbols-outlined text-xs text-tertiary" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span>Trimly Premier Barbershop</span>
+</div>
+</div>
+<div class="p-4 space-y-3">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-headline font-bold text-base text-on-surface">Gentlemen's Cut Osu</h4>
+<p class="text-xs text-secondary flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-xs text-secondary" data-icon="location_on">location_on</span>
+                  Oxford St, Accra • 1.2 km away
+                </p>
+</div>
+<div class="text-right">
+<span class="text-xs font-bold font-headline text-on-surface flex items-center justify-end gap-0.5">
+<span class="text-primary">★</span> 4.9 <span class="text-secondary font-normal">(128)</span>
+</span>
+<span class="text-xs font-headline font-black text-on-surface block mt-0.5">GH₵ 80 - 150</span>
+</div>
+</div>
+<!-- Available Slots Today -->
+<div class="space-y-1.5">
+<span class="text-[11px] font-label font-semibold text-secondary block">Available Today:</span>
+<div class="flex flex-wrap gap-2">
+<div class="px-2.5 py-1 rounded-lg bg-surface-container-low border border-surface-container text-xs font-label font-medium text-on-surface hover:border-primary cursor-pointer transition-colors">
+                  🕒 3:30 PM
+                </div>
+<div class="px-2.5 py-1 rounded-lg bg-surface-container-low border border-surface-container text-xs font-label font-medium text-on-surface hover:border-primary cursor-pointer transition-colors">
+                  🕒 5:00 PM
+                </div>
+<div class="px-2.5 py-1 rounded-lg bg-surface-container-low border border-surface-container text-xs font-label font-medium text-on-surface hover:border-primary cursor-pointer transition-colors">
+                  🕒 6:15 PM
+                </div>
+</div>
+</div>
+<div class="pt-2 flex items-center justify-between border-t border-surface-container">
+<span class="text-xs text-tertiary font-label font-semibold flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+                Walk-ins open now
+              </span>
+<button class="px-5 py-2 rounded-full bg-primary hover:bg-primary-container text-on-primary font-headline text-xs font-bold transition-all duration-200 active:scale-95 shadow-sm">
+                Book Now
+              </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Why Barbers & Salons Love Trimly (Bento Grid) -->
+<section class="space-y-3">
+<div>
+<h3 class="text-base font-headline font-bold text-on-surface">Built for Ghana's Top Cutters</h3>
+<p class="text-xs text-secondary">No waiting rooms. Confirmed revenue.</p>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<!-- Card 1 -->
+<div class="col-span-1 p-3.5 rounded-2xl bg-surface-container-low border border-surface-container space-y-1.5">
+<div class="w-8 h-8 rounded-full bg-primary-fixed text-on-primary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-base" data-icon="event_busy">event_busy</span>
+</div>
+<h4 class="font-headline font-bold text-xs text-on-surface">Zero Double-Bookings</h4>
+<p class="text-[11px] text-secondary leading-snug">Auto-synced barber calendars with instant SMS reminders.</p>
+</div>
+<!-- Card 2 -->
+<div class="col-span-1 p-3.5 rounded-2xl bg-surface-container-low border border-surface-container space-y-1.5">
+<div class="w-8 h-8 rounded-full bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-base" data-icon="account_balance_wallet">account_balance_wallet</span>
+</div>
+<h4 class="font-headline font-bold text-xs text-on-surface">MoMo Deposit Escrow</h4>
+<p class="text-[11px] text-secondary leading-snug">MTN &amp; Telecel Cash locked deposits prevent no-shows.</p>
+</div>
+<!-- Card 3 (Full Width Bento Item) -->
+<div class="col-span-2 p-4 rounded-2xl bg-gradient-to-r from-surface-container-low to-surface-container-lowest border border-surface-container flex items-center justify-between">
+<div class="space-y-1">
+<span class="text-[10px] font-label font-bold text-primary uppercase tracking-wider">Live Slot Matrix</span>
+<h4 class="font-headline font-bold text-sm text-on-surface">98% Appointment Completion</h4>
+<p class="text-xs text-secondary max-w-[210px]">Real-time queue monitoring gives clients exact arrival precision.</p>
+</div>
+<div class="text-right">
+<div class="text-2xl font-black font-headline text-primary">25k+</div>
+<div class="text-[10px] text-secondary font-medium">Accra Bookings</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Client Testimonial Social Proof -->
+<section class="p-4 rounded-2xl bg-surface-container-lowest border border-surface-container shadow-sm space-y-3">
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-sm" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="text-xs italic text-on-surface leading-relaxed">
+          "I used to spend 2 hours on Saturdays waiting in crowded spots in Osu. With Trimly, I showed up at 4:15 PM and was in the chair by 4:18 PM. Game changer for Accra."
+        </p>
+<div class="flex items-center justify-between pt-1">
+<div>
+<div class="text-xs font-headline font-bold text-on-surface">Kweku Mensah</div>
+<div class="text-[10px] text-secondary">Cantonments, Accra</div>
+</div>
+<div class="flex items-center gap-1 text-[11px] font-label text-tertiary font-bold">
+<span class="material-symbols-outlined text-sm" data-icon="check_circle">check_circle</span>
+            Verified Client
+          </div>
+</div>
+</section>
+<!-- Quick Trust Indicators -->
+<section class="py-2 text-center text-secondary text-[11px] font-label">
+<p>🔒 Secured by Paystack &amp; Bank-grade MoMo API</p>
+<p class="mt-1">Licensed in Ghana • Registered Barbers &amp; Salons</p>
+</section>
+</main>
+<!-- Contextual Floating Action Strip Above Nav -->
+<div class="fixed bottom-16 left-0 w-full z-40 max-w-md mx-auto px-4 pointer-events-none">
+<div class="pointer-events-auto bg-inverse-surface text-inverse-on-surface rounded-full px-4 py-2.5 shadow-2xl flex items-center justify-between border border-surface-container-high/20 mb-2">
+<div class="flex items-center gap-2">
+<div class="w-2.5 h-2.5 rounded-full bg-tertiary-fixed animate-ping"></div>
+<div>
+<span class="text-xs font-headline font-bold block leading-none">Next cut in 45 mins</span>
+<span class="text-[10px] text-secondary-fixed-dim">3 chairs ready in Osu</span>
+</div>
+</div>
+<button class="px-4 py-1.5 rounded-full bg-primary hover:bg-primary-container text-on-primary font-headline text-xs font-bold shadow-md transition-transform active:scale-95">
+          Find a Barbershop
+        </button>
+</div>
+</div>
+<!-- BottomNavBar Shared Component -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 h-16 max-w-md mx-auto pb-safe bg-surface-container-lowest shadow-lg">
+<!-- Destination 1: Explore (Active) -->
+<button class="flex flex-col items-center justify-center text-primary font-bold gap-0.5 active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined text-xl" data-icon="search" style="font-variation-settings: 'FILL' 1;">search</span>
+<span class="font-label text-xs tracking-tight">Explore</span>
+</button>
+<!-- Destination 2: Saved -->
+<button class="flex flex-col items-center justify-center text-secondary hover:text-on-surface gap-0.5 active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined text-xl" data-icon="favorite">favorite</span>
+<span class="font-label text-xs tracking-tight">Saved</span>
+</button>
+<!-- Destination 3: Bookings -->
+<button class="flex flex-col items-center justify-center text-secondary hover:text-on-surface gap-0.5 active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined text-xl" data-icon="calendar_today">calendar_today</span>
+<span class="font-label text-xs tracking-tight">Bookings</span>
+</button>
+<!-- Destination 4: Profile -->
+<button class="flex flex-col items-center justify-center text-secondary hover:text-on-surface gap-0.5 active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined text-xl" data-icon="person">person</span>
+<span class="font-label text-xs tracking-tight">Profile</span>
+</button>
+</nav>
+</div>
+</body></html>

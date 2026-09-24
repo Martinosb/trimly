@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Trimly - Shop Onboarding: Details &amp; Services</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-tint": "#be0038",
+            "on-error": "#ffffff",
+            "surface-container-high": "#e8e8e8",
+            "outline": "#906f70",
+            "surface": "#f9f9f9",
+            "on-secondary-container": "#636262",
+            "on-secondary": "#ffffff",
+            "inverse-primary": "#ffb2b6",
+            "error": "#ba1a1a",
+            "tertiary": "#006a45",
+            "secondary-fixed": "#e5e2e1",
+            "on-surface-variant": "#5c3f41",
+            "tertiary-fixed-dim": "#62dca3",
+            "on-primary": "#ffffff",
+            "tertiary-fixed": "#80f9bd",
+            "secondary-container": "#e2dfde",
+            "on-primary-fixed": "#40000d",
+            "on-primary-fixed-variant": "#920029",
+            "outline-variant": "#e5bdbe",
+            "on-tertiary-fixed-variant": "#005234",
+            "secondary-fixed-dim": "#c8c6c5",
+            "primary-fixed-dim": "#ffb2b6",
+            "surface-container": "#eeeeee",
+            "on-secondary-fixed-variant": "#474746",
+            "tertiary-container": "#008558",
+            "on-tertiary": "#ffffff",
+            "on-tertiary-container": "#f6fff6",
+            "primary-container": "#e21e4a",
+            "surface-variant": "#e2e2e2",
+            "surface-bright": "#f9f9f9",
+            "on-background": "#1a1c1c",
+            "inverse-on-surface": "#f0f1f1",
+            "surface-dim": "#dadada",
+            "on-secondary-fixed": "#1b1c1c",
+            "surface-container-lowest": "#ffffff",
+            "primary-fixed": "#ffdada",
+            "inverse-surface": "#2f3131",
+            "on-error-container": "#93000a",
+            "secondary": "#5f5e5e",
+            "error-container": "#ffdad6",
+            "primary": "#ba0036",
+            "background": "#f9f9f9",
+            "surface-container-low": "#f3f3f4",
+            "surface-container-highest": "#e2e2e2",
+            "on-surface": "#1a1c1c",
+            "on-primary-container": "#fffbff",
+            "on-tertiary-fixed": "#002113"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "fontFamily": {
+            "headline": ["Inter"],
+            "display": ["Inter"],
+            "body": ["Inter"],
+            "label": ["Inter"]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface antialiased font-body min-h-screen flex justify-center">
+<!-- Mobile Frame Container (Simulating 390px Viewport) -->
+<div class="w-full max-w-md bg-surface-container-lowest min-h-screen relative flex flex-col shadow-xl">
+<!-- TopAppBar (from Shared Components JSON) -->
+<header class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-4 py-3 bg-surface dark:bg-inverse-surface max-w-md mx-auto border-b border-outline-variant dark:border-outline">
+<div class="flex items-center space-x-2">
+<button aria-label="Close" class="w-9 h-9 flex items-center justify-center rounded-full hover:bg-surface-container dark:hover:bg-surface-variant transition-colors active:scale-95 duration-150 text-on-surface" type="button">
+<span class="material-symbols-outlined text-xl" data-icon="close">close</span>
+</button>
+<span class="font-headline text-lg font-bold text-primary dark:text-inverse-primary">Trimly Host</span>
+</div>
+<button class="text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container dark:hover:bg-surface-variant px-3 py-1.5 rounded-lg text-sm font-semibold transition-colors active:scale-95 duration-150" type="button">
+        Save &amp; Exit
+      </button>
+</header>
+<!-- Main Content Area with padding for TopAppBar and BottomNavBar -->
+<main class="flex-1 px-5 pt-20 pb-36">
+<!-- Progress Section -->
+<section class="mt-2 mb-6">
+<div class="flex items-center justify-between mb-2">
+<span class="text-xs font-bold tracking-wider text-primary uppercase font-label">Step 1 of 5</span>
+<span class="text-xs font-semibold text-secondary font-label">35% complete</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden flex">
+<div class="h-full bg-primary rounded-full transition-all duration-300" style="width: 35%;"></div>
+</div>
+<h1 class="text-2xl font-black tracking-tight text-on-surface mt-5 font-headline">Tell us about your shop</h1>
+<p class="text-sm text-secondary mt-1 font-body leading-relaxed">Basic Information — This will appear on your public booking page and map cards.</p>
+</section>
+<!-- Section 1: Shop Details & Booking Slug -->
+<section class="space-y-4 mb-8">
+<!-- Shop Name Input -->
+<div class="space-y-1.5">
+<label class="block text-xs font-bold uppercase tracking-wider text-secondary font-label">Shop Name</label>
+<div class="relative flex items-center">
+<input class="w-full bg-surface-container-low border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary rounded-xl px-4 py-3.5 text-base font-semibold text-on-surface transition-all outline-none" type="text" value="Gentlemen's Cut"/>
+<div class="absolute right-3.5 flex items-center pointer-events-none text-tertiary">
+<span class="material-symbols-outlined text-xl" data-icon="check_circle" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+</div>
+<!-- Unique Booking Slug Input -->
+<div class="space-y-1.5">
+<label class="block text-xs font-bold uppercase tracking-wider text-secondary font-label">Trimly Booking Link</label>
+<div class="flex items-center rounded-xl border border-outline-variant focus-within:border-primary focus-within:ring-1 focus-within:ring-primary overflow-hidden bg-surface-container-low transition-all">
+<span class="bg-surface-container text-secondary text-sm font-medium px-3.5 py-3.5 select-none border-r border-outline-variant">trimly.com/book/</span>
+<input class="flex-1 bg-transparent border-0 px-3 py-3.5 text-sm font-semibold text-on-surface focus:ring-0 outline-none" type="text" value="gentlemens-cut"/>
+</div>
+<!-- Live inline feedback badge -->
+<div class="flex items-center space-x-1.5 bg-tertiary-container/10 px-3 py-1.5 rounded-lg border border-tertiary-container/20 w-fit">
+<span class="material-symbols-outlined text-sm text-tertiary" data-icon="check_circle" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-xs font-semibold text-tertiary">trimly.com/book/gentlemens-cut is available!</span>
+</div>
+</div>
+<!-- Shop Category Dropdown -->
+<div class="space-y-1.5">
+<label class="block text-xs font-bold uppercase tracking-wider text-secondary font-label">Primary Category</label>
+<div class="relative flex items-center">
+<select class="w-full appearance-none bg-surface-container-low border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary rounded-xl px-4 py-3.5 text-sm font-semibold text-on-surface transition-all outline-none">
+<option selected="">Barbershop &amp; Grooming Lounge</option>
+<option>Hair Salon &amp; Braiding Studio</option>
+<option>Nail &amp; Beauty Spa</option>
+<option>Independent Master Barber</option>
+</select>
+<div class="absolute right-3.5 flex items-center pointer-events-none text-secondary">
+<span class="material-symbols-outlined text-xl" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+</div>
+<!-- City / Neighborhood Input -->
+<div class="space-y-1.5">
+<label class="block text-xs font-bold uppercase tracking-wider text-secondary font-label">City / Neighborhood</label>
+<div class="relative flex items-center">
+<div class="absolute left-3.5 flex items-center pointer-events-none text-primary">
+<span class="material-symbols-outlined text-xl" data-icon="location_on" data-weight="fill" style="font-variation-settings: 'FILL' 1;">location_on</span>
+</div>
+<input class="w-full bg-surface-container-low border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary rounded-xl pl-11 pr-4 py-3.5 text-sm font-semibold text-on-surface transition-all outline-none" type="text" value="Osu, Oxford Street, Accra"/>
+</div>
+</div>
+<!-- Phone Number Input with Ghana context -->
+<div class="space-y-1.5">
+<label class="block text-xs font-bold uppercase tracking-wider text-secondary font-label">Business Contact Phone</label>
+<div class="relative flex items-center">
+<div class="absolute left-3.5 flex items-center space-x-1 pointer-events-none select-none">
+<span class="text-base">🇬🇭</span>
+<span class="text-xs font-bold text-secondary font-mono">+233</span>
+</div>
+<input class="w-full bg-surface-container-low border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary rounded-xl pl-16 pr-4 py-3.5 text-sm font-semibold text-on-surface transition-all outline-none" type="tel" value="024 456 7890"/>
+</div>
+<!-- Ghana payment badge hint -->
+<div class="flex items-center space-x-2 text-xs text-secondary mt-1">
+<span class="material-symbols-outlined text-xs text-tertiary" data-icon="payments">payments</span>
+<span>Supports MTN MoMo &amp; Telecel Cash direct booking deposits</span>
+</div>
+</div>
+</section>
+<!-- Section 2: Services & Pricing -->
+<section class="space-y-4">
+<div>
+<h2 class="text-xl font-bold tracking-tight text-on-surface font-headline">Services &amp; Pricing</h2>
+<p class="text-xs text-secondary mt-1 font-body">Set your starting services. You can adjust duration, pricing in Ghanaian Cedis (GH₵), and assign barbers anytime.</p>
+</div>
+<!-- Services Bento / Card Stack -->
+<div class="space-y-3">
+<!-- Service Card 1 -->
+<div class="p-4 rounded-xl border-2 border-primary/20 bg-surface-container-lowest shadow-sm space-y-3 relative overflow-hidden transition-all hover:border-primary/40">
+<div class="flex items-start justify-between">
+<div>
+<span class="text-xs font-bold tracking-wide text-primary uppercase font-label">Popular</span>
+<h3 class="text-base font-bold text-on-surface">Haircut &amp; Shape-up</h3>
+<p class="text-xs text-secondary mt-0.5">Signature fade, line up, razor finish &amp; cooling spray</p>
+</div>
+<div class="w-6 h-6 rounded-full bg-primary flex items-center justify-center text-on-primary shadow-xs">
+<span class="material-symbols-outlined text-sm font-bold" data-icon="check">check</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-surface-container">
+<!-- Price Badge -->
+<div class="flex items-center space-x-1.5 bg-surface-container-low px-3 py-1.5 rounded-lg border border-outline-variant/60">
+<span class="text-xs font-bold text-primary font-mono">GH₵</span>
+<span class="text-sm font-extrabold text-on-surface font-mono">80</span>
+</div>
+<!-- Stepper duration chip -->
+<div class="flex items-center space-x-2 bg-surface-container-low px-2 py-1 rounded-lg border border-outline-variant/60">
+<button class="w-5 h-5 flex items-center justify-center rounded text-secondary hover:text-on-surface active:scale-90 font-bold" type="button">-</button>
+<span class="text-xs font-semibold text-on-surface min-w-[50px] text-center">⏱ 45 min</span>
+<button class="w-5 h-5 flex items-center justify-center rounded text-secondary hover:text-on-surface active:scale-90 font-bold" type="button">+</button>
+</div>
+</div>
+</div>
+<!-- Service Card 2 -->
+<div class="p-4 rounded-xl border border-outline-variant/80 bg-surface-container-lowest shadow-sm space-y-3 relative overflow-hidden transition-all hover:border-outline">
+<div class="flex items-start justify-between">
+<div>
+<h3 class="text-base font-bold text-on-surface">Beard Grooming &amp; Hot Towel</h3>
+<p class="text-xs text-secondary mt-0.5">Beard trim, organic shea butter conditioning &amp; hot towel wrap</p>
+</div>
+<div class="w-6 h-6 rounded-full bg-primary flex items-center justify-center text-on-primary shadow-xs">
+<span class="material-symbols-outlined text-sm font-bold" data-icon="check">check</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-surface-container">
+<div class="flex items-center space-x-1.5 bg-surface-container-low px-3 py-1.5 rounded-lg border border-outline-variant/60">
+<span class="text-xs font-bold text-primary font-mono">GH₵</span>
+<span class="text-sm font-extrabold text-on-surface font-mono">50</span>
+</div>
+<div class="flex items-center space-x-2 bg-surface-container-low px-2 py-1 rounded-lg border border-outline-variant/60">
+<button class="w-5 h-5 flex items-center justify-center rounded text-secondary hover:text-on-surface active:scale-90 font-bold" type="button">-</button>
+<span class="text-xs font-semibold text-on-surface min-w-[50px] text-center">⏱ 30 min</span>
+<button class="w-5 h-5 flex items-center justify-center rounded text-secondary hover:text-on-surface active:scale-90 font-bold" type="button">+</button>
+</div>
+</div>
+</div>
+<!-- Service Card 3 -->
+<div class="p-4 rounded-xl border border-outline-variant/80 bg-surface-container-lowest shadow-sm space-y-3 relative overflow-hidden transition-all hover:border-outline">
+<div class="flex items-start justify-between">
+<div>
+<h3 class="text-base font-bold text-on-surface">Hair Dye &amp; Scalp Wash</h3>
+<p class="text-xs text-secondary mt-0.5">Deep cleanse, natural black or tint dye, invigorating wash</p>
+</div>
+<div class="w-6 h-6 rounded-full bg-primary flex items-center justify-center text-on-primary shadow-xs">
+<span class="material-symbols-outlined text-sm font-bold" data-icon="check">check</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-surface-container">
+<div class="flex items-center space-x-1.5 bg-surface-container-low px-3 py-1.5 rounded-lg border border-outline-variant/60">
+<span class="text-xs font-bold text-primary font-mono">GH₵</span>
+<span class="text-sm font-extrabold text-on-surface font-mono">100</span>
+</div>
+<div class="flex items-center space-x-2 bg-surface-container-low px-2 py-1 rounded-lg border border-outline-variant/60">
+<button class="w-5 h-5 flex items-center justify-center rounded text-secondary hover:text-on-surface active:scale-90 font-bold" type="button">-</button>
+<span class="text-xs font-semibold text-on-surface min-w-[50px] text-center">⏱ 60 min</span>
+<button class="w-5 h-5 flex items-center justify-center rounded text-secondary hover:text-on-surface active:scale-90 font-bold" type="button">+</button>
+</div>
+</div>
+</div>
+<!-- Add Custom Service Button -->
+<button class="w-full py-3.5 px-4 rounded-xl border-2 border-dashed border-outline-variant hover:border-primary text-secondary hover:text-primary transition-all flex items-center justify-center space-x-2 bg-surface-container-low/40 active:scale-98" type="button">
+<span class="material-symbols-outlined text-lg" data-icon="add">add</span>
+<span class="text-sm font-bold font-label">Add custom service</span>
+</button>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Derived from Shared Components JSON & Spec) -->
+<footer class="fixed bottom-0 left-0 w-full z-50 px-6 py-4 bg-surface-container-lowest dark:bg-inverse-surface max-w-md mx-auto border-t border-outline-variant dark:border-outline shadow-sm">
+<div class="flex items-center justify-between space-x-4">
+<!-- Back Navigation Button -->
+<button class="flex items-center justify-center text-secondary dark:text-secondary-fixed-dim px-4 py-3 font-medium underline underline-offset-4 active:scale-98 transition-transform duration-150 text-sm" type="button">
+<span class="material-symbols-outlined mr-1 text-base" data-icon="arrow_back">arrow_back</span>
+          Back
+        </button>
+<!-- Forward / Save & Continue Primary Action -->
+<button class="flex-1 flex items-center justify-center bg-primary dark:bg-primary text-on-primary rounded-xl px-6 py-3 font-semibold hover:opacity-90 active:scale-98 transition-all duration-150 shadow-md" type="button">
+<span>Save &amp; Continue</span>
+<span class="material-symbols-outlined ml-1.5 text-lg" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<!-- Auto-save microcopy helper -->
+<div class="text-center mt-2">
+<p class="text-[11px] text-secondary font-medium tracking-tight">Step 1 &amp; 2 saved automatically • Takes ~3 mins to finish</p>
+</div>
+</footer>
+</div>
+</body></html>

@@ -1,0 +1,326 @@
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Gentlemen's Cut Osu - Staff & Barbers</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-container": "#eeeeee",
+            "on-background": "#1a1c1c",
+            "inverse-surface": "#2f3131",
+            "inverse-on-surface": "#f0f1f1",
+            "surface-dim": "#dadada",
+            "surface-container-low": "#f3f3f4",
+            "on-surface-variant": "#5c3f41",
+            "tertiary-fixed": "#80f9bd",
+            "on-secondary-fixed-variant": "#474746",
+            "on-primary-fixed": "#40000d",
+            "surface": "#f9f9f9",
+            "secondary-fixed-dim": "#c8c6c5",
+            "on-primary": "#ffffff",
+            "on-error": "#ffffff",
+            "on-primary-fixed-variant": "#920029",
+            "surface-container-lowest": "#ffffff",
+            "error": "#ba1a1a",
+            "primary-fixed-dim": "#ffb2b6",
+            "error-container": "#ffdad6",
+            "background": "#f9f9f9",
+            "surface-tint": "#be0038",
+            "primary-fixed": "#ffdada",
+            "on-secondary": "#ffffff",
+            "tertiary-container": "#008558",
+            "surface-container-highest": "#e2e2e2",
+            "on-primary-container": "#fffbff",
+            "on-tertiary-fixed": "#002113",
+            "surface-container-high": "#e8e8e8",
+            "primary-container": "#e21e4a",
+            "on-tertiary": "#ffffff",
+            "tertiary-fixed-dim": "#62dca3",
+            "on-secondary-container": "#636262",
+            "secondary-container": "#e2dfde",
+            "outline": "#906f70",
+            "on-secondary-fixed": "#1b1c1c",
+            "on-surface": "#1a1c1c",
+            "surface-bright": "#f9f9f9",
+            "outline-variant": "#e5bdbe",
+            "on-tertiary-fixed-variant": "#005234",
+            "on-error-container": "#93000a",
+            "secondary-fixed": "#e5e2e1",
+            "primary": "#ba0036",
+            "inverse-primary": "#ffb2b6",
+            "tertiary": "#006a45",
+            "secondary": "#5f5e5e",
+            "surface-variant": "#e2e2e2",
+            "on-tertiary-container": "#f6fff6"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "fontFamily": {
+            "headline": ["Inter"],
+            "display": ["Inter"],
+            "body": ["Inter"],
+            "label": ["Inter"]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-background font-body antialiased flex justify-center items-center min-h-screen">
+<div class="w-full max-w-md bg-surface-container-lowest min-h-screen relative shadow-2xl flex flex-col overflow-hidden">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 h-16 w-full max-w-md mx-auto bg-surface-container-lowest shadow-sm">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-2xl">storefront</span>
+<div>
+<h1 class="font-headline font-bold text-base tracking-tight text-on-surface">Gentlemen's Cut Osu</h1>
+<p class="font-label text-xs text-on-surface-variant">Staff & Barbers (3 Active)</p>
+</div>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-colors active:scale-95">
+<span class="material-symbols-outlined text-primary text-xl">sync</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 pt-20 pb-24 px-4 overflow-y-auto space-y-4">
+<!-- Header Action Section -->
+<div class="flex items-center justify-between pt-2">
+<div>
+<h2 class="font-headline font-bold text-lg text-on-surface">Team Roster</h2>
+<p class="text-xs text-secondary">Manage staff, schedules & chair assignments</p>
+</div>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-full font-label text-xs font-semibold shadow-sm hover:opacity-90 transition-all active:scale-95 flex items-center gap-1.5" onclick="toggleModal(true)">
+<span class="material-symbols-outlined text-base">add</span>
+<span>Invite Barber</span>
+</button>
+</div>
+<!-- Staff Card 1: Kojo Mensah -->
+<div class="bg-surface-container-low rounded-xl p-4 shadow-sm border border-surface-container-highest flex flex-col gap-3">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-primary font-bold text-lg overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Professional portrait photograph of a charismatic Ghanaian master barber with a neat haircut and friendly smile, wearing a stylish apron, shot in warm lighting inside a modern upscale barbershop in Osu Accra." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpP8NuJ6aLCkW42B9JMBG2x1KPBzPN28z8rrX5onAvUEiiCOTfi1KzMcM116-NH8DIhkJTO_c1a0-k-nNGhfAGMhs_Bifw2698NcU_t_WdsCdi35niANbGOXm1pEr8evNMiskjxnz8Lzx4G3YiRWpZ-uguvX46JDIHbheAyVnToMMXXALwqY2wJ9PdISH_lrb4bWeMXh3l8OpEKNiSkNk3cSRbE45201J5ejXWIJZn67LYOGNeowekMaWyOeyNfJtRTiev5dWfO4g"/>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h3 class="font-headline font-bold text-sm text-on-surface">Kojo Mensah</h3>
+<span class="bg-primary text-on-primary text-[10px] font-bold px-2 py-0.5 rounded-full">Owner</span>
+</div>
+<p class="text-xs text-secondary">Master Barber & Owner</p>
+</div>
+</div>
+<div class="flex items-center gap-1 text-xs font-medium text-on-surface bg-surface-container-lowest px-2 py-1 rounded-lg shadow-2xs">
+<span class="material-symbols-outlined text-amber-500 text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span>4.98</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2 py-2 border-t border-b border-surface-container-highest text-xs text-secondary">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-primary">event_available</span>
+<span>7 bookings today</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-primary">schedule</span>
+<span>Mon-Sat 8am-8pm</span>
+</div>
+</div>
+<div class="flex items-center justify-between text-xs pt-1">
+<span class="text-secondary">Assigned to <strong class="text-on-surface">5 services</strong></span>
+<div class="flex items-center gap-2">
+<span class="text-primary font-medium">Active</span>
+<div class="w-8 h-4 bg-primary rounded-full relative p-0.5 flex items-center justify-end">
+<div class="w-3 h-3 bg-white rounded-full shadow"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Staff Card 2: Kwame Asante -->
+<div class="bg-surface-container-low rounded-xl p-4 shadow-sm border border-surface-container-highest flex flex-col gap-3">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Portrait photo of a young professional senior stylist barber smiling confidently inside a contemporary Accra barbershop with wooden paneling and warm ambient lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfeWd600J5XYECAsymFvOmVVIVDGaaUuCtbNS_13VcLjN3lAOqlI25DGjfdec9pRoOgcUdzJNXZ-nh6sVcD8A2vXlPEQG3zqLMz7i8Os7QT9D0btxdPqPqIdDXtMsDZNNCoyfEvKyT94EYwb7YACqfkkpNDZuBWhAZ17ae44bwKeU77bzGjtho3sorbWpmmhy51xDasMi3MDBImCxG0tbmElTOT5gw6TOei1khFliu_LZo6y6VONPcLXarRD1qHJ7lS34HFJSqbkI"/>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h3 class="font-headline font-bold text-sm text-on-surface">Kwame Asante</h3>
+<span class="bg-secondary-container text-on-secondary-container text-[10px] font-medium px-2 py-0.5 rounded-full">Stylist</span>
+</div>
+<p class="text-xs text-secondary">Senior Stylist</p>
+</div>
+</div>
+<div class="flex items-center gap-1 text-xs font-medium text-on-surface bg-surface-container-lowest px-2 py-1 rounded-lg">
+<span class="material-symbols-outlined text-amber-500 text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span>4.92</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2 py-2 border-t border-b border-surface-container-highest text-xs text-secondary">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-primary">event_available</span>
+<span>6 bookings today</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-primary">login</span>
+<span>Login Enabled</span>
+</div>
+</div>
+<div class="flex items-center justify-between text-xs pt-1">
+<span class="text-secondary">Assigned to <strong class="text-on-surface">4 services</strong></span>
+<div class="flex items-center gap-2">
+<span class="text-primary font-medium">Active</span>
+<div class="w-8 h-4 bg-primary rounded-full relative p-0.5 flex items-center justify-end">
+<div class="w-3 h-3 bg-white rounded-full shadow"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Staff Card 3: Emmanuel Osei -->
+<div class="bg-surface-container-low rounded-xl p-4 shadow-sm border border-surface-container-highest flex flex-col gap-3">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Friendly portrait of a professional barber wearing a dark denim apron, focused and ready for styling clients in a chic urban barbershop interior." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIY-TKtyceH1VW8PX3mO59QL-yjp5Cgb4eMRTX2Ik3x0gXsNEY7IZTwtDZgxRN6Qb03qZMrB0mwBT7fKPNvHC_liWeRc2HqCAZAG6cb01M05KQ_xRc5VV57dHHOj7RCozEsTwocSetx0qtphYoR-9Xbw6eWY9gUIq76UojkKViaGr49jrTcGMJXMIP475aRjizYCZbt6jQiSd59fVWj1z3bPGFiQooO8LIwLRztUW8TEntBMRxXSsj5VELolQTbCGqQJH-fGFRgGc"/>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h3 class="font-headline font-bold text-sm text-on-surface">Emmanuel Osei</h3>
+<span class="bg-secondary-container text-on-secondary-container text-[10px] font-medium px-2 py-0.5 rounded-full">Barber</span>
+</div>
+<p class="text-xs text-secondary">Barber</p>
+</div>
+</div>
+<div class="flex items-center gap-1 text-xs font-medium text-on-surface bg-surface-container-lowest px-2 py-1 rounded-lg">
+<span class="material-symbols-outlined text-amber-500 text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span>4.88</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2 py-2 border-t border-b border-surface-container-highest text-xs text-secondary">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-primary">event_available</span>
+<span>5 bookings today</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-primary">schedule</span>
+<span>Tue-Sun 9am-7pm</span>
+</div>
+</div>
+<div class="flex items-center justify-between text-xs pt-1">
+<span class="text-secondary">Assigned to <strong class="text-on-surface">3 services</strong></span>
+<div class="flex items-center gap-2">
+<span class="text-primary font-medium">Active</span>
+<div class="w-8 h-4 bg-primary rounded-full relative p-0.5 flex items-center justify-end">
+<div class="w-3 h-3 bg-white rounded-full shadow"></div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 right-0 z-50 flex justify-around items-center h-16 px-2 w-full max-w-md mx-auto pb-safe bg-surface-container-lowest shadow-[0_-1px_3px_rgba(0,0,0,0.05)]">
+<a class="flex flex-col items-center justify-center text-secondary hover:text-primary transition-colors duration-150 gap-1 py-1" href="#">
+<span class="material-symbols-outlined text-xl">calendar_today</span>
+<span class="font-label font-medium text-[11px] tracking-tight">Schedule</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary hover:text-primary transition-colors duration-150 gap-1 py-1" href="#">
+<span class="material-symbols-outlined text-xl">content_cut</span>
+<span class="font-label font-medium text-[11px] tracking-tight">Services</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary font-medium gap-1 py-1" href="#">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">groups</span>
+<span class="font-label font-medium text-[11px] tracking-tight">Staff</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary hover:text-primary transition-colors duration-150 gap-1 py-1" href="#">
+<span class="material-symbols-outlined text-xl">tune</span>
+<span class="font-label font-medium text-[11px] tracking-tight">Settings</span>
+</a>
+</nav>
+<!-- Modal / Bottom Sheet Drawer overlay preview -->
+<div class="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-end justify-center transition-opacity duration-300 opacity-0 pointer-events-none" id="inviteModal">
+<div class="bg-surface-container-lowest w-full max-w-md rounded-t-2xl p-6 shadow-2xl transform translate-y-full transition-transform duration-300 max-h-[751px] overflow-y-auto" id="modalContent">
+<div class="flex items-center justify-between pb-4 mb-4 border-b border-surface-container-highest">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl">person_add</span>
+<h3 class="font-headline font-bold text-base text-on-surface">Invite / Add Barber Profile</h3>
+</div>
+<button class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-surface-container-low text-secondary" onclick="toggleModal(false)">
+<span class="material-symbols-outlined text-xl">close</span>
+</button>
+</div>
+<form class="space-y-4" onsubmit="event.preventDefault(); toggleModal(false);">
+<div>
+<label class="block font-label text-xs font-semibold text-on-surface mb-1">Full Name</label>
+<input class="w-full bg-surface-container-low border border-surface-container-highest rounded-lg px-3 py-2.5 text-sm text-on-surface focus:outline-none focus:border-primary" placeholder="e.g. Kofi Mensah" type="text"/>
+</div>
+<div>
+<label class="block font-label text-xs font-semibold text-on-surface mb-1">Role</label>
+<select class="w-full bg-surface-container-low border border-surface-container-highest rounded-lg px-3 py-2.5 text-sm text-on-surface focus:outline-none focus:border-primary">
+<option>Barber</option>
+<option>Senior Stylist</option>
+<option>Nail Tech</option>
+</select>
+</div>
+<div>
+<label class="block font-label text-xs font-semibold text-on-surface mb-1">Phone Number for SMS invite & login (+233 format)</label>
+<input class="w-full bg-surface-container-low border border-surface-container-highest rounded-lg px-3 py-2.5 text-sm text-on-surface focus:outline-none focus:border-primary" placeholder="+233 24 000 0000" type="tel"/>
+</div>
+<div>
+<label class="block font-label text-xs font-semibold text-on-surface mb-2">Assign Services checklist</label>
+<div class="space-y-2 bg-surface-container-low p-3 rounded-lg border border-surface-container-highest">
+<label class="flex items-center gap-2 text-xs text-on-surface cursor-pointer">
+<input checked="" class="rounded text-primary focus:ring-primary" type="checkbox"/> Signature Haircut
+              </label>
+<label class="flex items-center gap-2 text-xs text-on-surface cursor-pointer">
+<input checked="" class="rounded text-primary focus:ring-primary" type="checkbox"/> Beard Grooming & Hot Towel
+              </label>
+<label class="flex items-center gap-2 text-xs text-on-surface cursor-pointer">
+<input class="rounded text-primary focus:ring-primary" type="checkbox"/> Executive Fade & Shave
+              </label>
+<label class="flex items-center gap-2 text-xs text-on-surface cursor-pointer">
+<input class="rounded text-primary focus:ring-primary" type="checkbox"/> Facial Treatment
+              </label>
+</div>
+</div>
+<div class="pt-2">
+<button class="w-full bg-primary text-on-primary font-headline font-bold text-sm py-3 rounded-xl shadow-md hover:opacity-90 transition-all active:scale-98 flex items-center justify-center gap-2" type="submit">
+<span class="material-symbols-outlined text-lg">send</span>
+<span>Send Invite Link</span>
+</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+<script>
+    function toggleModal(show) {
+      const modal = document.getElementById('inviteModal');
+      const content = document.getElementById('modalContent');
+      if (show) {
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        modal.classList.add('opacity-100');
+        content.classList.remove('translate-y-full');
+        content.classList.add('translate-y-0');
+      } else {
+        modal.classList.remove('opacity-100');
+        modal.classList.add('opacity-0', 'pointer-events-none');
+        content.classList.remove('translate-y-0');
+        content.classList.add('translate-y-full');
+      }
+    }
+  </script>
+</body></html>

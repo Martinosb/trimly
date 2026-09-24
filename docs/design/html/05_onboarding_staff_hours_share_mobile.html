@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Trimly Host - Configure Shop Operations</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "secondary-fixed": "#e5e2e1",
+            "surface-bright": "#f9f9f9",
+            "on-secondary-fixed": "#1b1c1c",
+            "tertiary": "#006a45",
+            "on-secondary-container": "#636262",
+            "surface-container-high": "#e8e8e8",
+            "on-primary-fixed": "#40000d",
+            "background": "#f9f9f9",
+            "inverse-on-surface": "#f0f1f1",
+            "surface-dim": "#dadada",
+            "outline-variant": "#e5bdbe",
+            "surface-container-highest": "#e2e2e2",
+            "on-surface": "#1a1c1c",
+            "surface-tint": "#be0038",
+            "on-error": "#ffffff",
+            "primary": "#ba0036",
+            "secondary-fixed-dim": "#c8c6c5",
+            "on-primary-fixed-variant": "#920029",
+            "secondary-container": "#e2dfde",
+            "primary-fixed-dim": "#ffb2b6",
+            "surface-container": "#eeeeee",
+            "on-secondary": "#ffffff",
+            "on-error-container": "#93000a",
+            "inverse-primary": "#ffb2b6",
+            "inverse-surface": "#2f3131",
+            "surface-container-lowest": "#ffffff",
+            "on-tertiary-container": "#f6fff6",
+            "surface": "#f9f9f9",
+            "on-primary-container": "#fffbff",
+            "on-background": "#1a1c1c",
+            "error-container": "#ffdad6",
+            "on-primary": "#ffffff",
+            "secondary": "#5f5e5e",
+            "primary-container": "#e21e4a",
+            "on-tertiary-fixed-variant": "#005234",
+            "outline": "#906f70",
+            "tertiary-container": "#008558",
+            "error": "#ba1a1a",
+            "tertiary-fixed": "#80f9bd",
+            "primary-fixed": "#ffdada",
+            "surface-variant": "#e2e2e2",
+            "tertiary-fixed-dim": "#62dca3",
+            "surface-container-low": "#f3f3f4",
+            "on-surface-variant": "#5c3f41",
+            "on-tertiary-fixed": "#002113",
+            "on-tertiary": "#ffffff",
+            "on-secondary-fixed-variant": "#474746"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            headline: ["Inter", "sans-serif"],
+            display: ["Inter", "sans-serif"],
+            body: ["Inter", "sans-serif"],
+            label: ["Inter", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+      line-height: 1;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .material-symbols-outlined.fill-icon {
+      font-variation-settings: 'FILL' 1;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface antialiased font-body min-h-screen pb-36">
+<!-- TopAppBar Component (from JSON anchor) -->
+<header class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-4 py-3 bg-surface border-b border-outline-variant max-w-md mx-auto right-0 shadow-sm backdrop-blur-md bg-opacity-95">
+<button class="w-9 h-9 rounded-full flex items-center justify-center text-on-surface hover:bg-surface-container active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-xl">close</span>
+</button>
+<div class="font-headline text-lg font-bold tracking-tight text-primary">
+      Trimly Host
+    </div>
+<button class="text-xs font-label font-semibold text-secondary hover:text-primary active:scale-95 px-2.5 py-1.5 rounded-lg border border-secondary-fixed transition-colors" type="button">
+      Save &amp; Exit
+    </button>
+</header>
+<!-- Main Scroll Container -->
+<main class="max-w-md mx-auto pt-16 px-4">
+<!-- Progress Tracker -->
+<div class="pt-4 pb-3">
+<div class="flex items-center justify-between mb-2">
+<span class="text-xs font-label font-extrabold tracking-wider text-primary uppercase">STEP 4 OF 5</span>
+<span class="text-xs font-medium text-secondary">80% complete</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary-container rounded-full" style="width: 80%;"></div>
+</div>
+</div>
+<!-- Page Title & Hero Subhead -->
+<section class="py-3">
+<h1 class="text-2xl font-headline font-black tracking-tight text-on-surface leading-tight">
+        Configure Shop Operations
+      </h1>
+<p class="text-sm text-secondary mt-1.5 leading-relaxed">
+        Finalize your team, working schedule, payment rules, and get your live booking link.
+      </p>
+</section>
+<!-- SECTION 1: Shop Staff & Barbers -->
+<section class="mt-6">
+<div class="flex items-start justify-between mb-3">
+<div>
+<h2 class="text-base font-headline font-bold text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-lg">badge</span>
+            Shop Staff &amp; Barbers
+          </h2>
+<p class="text-xs text-secondary mt-0.5">Invite barbers to assign seats, sync individual calendars, and track commission.</p>
+</div>
+</div>
+<!-- Staff Member Cards -->
+<div class="space-y-3">
+<!-- Staff 1: Kojo Mensah -->
+<div class="bg-surface-container-lowest rounded-xl p-3.5 border border-surface-container-high shadow-sm hover:border-outline-variant transition-all">
+<div class="flex items-start gap-3">
+<div class="relative shrink-0">
+<img class="w-12 h-12 rounded-xl object-cover ring-2 ring-surface-container" data-alt="Close up portrait photograph of an African master barber smiling confidently in an upscale Accra salon setting with warm amber lighting and polished timber mirrors." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqRdm8x8DAOUAMAXSQmHqBrYCz-YzogoB84kCcpsEaN0Eejr6F6VrFQJfeQ7D9V63zKedNT1o5_ZmMPKvlBbO1PJ-31TfZkZDhJF3-DU0OfQHHCzfOKkdh1L_q66yCeDox9aNbXXPjn3frpyWc-3ah1bfIB5LoCP4kHS762nJrRAGJ6qAvDZ5XUV7sIvS0OBVYGTAJ9RiHVSkcpZFZEDJfX6QORgekdfR7FDzkMf5Iwsqa4copPfOYSn52Fv2Dgz1r3f83tpGXc7c"/>
+<span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-tertiary-container border-2 border-surface-container-lowest rounded-full" title="Active"></span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between gap-1">
+<h3 class="font-headline text-sm font-bold text-on-surface truncate">Kojo Mensah</h3>
+<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed uppercase tracking-wider">Owner</span>
+</div>
+<p class="text-xs text-secondary font-medium">Master Barber &amp; Lead</p>
+<!-- Assigned Services Chips -->
+<div class="flex flex-wrap gap-1.5 mt-2.5">
+<span class="inline-flex items-center gap-1 text-[11px] font-medium bg-surface-container px-2 py-0.5 rounded-md text-on-surface">
+<span class="material-symbols-outlined text-xs text-primary">content_cut</span> Haircut &amp; Shape-up
+                </span>
+<span class="inline-flex items-center gap-1 text-[11px] font-medium bg-surface-container px-2 py-0.5 rounded-md text-on-surface">
+<span class="material-symbols-outlined text-xs text-primary">face</span> Beard Grooming
+                </span>
+</div>
+</div>
+</div>
+</div>
+<!-- Staff 2: Kwame Asante -->
+<div class="bg-surface-container-lowest rounded-xl p-3.5 border border-surface-container-high shadow-sm hover:border-outline-variant transition-all">
+<div class="flex items-start gap-3">
+<div class="relative shrink-0">
+<img class="w-12 h-12 rounded-xl object-cover ring-2 ring-surface-container" data-alt="Profile headshot of a stylish male barber wearing dark contemporary work apron in a warm modern barbershop with ambient studio illumination." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdcDgCjFBlGjC1HQwxV3oUV3caVYRIiSIvtbqRVDEjdD51e6h1qmCcw0irk61Xu3w1jJxjGBH2kEj_VwAg9cIwWrFOjUrIgTpZLfrwU5ItXa1WQVfIElgSzpAmPkhASQ1s5MCoRNdey2aL5f9r4zQlD5K5DfP1xq-8Zdky4r6bnxgMKGGxroQgLpmMVofnebT1YC92aV4ci_pue_Ftn9RytVNbjazE5qAfPsGQV_0Cqaq0JYXjMn_eK8fA1r_TQmafZbqkeCqcpDU"/>
+<span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-tertiary-container border-2 border-surface-container-lowest rounded-full" title="Active"></span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between gap-1">
+<h3 class="font-headline text-sm font-bold text-on-surface truncate">Kwame Asante</h3>
+<span class="text-[10px] font-semibold text-tertiary flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span> Active
+                </span>
+</div>
+<p class="text-xs text-secondary font-medium">Barber &amp; Stylist</p>
+<!-- Assigned Services Chips -->
+<div class="flex flex-wrap gap-1.5 mt-2.5">
+<span class="inline-flex items-center gap-1 text-[11px] font-medium bg-surface-container px-2 py-0.5 rounded-md text-on-surface">
+<span class="material-symbols-outlined text-xs text-primary">content_cut</span> Haircut &amp; Shape-up
+                </span>
+<span class="inline-flex items-center gap-1 text-[11px] font-medium bg-surface-container px-2 py-0.5 rounded-md text-on-surface">
+<span class="material-symbols-outlined text-xs text-primary">clean_hands</span> Hair Dye &amp; Scalp Wash
+                </span>
+</div>
+</div>
+</div>
+</div>
+<!-- Staff 3: Emmanuel Osei -->
+<div class="bg-surface-container-lowest rounded-xl p-3.5 border border-surface-container-high shadow-sm hover:border-outline-variant transition-all">
+<div class="flex items-start gap-3">
+<div class="relative shrink-0">
+<img class="w-12 h-12 rounded-xl object-cover ring-2 ring-surface-container" data-alt="Authentic portrait photo of an African barber smiling in a premium grooming lounge with warm interior decor and leather styling chairs." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAksPqD6cSWdhxaxlou3RWU-U8SxHWWh9o4Fqx-5dYm_N-isxwpIHwWbFyY3sZf9BNMPCPmCULwhJySsoWcKXfxvJ-Q8EM3Q97DiibRQ6-TMXBspzG6KaylrUIYuv_NmFVlt4pDs-SMoWOJFU-dMveuUFKmCU5Rg3BFupGCBk25GtbbuCvQffxoNp2Eg_x84PGIkpRH_yFFO_vudMNFfXREwPx5zlkFn08YXyPwQtHA4qDasMsNWLKYJCScUhDYmxdJAcBWDF-Z84s"/>
+<span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-tertiary-container border-2 border-surface-container-lowest rounded-full" title="Active"></span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between gap-1">
+<h3 class="font-headline text-sm font-bold text-on-surface truncate">Emmanuel Osei</h3>
+<span class="text-[10px] font-semibold text-tertiary flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span> Active
+                </span>
+</div>
+<p class="text-xs text-secondary font-medium">Barber</p>
+<!-- Assigned Services Chips -->
+<div class="flex flex-wrap gap-1.5 mt-2.5">
+<span class="inline-flex items-center gap-1 text-[11px] font-medium bg-surface-container px-2 py-0.5 rounded-md text-on-surface">
+<span class="material-symbols-outlined text-xs text-primary">face</span> Beard Grooming
+                </span>
+<span class="inline-flex items-center gap-1 text-[11px] font-medium bg-surface-container px-2 py-0.5 rounded-md text-on-surface">
+<span class="material-symbols-outlined text-xs text-primary">child_care</span> Kids Styling
+                </span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Add Staff Member Button -->
+<button class="w-full mt-3 py-3 border-2 border-dashed border-outline rounded-xl flex items-center justify-center gap-2 text-primary font-headline text-xs font-bold hover:bg-primary-fixed/30 active:scale-98 transition-all" type="button">
+<span class="material-symbols-outlined text-base">person_add</span>
+        + Add Staff Member
+      </button>
+</section>
+<!-- SECTION 2: Operating Schedule -->
+<section class="mt-8">
+<div class="mb-3">
+<h2 class="text-base font-headline font-bold text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-lg">schedule</span>
+          Operating Schedule
+        </h2>
+<p class="text-xs text-secondary mt-0.5">Clients can only book available chairs within these open time slots.</p>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-4 border border-surface-container-high space-y-4 shadow-sm">
+<!-- Mon - Sat Toggle -->
+<div class="flex items-center justify-between pb-3 border-b border-surface-container">
+<div class="flex items-center gap-3">
+<!-- Custom Styled Toggle Switch (Checked) -->
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+<div>
+<span class="text-sm font-headline font-bold text-on-surface block">Monday - Saturday</span>
+<span class="text-[11px] text-secondary">Peak salon hours</span>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-lg bg-surface-container-low text-xs font-semibold text-on-surface border border-surface-container">
+            8:00 AM - 8:00 PM
+          </span>
+</div>
+<!-- Sunday Toggle -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+<div>
+<span class="text-sm font-headline font-bold text-on-surface block">Sunday</span>
+<span class="text-[11px] text-secondary">Afternoon appointments</span>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-lg bg-surface-container-low text-xs font-semibold text-on-surface border border-surface-container">
+            12:00 PM - 6:00 PM
+          </span>
+</div>
+<!-- Quick note badge -->
+<div class="pt-2">
+<div class="flex items-center gap-2 px-3 py-2 rounded-lg bg-surface-container-low border border-surface-container text-xs text-secondary">
+<span class="material-symbols-outlined text-tertiary text-sm">verified</span>
+<span>Instant public holiday override enabled</span>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 3: Payment & Deposit Policy -->
+<section class="mt-8">
+<div class="mb-3">
+<h2 class="text-base font-headline font-bold text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-lg">payments</span>
+          Payment &amp; Deposit Policy
+        </h2>
+<p class="text-xs text-secondary mt-0.5">Protect your chairs against no-shows with Ghana Mobile Money.</p>
+</div>
+<div class="space-y-3">
+<!-- Radio Option 1: Deposit Required (Selected) -->
+<div class="bg-surface-container-lowest rounded-xl p-4 border-2 border-primary-container shadow-sm relative">
+<div class="flex items-start gap-3">
+<div class="mt-0.5 shrink-0">
+<div class="w-5 h-5 rounded-full border-2 border-primary-container flex items-center justify-center">
+<div class="w-2.5 h-2.5 bg-primary-container rounded-full"></div>
+</div>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<h3 class="text-sm font-headline font-bold text-on-surface">Deposit Required (Recommended)</h3>
+<span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-primary-fixed text-primary tracking-wide">Best for No-Shows</span>
+</div>
+<p class="text-xs text-secondary mt-1 leading-relaxed">
+                Clients pay a non-refundable deposit to secure their chair via MTN MoMo, Telecel Cash, or Card.
+              </p>
+<!-- Sub-selector Pills -->
+<div class="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-surface-container">
+<button class="py-2 px-2.5 rounded-lg bg-primary-fixed/40 border border-primary-container text-primary font-headline text-xs font-bold text-center" type="button">
+                  Fixed GH₵ 30 deposit
+                </button>
+<button class="py-2 px-2.5 rounded-lg bg-surface-container-low border border-surface-container text-secondary font-headline text-xs font-semibold text-center hover:bg-surface-container" type="button">
+                  25% of service total
+                </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Radio Option 2: Book & Pay Instantly -->
+<div class="bg-surface-container-lowest rounded-xl p-4 border border-surface-container-high shadow-sm opacity-90 hover:opacity-100 transition-opacity">
+<div class="flex items-start gap-3">
+<div class="mt-0.5 shrink-0">
+<div class="w-5 h-5 rounded-full border-2 border-outline-variant"></div>
+</div>
+<div class="flex-1">
+<h3 class="text-sm font-headline font-bold text-on-surface">Book &amp; Pay Instantly</h3>
+<p class="text-xs text-secondary mt-1 leading-relaxed">
+                100% upfront settlement via Mobile Money or Card. Funds escrowed until cut is completed.
+              </p>
+</div>
+</div>
+</div>
+<!-- Radio Option 3: Reserve & Pay at Shop -->
+<div class="bg-surface-container-lowest rounded-xl p-4 border border-surface-container-high shadow-sm opacity-90 hover:opacity-100 transition-opacity">
+<div class="flex items-start gap-3">
+<div class="mt-0.5 shrink-0">
+<div class="w-5 h-5 rounded-full border-2 border-outline-variant"></div>
+</div>
+<div class="flex-1">
+<h3 class="text-sm font-headline font-bold text-on-surface">Reserve &amp; Pay at Shop</h3>
+<p class="text-xs text-secondary mt-1 leading-relaxed">
+                Free reservation. Client settles with cash or MoMo directly at the shop counter.
+              </p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 4: Live Shop & Share Link -->
+<section class="mt-8 mb-6">
+<div class="mb-3">
+<h2 class="text-base font-headline font-bold text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-lg">check_circle</span>
+          Success &amp; Share Link
+        </h2>
+</div>
+<!-- Premium Card with highlight gradient border -->
+<div class="rounded-2xl p-5 bg-gradient-to-b from-surface-container-lowest to-surface-container-low border border-outline-variant shadow-md">
+<!-- Celebration Badge -->
+<div class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed text-xs font-bold mb-2">
+<span>🎉 Your shop is live!</span>
+</div>
+<h3 class="text-lg font-headline font-extrabold text-on-surface leading-snug">
+          Gentlemen's Cut is ready for bookings
+        </h3>
+<p class="text-xs text-secondary mt-1">Share your live link to instantly take client reservations and sync walk-ins.</p>
+<!-- Link Copy Field -->
+<div class="mt-4 flex items-center bg-surface-container-lowest rounded-xl p-1.5 border border-surface-container shadow-inner">
+<div class="px-2 text-secondary flex items-center">
+<span class="material-symbols-outlined text-sm">link</span>
+</div>
+<input class="w-full bg-transparent text-xs font-semibold text-on-surface border-0 focus:ring-0 p-0 tracking-tight" readonly="" type="text" value="trimly.com/book/gentlemens-cut"/>
+<button class="shrink-0 bg-primary-container text-on-primary text-xs font-label font-bold px-3 py-2 rounded-lg flex items-center gap-1 shadow-sm active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-xs">content_copy</span>
+            Copy Link
+          </button>
+</div>
+<!-- QR Code & Printable Tent Preview -->
+<div class="mt-4 p-3.5 bg-surface-container-lowest rounded-xl border border-surface-container flex items-center gap-3">
+<!-- Stylized QR Code Tile -->
+<div class="w-16 h-16 shrink-0 bg-on-surface p-1.5 rounded-lg flex items-center justify-center shadow-inner">
+<div class="w-full h-full bg-surface-container-lowest rounded p-1 grid grid-cols-4 gap-0.5">
+<div class="bg-on-surface rounded-xs"></div>
+<div class="bg-on-surface"></div>
+<div class="bg-surface-container-lowest"></div>
+<div class="bg-on-surface"></div>
+<div class="bg-on-surface"></div>
+<div class="bg-surface-container-lowest"></div>
+<div class="bg-on-surface"></div>
+<div class="bg-on-surface"></div>
+<div class="bg-surface-container-lowest"></div>
+<div class="bg-on-surface"></div>
+<div class="bg-surface-container-lowest"></div>
+<div class="bg-on-surface"></div>
+<div class="bg-on-surface"></div>
+<div class="bg-surface-container-lowest"></div>
+<div class="bg-on-surface"></div>
+<div class="bg-on-surface"></div>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="text-xs font-headline font-bold text-on-surface">Download Front Desk QR</h4>
+<p class="text-[11px] text-secondary mt-0.5 leading-snug">Download &amp; print table tent QR for your shop mirror or front desk.</p>
+</div>
+<button class="shrink-0 p-2 text-secondary hover:text-primary rounded-lg border border-surface-container" type="button">
+<span class="material-symbols-outlined text-lg">download</span>
+</button>
+</div>
+<!-- Share Actions Row -->
+<div class="grid grid-cols-2 gap-2 mt-3 pt-2">
+<!-- WhatsApp Share -->
+<button class="py-2.5 px-3 rounded-xl bg-[#25D366]/10 text-[#006a45] hover:bg-[#25D366]/20 font-label text-xs font-bold flex items-center justify-center gap-1.5 border border-[#25D366]/30 active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-sm">chat</span>
+            Share on WhatsApp
+          </button>
+<!-- Instagram Share -->
+<button class="py-2.5 px-3 rounded-xl bg-surface-container text-on-surface hover:bg-surface-container-high font-label text-xs font-bold flex items-center justify-center gap-1.5 border border-surface-container-high active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-sm">photo_camera</span>
+            Instagram Bio
+          </button>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Sticky Action Bar (Strictly follows styling and CTA) -->
+<footer class="fixed bottom-0 left-0 w-full z-50 bg-surface-container-lowest border-t border-outline-variant max-w-md mx-auto right-0 shadow-lg px-4 py-3">
+<div class="flex items-center justify-between gap-3">
+<!-- Back Button -->
+<button class="flex items-center justify-center gap-1 text-secondary px-4 py-3 text-sm font-label font-semibold underline underline-offset-4 hover:opacity-90 active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-base">arrow_back</span>
+        Back
+      </button>
+<!-- Primary High-Impact Pill CTA -->
+<button class="flex-1 flex items-center justify-center gap-2 bg-primary-container hover:opacity-95 text-on-primary rounded-full px-6 py-3.5 font-headline font-bold text-sm tracking-wide shadow-md active:scale-98 transition-all" type="button">
+<span>Open Dashboard</span>
+<span class="material-symbols-outlined text-base">arrow_forward</span>
+</button>
+</div>
+<!-- Footer Trust Subtext -->
+<p class="text-[11px] text-center text-secondary font-medium mt-2">
+      Auto-saved to cloud • Barbers notified via SMS
+    </p>
+</footer>
+</body></html>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Trimly - Kojo's Schedule Today & Upcoming</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "primary-container": "#e21e4a",
+            "outline-variant": "#e5bdbe",
+            "surface-variant": "#e2e2e2",
+            "on-surface-variant": "#5c3f41",
+            "tertiary-fixed-dim": "#62dca3",
+            "inverse-surface": "#2f3131",
+            "surface-bright": "#f9f9f9",
+            "surface-tint": "#be0038",
+            "on-tertiary-container": "#f6fff6",
+            "on-tertiary-fixed": "#002113",
+            "surface-container-highest": "#e2e2e2",
+            "background": "#f9f9f9",
+            "on-background": "#1a1c1c",
+            "primary-fixed-dim": "#ffb2b6",
+            "tertiary-container": "#008558",
+            "error": "#ba1a1a",
+            "surface": "#f9f9f9",
+            "on-primary-fixed-variant": "#920029",
+            "secondary-fixed": "#e5e2e1",
+            "tertiary": "#006a45",
+            "on-error": "#ffffff",
+            "on-secondary-fixed-variant": "#474746",
+            "on-primary-container": "#fffbff",
+            "surface-container": "#eeeeee",
+            "on-tertiary": "#ffffff",
+            "secondary-container": "#e2dfde",
+            "surface-dim": "#dadada",
+            "surface-container-low": "#f3f3f4",
+            "on-primary-fixed": "#40000d",
+            "on-secondary-container": "#636262",
+            "inverse-on-surface": "#f0f1f1",
+            "primary-fixed": "#ffdada",
+            "on-tertiary-fixed-variant": "#005234",
+            "secondary": "#5f5e5e",
+            "on-surface": "#1a1c1c",
+            "on-primary": "#ffffff",
+            "tertiary-fixed": "#80f9bd",
+            "inverse-primary": "#ffb2b6",
+            "surface-container-high": "#e8e8e8",
+            "on-secondary-fixed": "#1b1c1c",
+            "secondary-fixed-dim": "#c8c6c5",
+            "outline": "#906f70",
+            "error-container": "#ffdad6",
+            "primary": "#ba0036",
+            "on-secondary": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "on-error-container": "#93000a"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "fontFamily": {
+            "headline": ["Inter"],
+            "display": ["Inter"],
+            "body": ["Inter"],
+            "label": ["Inter"]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body antialiased pb-24">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 h-16 w-full max-w-md mx-auto bg-surface-container-lowest shadow-sm">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-variant">
+<img class="w-full h-full object-cover" data-alt="A professional close-up portrait of a friendly African barber named Kojo with a clean fade haircut and trimmed beard, wearing a neat apron, smiling warmly against a brightly lit, modern barbershop interior background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsMC4i5DuPF4Nj9Hv-jvAuwYJ8WssV3zPGWzG9uc3bwz-rZfxYypyAFhnZ9rT2d8Skx3cTOJoFDjGoBA6A2F8LC8s7275EK8hUFBWV5b-8w1t8Ym1ZM7R4OO8QKR4xaMXIHf-UPX2SPxGnX9W4nt4g7f2I6An3lOy5FgfkjcoVjNb9ulde_gPSrGcmCwYd1py4NTy7E9iTlUgvgukNBSz32tMcUaoBHyfBxhU5BzuccJNhxo61bpxfwfHwaG-mb-3lKUKIW4fygmI"/>
+</div>
+<div>
+<h1 class="font-headline font-semibold text-base text-on-surface">Hello, Kojo</h1>
+<p class="font-label text-xs text-on-surface-variant">Gentlemen's Cut • Chair 1</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-full">
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+<span class="font-label text-xs font-medium text-on-surface">Online</span>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="w-full max-w-md mx-auto px-4 pt-20 space-y-6">
+<!-- Date Toggle Pills -->
+<div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+<button class="bg-[#ff385c] text-white font-label text-xs font-medium px-4 py-2 rounded-full shadow-sm whitespace-nowrap flex items-center gap-1.5">
+        Today <span class="bg-white/20 px-1.5 py-0.5 rounded-full text-[10px]">7 cuts</span>
+</button>
+<button class="bg-surface-container text-on-surface-variant font-label text-xs font-medium px-4 py-2 rounded-full whitespace-nowrap hover:bg-surface-container-high transition-colors">
+        Tomorrow <span class="bg-surface-variant px-1.5 py-0.5 rounded-full text-[10px]">5</span>
+</button>
+<button class="bg-surface-container text-on-surface-variant font-label text-xs font-medium px-4 py-2 rounded-full whitespace-nowrap hover:bg-surface-container-high transition-colors">
+        This Week
+      </button>
+</div>
+<!-- Summary Stats Cards -->
+<div class="grid grid-cols-3 gap-3">
+<div class="bg-surface-container-lowest p-3 rounded-xl border border-surface-container-highest flex flex-col justify-between shadow-sm">
+<div class="text-primary mb-1">
+<span class="material-symbols-outlined text-xl">calendar_today</span>
+</div>
+<div>
+<div class="font-headline font-bold text-lg text-on-surface">7</div>
+<div class="font-label text-[10px] text-on-surface-variant leading-tight">Bookings Today</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-3 rounded-xl border border-surface-container-highest flex flex-col justify-between shadow-sm">
+<div class="text-tertiary mb-1">
+<span class="material-symbols-outlined text-xl">payments</span>
+</div>
+<div>
+<div class="font-headline font-bold text-base text-on-surface">GH₵ 560</div>
+<div class="font-label text-[10px] text-on-surface-variant leading-tight">Earned Today</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-3 rounded-xl border border-surface-container-highest flex flex-col justify-between shadow-sm">
+<div class="text-[#ff385c] mb-1">
+<span class="material-symbols-outlined text-xl">schedule</span>
+</div>
+<div>
+<div class="font-headline font-bold text-xs text-on-surface mt-1">25 mins</div>
+<div class="font-label text-[10px] text-on-surface-variant leading-tight">Next cut in</div>
+</div>
+</div>
+</div>
+<!-- Appointment List -->
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<h2 class="font-headline font-bold text-sm text-on-surface uppercase tracking-wide">Chair 1 Schedule</h2>
+<span class="font-label text-xs text-on-surface-variant">Strictly Scoped</span>
+</div>
+<!-- Item 1: Completed -->
+<div class="bg-surface-container-lowest p-4 rounded-xl border border-surface-container-highest opacity-75">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label text-xs font-semibold text-on-surface-variant">1:30 PM</span>
+<span class="inline-flex items-center gap-1 bg-emerald-100 text-emerald-800 font-label text-[10px] font-medium px-2 py-0.5 rounded-full">
+<span class="material-symbols-outlined text-xs">check</span> Completed
+          </span>
+</div>
+<div class="flex justify-between items-center">
+<div>
+<h3 class="font-headline font-semibold text-sm text-on-surface">Kofi Manu</h3>
+<p class="font-label text-xs text-on-surface-variant">Fade • GH₵ 80</p>
+</div>
+<span class="material-symbols-outlined text-outline">done_all</span>
+</div>
+</div>
+<!-- Item 2: Next Appointment (Highlighted with Rausch border) -->
+<div class="bg-surface-container-lowest p-4 rounded-xl border-2 border-[#ff385c] shadow-md relative overflow-hidden">
+<div class="absolute top-0 right-0 bg-[#ff385c] text-white font-label text-[10px] font-bold px-3 py-1 rounded-bl-lg">
+          NEXT APPOINTMENT
+        </div>
+<div class="flex items-center justify-between mb-3">
+<span class="font-label text-xs font-bold text-[#ff385c]">3:30 PM</span>
+<span class="font-label text-xs text-on-surface-variant">45 min</span>
+</div>
+<div class="space-y-3">
+<div>
+<h3 class="font-headline font-bold text-base text-on-surface">Kweku Annan</h3>
+<p class="font-label text-xs text-on-surface-variant">Signature Haircut & Line-up • GH₵ 80</p>
+</div>
+<!-- MoMo deposit badge -->
+<div class="inline-flex items-center gap-1.5 bg-amber-50 border border-amber-200 text-amber-900 font-label text-xs px-2.5 py-1 rounded-lg">
+<span class="material-symbols-outlined text-sm text-amber-600">verified</span>
+<span>GH₵ 30 MoMo deposit verified</span>
+</div>
+<!-- Client phone & actions -->
+<div class="flex items-center justify-between bg-surface-container-low p-2.5 rounded-lg">
+<span class="font-label text-xs font-medium text-on-surface">024 987 6543</span>
+<div class="flex items-center gap-2">
+<a class="w-8 h-8 rounded-full bg-surface-container-lowest flex items-center justify-center text-primary shadow-sm hover:bg-surface transition-colors" href="tel:0249876543">
+<span class="material-symbols-outlined text-sm">call</span>
+</a>
+<a class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-white shadow-sm hover:bg-emerald-600 transition-colors" href="https://wa.me/233249876543">
+<span class="material-symbols-outlined text-sm">chat</span>
+</a>
+</div>
+</div>
+<!-- Client notes -->
+<div class="bg-surface-container-low p-3 rounded-lg border-l-2 border-[#ff385c]">
+<p class="font-label text-xs font-medium text-on-surface mb-0.5">Client Notes:</p>
+<p class="font-label text-xs text-on-surface-variant">Low skin fade on sides, keep length on top</p>
+</div>
+<!-- Action buttons -->
+<div class="grid grid-cols-2 gap-2 pt-2">
+<button class="border border-emerald-600 text-emerald-700 font-label text-xs font-medium py-2 px-3 rounded-xl hover:bg-emerald-50 transition-colors flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-sm">front_hand</span> Mark Arrived
+            </button>
+<button class="bg-[#ff385c] text-white font-label text-xs font-medium py-2 px-3 rounded-xl shadow-sm hover:bg-[#e21e4a] transition-colors flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-sm">check_circle</span> Settle Cut
+            </button>
+</div>
+</div>
+</div>
+<!-- Item 3: Open for Walk-in -->
+<div class="border-2 border-dashed border-outline-variant p-4 rounded-xl flex items-center justify-between bg-surface-container-low/50">
+<div>
+<span class="font-label text-xs font-semibold text-on-surface-variant">4:30 PM</span>
+<h3 class="font-headline font-medium text-sm text-on-surface">Open for Walk-in</h3>
+<p class="font-label text-[11px] text-on-surface-variant">Available slot on Chair 1</p>
+</div>
+<button class="bg-surface-container-lowest border border-surface-container-highest text-on-surface font-label text-xs font-medium px-3 py-2 rounded-lg shadow-sm hover:bg-surface-container transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">add</span> Slot Action
+        </button>
+</div>
+<!-- Item 4: Upcoming -->
+<div class="bg-surface-container-lowest p-4 rounded-xl border border-surface-container-highest">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label text-xs font-semibold text-on-surface-variant">5:15 PM</span>
+<span class="font-label text-[11px] text-secondary">Upcoming</span>
+</div>
+<div class="flex justify-between items-center">
+<div>
+<h3 class="font-headline font-semibold text-sm text-on-surface">Yaw Boateng</h3>
+<p class="font-label text-xs text-on-surface-variant">Beard Sculpting • GH₵ 50</p>
+</div>
+<span class="material-symbols-outlined text-outline">schedule</span>
+</div>
+</div>
+</div>
+<!-- Quick Block Break Button -->
+<div class="pt-2 pb-6">
+<button class="w-full bg-surface-container hover:bg-surface-container-high text-on-surface font-label text-xs font-medium py-3 px-4 rounded-xl transition-colors flex items-center justify-center gap-2 border border-surface-container-highest">
+<span class="material-symbols-outlined text-sm text-primary">free_breakfast</span>
+        + Block 30m Lunch Break
+      </button>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 right-0 z-50 flex justify-around items-center h-16 px-2 w-full max-w-md mx-auto bg-surface-container-lowest shadow-[0_-1px_3px_rgba(0,0,0,0.05)]">
+<!-- Active Nav Item -->
+<a class="flex flex-col items-center justify-center text-[#ff385c] gap-1 py-1 hover:text-[#ff385c] transition-colors duration-150 active:scale-95" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">calendar_today</span>
+<span class="font-label font-medium text-[11px] tracking-tight">Schedule</span>
+</a>
+<!-- Inactive Nav Item -->
+<a class="flex flex-col items-center justify-center text-secondary gap-1 py-1 hover:text-[#ff385c] transition-colors duration-150 active:scale-95" href="#">
+<span class="material-symbols-outlined">content_cut</span>
+<span class="font-label font-medium text-[11px] tracking-tight">Services</span>
+</a>
+<!-- Inactive Nav Item -->
+<a class="flex flex-col items-center justify-center text-secondary gap-1 py-1 hover:text-[#ff385c] transition-colors duration-150 active:scale-95" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label font-medium text-[11px] tracking-tight">Staff</span>
+</a>
+<!-- Inactive Nav Item -->
+<a class="flex flex-col items-center justify-center text-secondary gap-1 py-1 hover:text-[#ff385c] transition-colors duration-150 active:scale-95" href="#">
+<span class="material-symbols-outlined">tune</span>
+<span class="font-label font-medium text-[11px] tracking-tight">Settings</span>
+</a>
+</nav>
+</body></html>

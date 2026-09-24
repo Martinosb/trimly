@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Trimly - Shop Owner Live Schedule Dashboard</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              DEFAULT: '#FF385C',
+              hover: '#E00B41',
+              light: '#FFF0F2',
+              dark: '#C80838',
+            },
+            surface: {
+              50: '#F9FAFB',
+              100: '#F3F4F6',
+              200: '#E5E7EB',
+              300: '#D1D5DB',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
+    }
+    .material-symbols-outlined.fill {
+      font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    /* Custom subtle scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #d1d5db;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #9ca3af;
+    }
+  </style>
+</link></head>
+<body class="bg-[#F8F9FA] text-gray-900 font-sans h-full flex flex-col antialiased">
+<div class="flex h-screen overflow-hidden">
+<!-- ================= SIDEBAR ================= -->
+<aside class="w-64 bg-white border-r border-gray-200 flex flex-col justify-between flex-shrink-0 z-30 shadow-[1px_0_4px_rgba(0,0,0,0.02)]">
+<div>
+<!-- Brand / Shop Header -->
+<div class="p-5 border-b border-gray-100">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2">
+<div class="w-9 h-9 rounded-xl bg-brand flex items-center justify-center text-white shadow-sm shadow-brand/30">
+<span class="material-symbols-outlined fill text-[22px]">content_cut</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="text-xl font-bold tracking-tight text-gray-900">Trimly</span>
+<span class="text-[10px] uppercase font-bold tracking-wider bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded-md border border-gray-200">Host</span>
+</div>
+</div>
+</div>
+<!-- Active Shop Switcher Card -->
+<div class="flex items-center justify-between p-2.5 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-xl transition-colors cursor-pointer group">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-8 h-8 rounded-lg bg-gray-900 text-white flex items-center justify-center font-bold text-xs flex-shrink-0">
+                GC
+              </div>
+<div class="min-w-0">
+<div class="flex items-center gap-1">
+<span class="text-xs font-bold text-gray-900 truncate">Gentlemen's Cut</span>
+<span class="material-symbols-outlined fill text-brand text-[14px]">verified</span>
+</div>
+<p class="text-[11px] text-gray-500 truncate">Osu, Oxford St • Accra</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-gray-400 group-hover:text-gray-600 text-[18px]">unfold_more</span>
+</div>
+</div>
+<!-- Navigation Links -->
+<nav class="p-3 space-y-1">
+<div class="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-gray-400">Shop Management</div>
+<a class="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-semibold bg-brand-light text-brand group transition-colors" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined fill text-[20px] text-brand">calendar_today</span>
+<span>Live Schedule</span>
+</div>
+<span class="text-[10px] font-bold bg-brand text-white px-2 py-0.5 rounded-full">18</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">content_cut</span>
+<span>Services &amp; Pricing</span>
+</a>
+<a class="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px]">groups</span>
+<span>Staff &amp; Chairs</span>
+</div>
+<span class="text-[11px] font-medium text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded-md border border-emerald-200">3 Online</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">payments</span>
+<span>Analytics &amp; Payouts</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">storefront</span>
+<span>Shop Profile</span>
+</a>
+<div class="pt-3 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-gray-400">Settings &amp; Tools</div>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">qr_code_2</span>
+<span>Desk QR Pass</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span>Shop Settings</span>
+</a>
+</nav>
+</div>
+<!-- Public Booking Link Share Box -->
+<div class="p-3 m-3 bg-gradient-to-br from-gray-50 to-rose-50/40 rounded-2xl border border-gray-200/80">
+<div class="flex items-center justify-between mb-1.5">
+<span class="text-[11px] font-bold uppercase tracking-wider text-gray-700 flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            Public Booking Page
+          </span>
+<span class="material-symbols-outlined text-gray-400 hover:text-gray-700 text-[16px] cursor-pointer" title="View page">open_in_new</span>
+</div>
+<p class="text-[11px] text-gray-500 mb-2 truncate">trimly.com/book/gentlemens-cut</p>
+<div class="flex items-center gap-1.5">
+<button class="flex-1 bg-white hover:bg-gray-50 border border-gray-300 text-gray-700 text-xs font-semibold py-1.5 px-2 rounded-lg flex items-center justify-center gap-1 shadow-2xs transition-all active:scale-95">
+<span class="material-symbols-outlined text-[15px]">content_copy</span>
+<span>Copy Link</span>
+</button>
+<button class="bg-white hover:bg-gray-50 border border-gray-300 text-gray-700 p-1.5 rounded-lg flex items-center justify-center shadow-2xs" title="Download QR">
+<span class="material-symbols-outlined text-[16px]">qr_code</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- ================= MAIN CONTENT AREA ================= -->
+<div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+<!-- TOP APPLICATION HEADER -->
+<header class="h-16 bg-white border-b border-gray-200 px-6 flex items-center justify-between flex-shrink-0 z-20">
+<!-- Date Navigator -->
+<div class="flex items-center gap-4">
+<div class="flex items-center bg-gray-50 border border-gray-200 rounded-xl p-1 shadow-2xs">
+<button class="p-1 hover:bg-white rounded-lg text-gray-600 hover:text-gray-900 transition-colors">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<div class="flex items-center gap-2 px-3 py-0.5">
+<span class="material-symbols-outlined text-brand text-[18px]">calendar_month</span>
+<span class="text-sm font-bold text-gray-900">Tuesday, September 25, 2025</span>
+<span class="text-[10px] font-bold uppercase tracking-wider bg-rose-100 text-brand px-2 py-0.5 rounded-full">Today</span>
+</div>
+<button class="p-1 hover:bg-white rounded-lg text-gray-600 hover:text-gray-900 transition-colors">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+<!-- Real-time Live Sync Indicator -->
+<div class="flex items-center gap-2 px-3 py-1 bg-emerald-50 border border-emerald-200 rounded-full text-xs font-medium text-emerald-800">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+</span>
+<span>Live Sync • Chair updates real-time</span>
+</div>
+</div>
+<!-- Header Actions: Search, Notification, + Booking, Owner Profile -->
+<div class="flex items-center gap-3">
+<!-- Quick Search -->
+<div class="relative w-72">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-gray-400 text-[18px]">search</span>
+<input class="w-full bg-gray-50 border border-gray-200 text-xs rounded-xl pl-9 pr-12 py-2 focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all placeholder:text-gray-400" placeholder="Search client, #TRM code, phone..." type="text"/>
+<span class="absolute right-2.5 top-2 text-[10px] font-semibold text-gray-400 border border-gray-200 bg-white px-1.5 py-0.5 rounded">⌘K</span>
+</div>
+<!-- Notification Bell -->
+<button class="relative p-2 rounded-xl text-gray-600 hover:bg-gray-100 transition-colors">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-brand"></span>
+</button>
+<!-- Primary + Walk-in / New Booking Button -->
+<button class="bg-brand hover:bg-brand-hover text-white px-4 py-2 rounded-xl text-xs font-bold tracking-tight flex items-center gap-1.5 shadow-sm shadow-brand/25 transition-all active:scale-95">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>New Booking / Walk-in</span>
+</button>
+<div class="h-6 w-px bg-gray-200"></div>
+<!-- Owner Profile Avatar & Dropdown -->
+<div class="flex items-center gap-2.5 pl-1 cursor-pointer">
+<img alt="Kojo Mensah" class="w-8 h-8 rounded-full object-cover ring-2 ring-brand/30" src="https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg"/>
+<div class="text-left leading-tight hidden lg:block">
+<div class="text-xs font-bold text-gray-900">Kojo Mensah</div>
+<div class="text-[10px] text-gray-500 font-medium">Shop Owner</div>
+</div>
+<span class="material-symbols-outlined text-gray-400 text-[18px]">expand_more</span>
+</div>
+</div>
+</header>
+<!-- SCROLLABLE BODY -->
+<main class="flex-1 overflow-y-auto flex flex-col bg-[#F8F9FA]">
+<!-- ================= KPI SUMMARY BANNER ================= -->
+<section class="p-6 pb-4">
+<div class="grid grid-cols-5 gap-4">
+<!-- KPI 1 -->
+<div class="bg-white p-4 rounded-2xl border border-gray-200/90 shadow-2xs hover:shadow-xs transition-shadow">
+<div class="flex items-center justify-between text-gray-500 mb-2">
+<span class="text-xs font-semibold uppercase tracking-wider text-gray-500">Today's Bookings</span>
+<span class="w-7 h-7 rounded-lg bg-rose-50 text-brand flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">book_online</span>
+</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-2xl font-bold text-gray-900 tracking-tight">18</span>
+<span class="text-xs font-semibold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded">+12% vs avg</span>
+</div>
+<p class="text-[11px] text-gray-500 mt-1 font-medium">4 remaining appointments today</p>
+</div>
+<!-- KPI 2 -->
+<div class="bg-white p-4 rounded-2xl border border-gray-200/90 shadow-2xs hover:shadow-xs transition-shadow">
+<div class="flex items-center justify-between text-gray-500 mb-2">
+<span class="text-xs font-semibold uppercase tracking-wider text-gray-500">Projected Revenue</span>
+<span class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">payments</span>
+</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-2xl font-bold text-gray-900 tracking-tight">GH₵ 1,450</span>
+</div>
+<p class="text-[11px] text-gray-500 mt-1 font-medium">GH₵ 880 collected • GH₵ 570 at chair</p>
+</div>
+<!-- KPI 3 -->
+<div class="bg-white p-4 rounded-2xl border border-gray-200/90 shadow-2xs hover:shadow-xs transition-shadow">
+<div class="flex items-center justify-between text-gray-500 mb-2">
+<span class="text-xs font-semibold uppercase tracking-wider text-gray-500">MoMo Escrow</span>
+<span class="w-7 h-7 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-2xl font-bold text-gray-900 tracking-tight">GH₵ 420</span>
+<span class="text-xs font-semibold text-gray-600 bg-gray-100 px-1.5 py-0.5 rounded">14 deposits</span>
+</div>
+<p class="text-[11px] text-gray-500 mt-1 font-medium">Protected by Trimly MoMo Escrow</p>
+</div>
+<!-- KPI 4 -->
+<div class="bg-white p-4 rounded-2xl border border-gray-200/90 shadow-2xs hover:shadow-xs transition-shadow">
+<div class="flex items-center justify-between text-gray-500 mb-2">
+<span class="text-xs font-semibold uppercase tracking-wider text-gray-500">No-Show Rate</span>
+<span class="w-7 h-7 rounded-lg bg-teal-50 text-teal-600 flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-2xl font-bold text-emerald-600 tracking-tight">0.0%</span>
+<span class="text-xs font-medium text-gray-500">0 missed</span>
+</div>
+<p class="text-[11px] text-gray-500 mt-1 font-medium">100% chair arrival commitment</p>
+</div>
+<!-- KPI 5 -->
+<div class="bg-white p-4 rounded-2xl border border-gray-200/90 shadow-2xs hover:shadow-xs transition-shadow">
+<div class="flex items-center justify-between text-gray-500 mb-2">
+<span class="text-xs font-semibold uppercase tracking-wider text-gray-500">Active Chairs</span>
+<span class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">event_seat</span>
+</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-2xl font-bold text-gray-900 tracking-tight">3 of 3</span>
+<span class="text-xs font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded">100% capacity</span>
+</div>
+<p class="text-[11px] text-gray-500 mt-1 font-medium">All master barbers on duty</p>
+</div>
+</div>
+</section>
+<!-- ================= MAIN SCHEDULE TIMELINE GRID ================= -->
+<section class="px-6 pb-6 flex-1 flex flex-col">
+<!-- Schedule View Controls Bar -->
+<div class="bg-white border border-gray-200 rounded-t-2xl px-5 py-3.5 flex items-center justify-between shadow-2xs">
+<div class="flex items-center gap-3">
+<!-- View Switcher -->
+<div class="flex bg-gray-100 p-1 rounded-xl text-xs font-semibold">
+<button class="px-3 py-1.5 bg-white text-gray-900 rounded-lg shadow-2xs">Day View</button>
+<button class="px-3 py-1.5 text-gray-500 hover:text-gray-900 transition-colors">3-Day View</button>
+<button class="px-3 py-1.5 text-gray-500 hover:text-gray-900 transition-colors">Week View</button>
+</div>
+<div class="h-5 w-px bg-gray-200"></div>
+<!-- Filter Staff Chips -->
+<div class="flex items-center gap-1.5">
+<button class="bg-gray-900 text-white text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+<span>All Staff (3)</span>
+</button>
+<button class="bg-gray-50 hover:bg-gray-100 text-gray-700 border border-gray-200 text-xs font-medium px-2.5 py-1.5 rounded-lg">Kojo M.</button>
+<button class="bg-gray-50 hover:bg-gray-100 text-gray-700 border border-gray-200 text-xs font-medium px-2.5 py-1.5 rounded-lg">Kwame A.</button>
+<button class="bg-gray-50 hover:bg-gray-100 text-gray-700 border border-gray-200 text-xs font-medium px-2.5 py-1.5 rounded-lg">Emmanuel O.</button>
+</div>
+</div>
+<!-- Status Legend -->
+<div class="flex items-center gap-4 text-xs font-medium text-gray-500">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+<span>In Chair (Active)</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-brand"></span>
+<span>Confirmed &amp; Deposit Paid</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-gray-400"></span>
+<span>Completed</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full border-2 border-dashed border-gray-400"></span>
+<span>Open Chair Slot</span>
+</div>
+</div>
+</div>
+<!-- ================= GRID CONTAINER ================= -->
+<div class="bg-white border-x border-b border-gray-200 rounded-b-2xl flex-1 flex flex-col overflow-hidden relative shadow-2xs">
+<!-- Grid Columns Header (Barbers) -->
+<div class="grid grid-cols-[100px_1fr_1fr_1fr] border-b border-gray-200 bg-gray-50/70 z-10 sticky top-0">
+<!-- Time column spacer -->
+<div class="p-3 border-r border-gray-200 flex items-center justify-center text-xs font-bold text-gray-400 uppercase tracking-wider">
+                GMT (Accra)
+              </div>
+<!-- Barber 1: Kojo Mensah -->
+<div class="p-3.5 border-r border-gray-200 flex items-center justify-between bg-white/60">
+<div class="flex items-center gap-3">
+<div class="relative">
+<img alt="Kojo Mensah" class="w-10 h-10 rounded-full object-cover ring-2 ring-brand/30" src="https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg"/>
+<span class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-emerald-500 ring-2 ring-white"></span>
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<span class="text-sm font-bold text-gray-900">Kojo Mensah</span>
+<span class="text-[10px] font-bold bg-brand-light text-brand px-1.5 py-0.2 rounded">Chair 1</span>
+</div>
+<div class="flex items-center gap-2 text-xs text-gray-500">
+<span>Master Barber • Owner</span>
+<span>•</span>
+<span class="flex items-center text-amber-500 font-semibold"><span class="material-symbols-outlined text-[13px] fill mr-0.5">star</span>4.98</span>
+</div>
+</div>
+</div>
+<div class="text-right">
+<span class="text-xs font-bold text-gray-900">7 cuts</span>
+<p class="text-[10px] text-gray-500">GH₵ 560</p>
+</div>
+</div>
+<!-- Barber 2: Kwame Asante -->
+<div class="p-3.5 border-r border-gray-200 flex items-center justify-between bg-white/60">
+<div class="flex items-center gap-3">
+<div class="relative">
+<img alt="Kwame Asante" class="w-10 h-10 rounded-full object-cover ring-2 ring-gray-200" src="https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg"/>
+<span class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-emerald-500 ring-2 ring-white"></span>
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<span class="text-sm font-bold text-gray-900">Kwame Asante</span>
+<span class="text-[10px] font-bold bg-gray-100 text-gray-700 px-1.5 py-0.2 rounded">Chair 2</span>
+</div>
+<div class="flex items-center gap-2 text-xs text-gray-500">
+<span>Senior Stylist</span>
+<span>•</span>
+<span class="flex items-center text-amber-500 font-semibold"><span class="material-symbols-outlined text-[13px] fill mr-0.5">star</span>4.92</span>
+</div>
+</div>
+</div>
+<div class="text-right">
+<span class="text-xs font-bold text-gray-900">6 cuts</span>
+<p class="text-[10px] text-gray-500">GH₵ 490</p>
+</div>
+</div>
+<!-- Barber 3: Emmanuel Osei -->
+<div class="p-3.5 flex items-center justify-between bg-white/60">
+<div class="flex items-center gap-3">
+<div class="relative">
+<img alt="Emmanuel Osei" class="w-10 h-10 rounded-full object-cover ring-2 ring-gray-200" src="https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg"/>
+<span class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-emerald-500 ring-2 ring-white"></span>
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<span class="text-sm font-bold text-gray-900">Emmanuel Osei</span>
+<span class="text-[10px] font-bold bg-gray-100 text-gray-700 px-1.5 py-0.2 rounded">Chair 3</span>
+</div>
+<div class="flex items-center gap-2 text-xs text-gray-500">
+<span>Barber &amp; Beard Pro</span>
+<span>•</span>
+<span class="flex items-center text-amber-500 font-semibold"><span class="material-symbols-outlined text-[13px] fill mr-0.5">star</span>4.88</span>
+</div>
+</div>
+</div>
+<div class="text-right">
+<span class="text-xs font-bold text-gray-900">5 cuts</span>
+<p class="text-[10px] text-gray-500">GH₵ 400</p>
+</div>
+</div>
+</div>
+<!-- ================= TIMELINE GRID SLOTS ================= -->
+<div class="relative flex-1 overflow-y-auto">
+<!-- REALTIME 2:15 PM INDICATOR LINE -->
+<!-- Positioned precisely between 2:00 PM and 3:00 PM -->
+<div class="absolute left-0 right-0 top-[375px] z-30 pointer-events-none flex items-center">
+<div class="w-[100px] flex justify-end pr-2">
+<span class="bg-brand text-white text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full shadow-sm flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-white animate-ping"></span>
+                    2:15 PM
+                  </span>
+</div>
+<div class="flex-1 h-[2px] bg-brand relative flex items-center shadow-xs">
+<div class="w-2.5 h-2.5 rounded-full bg-brand -ml-1 ring-4 ring-brand/20"></div>
+</div>
+</div>
+<!-- Time Row: 8:00 AM -->
+<div class="grid grid-cols-[100px_1fr_1fr_1fr] min-h-[60px] border-b border-gray-100 group hover:bg-gray-50/40">
+<div class="p-2 border-r border-gray-200 text-right pr-3 text-xs font-medium text-gray-400">8:00 AM</div>
+<div class="border-r border-gray-200 p-1 relative">
+<div class="h-full rounded-xl border border-dashed border-gray-200 flex items-center justify-center text-gray-400 text-xs font-medium hover:bg-rose-50/50 hover:border-brand/40 hover:text-brand transition-all cursor-pointer">
+<span class="material-symbols-outlined text-[14px] mr-1">add</span> Morning Prep
+                  </div>
+</div>
+<div class="border-r border-gray-200 p-1"></div>
+<div class="p-1"></div>
+</div>
+<!-- Time Row: 9:00 AM -->
+<div class="grid grid-cols-[100px_1fr_1fr_1fr] min-h-[70px] border-b border-gray-100 group hover:bg-gray-50/40">
+<div class="p-2 border-r border-gray-200 text-right pr-3 text-xs font-medium text-gray-400">9:00 AM</div>
+<!-- Kojo 9:00 AM Appointment -->
+<div class="border-r border-gray-200 p-1.5">
+<div class="bg-gray-50 border border-gray-200/90 rounded-xl p-2.5 h-full flex flex-col justify-between hover:shadow-xs transition-shadow">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-1.5">
+<span class="text-xs font-bold text-gray-800">Nii Armah</span>
+<span class="text-[9px] font-bold bg-gray-200 text-gray-700 px-1 py-0.2 rounded">Completed</span>
+</div>
+<p class="text-[11px] text-gray-500 truncate">Signature Cut &amp; Hot Towel</p>
+</div>
+<span class="text-xs font-bold text-gray-700">GH₵ 80</span>
+</div>
+<div class="flex items-center justify-between text-[10px] text-emerald-700 pt-1 border-t border-gray-200/60">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">check_circle</span> Settled via MTN MoMo</span>
+<span class="text-gray-400">9:00 - 9:45 AM</span>
+</div>
+</div>
+</div>
+<div class="border-r border-gray-200 p-1.5">
+<div class="h-full rounded-xl border border-dashed border-gray-200 hover:border-brand/40 flex items-center justify-center text-xs text-gray-400 hover:text-brand hover:bg-rose-50/30 transition-all cursor-pointer">
+<span class="material-symbols-outlined text-[14px] mr-1">add</span> Available
+                  </div>
+</div>
+<div class="p-1.5">
+<div class="h-full rounded-xl border border-dashed border-gray-200 hover:border-brand/40 flex items-center justify-center text-xs text-gray-400 hover:text-brand hover:bg-rose-50/30 transition-all cursor-pointer">
+<span class="material-symbols-outlined text-[14px] mr-1">add</span> Available
+                  </div>
+</div>
+</div>
+<!-- Time Row: 10:00 AM -->
+<div class="grid grid-cols-[100px_1fr_1fr_1fr] min-h-[70px] border-b border-gray-100 group hover:bg-gray-50/40">
+<div class="p-2 border-r border-gray-200 text-right pr-3 text-xs font-medium text-gray-400">10:00 AM</div>
+<div class="border-r border-gray-200 p-1.5">
+<div class="bg-gray-50 border border-gray-200 rounded-xl p-2.5 h-full flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-1.5">
+<span class="text-xs font-bold text-gray-800">David Quartey</span>
+<span class="text-[9px] font-bold bg-gray-200 text-gray-700 px-1 py-0.2 rounded">Completed</span>
+</div>
+<p class="text-[11px] text-gray-500">Executive Royal Cut &amp; Wash</p>
+</div>
+<span class="text-xs font-bold text-gray-700">GH₵ 120</span>
+</div>
+<div class="text-[10px] text-gray-400 text-right">10:15 - 11:15 AM</div>
+</div>
+</div>
+<div class="border-r border-gray-200 p-1.5">
+<div class="bg-gray-50 border border-gray-200 rounded-xl p-2.5 h-full flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div>
+<span class="text-xs font-bold text-gray-800">Samuel Addo</span>
+<p class="text-[11px] text-gray-500">Beard Sculpt &amp; Fade</p>
+</div>
+<span class="text-xs font-bold text-gray-700">GH₵ 75</span>
+</div>
+<div class="text-[10px] text-gray-400 text-right">10:00 - 10:45 AM</div>
+</div>
+</div>
+<div class="p-1.5">
+<div class="h-full rounded-xl border border-dashed border-gray-200 hover:border-brand/40 flex items-center justify-center text-xs text-gray-400 hover:text-brand hover:bg-rose-50/30 transition-all cursor-pointer">
+<span class="material-symbols-outlined text-[14px] mr-1">add</span> Available
+                  </div>
+</div>
+</div>
+<!-- Time Row: 11:00 AM -->
+<div class="grid grid-cols-[100px_1fr_1fr_1fr] min-h-[70px] border-b border-gray-100 group hover:bg-gray-50/40">
+<div class="p-2 border-r border-gray-200 text-right pr-3 text-xs font-medium text-gray-400">11:00 AM</div>
+<div class="border-r border-gray-200 p-1.5">
+<div class="h-full rounded-xl border border-dashed border-gray-200 hover:border-brand/40 flex items-center justify-center text-xs text-gray-400 hover:text-brand hover:bg-rose-50/30 transition-all cursor-pointer">
+<span class="material-symbols-outlined text-[14px] mr-1">add</span> Available
+                  </div>
+</div>
+<div class="border-r border-gray-200 p-1.5">
+<div class="h-full rounded-xl border border-dashed border-gray-200 hover:border-brand/40 flex items-center justify-center text-xs text-gray-400 hover:text-brand hover:bg-rose-50/30 transition-all cursor-pointer">
+<span class="material-symbols-outlined text-[14px] mr-1">add</span> Available
+                  </div>
+</div>
+<div class="p-1.5">
+<div class="bg-gray-50 border border-gray-200 rounded-xl p-2.5 h-full flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-1.5">
+<span class="text-xs font-bold text-gray-800">Nana Boakye</span>
+<span class="text-[9px] font-bold bg-gray-200 text-gray-700 px-1 py-0.2 rounded">Completed</span>
+</div>
+<p class="text-[11px] text-gray-500">Classic Cut &amp; Lining</p>
+</div>
+<span class="text-xs font-bold text-gray-700">GH₵ 70</span>
+</div>
+<div class="text-[10px] text-gray-400 text-right">11:00 AM - 12:00 PM</div>
+</div>
+</div>
+</div>
+<!-- Time Row: 12:00 PM (Lunch & Break) -->
+<div class="grid grid-cols-[100px_1fr_1fr_1fr] min-h-[60px] border-b border-gray-100 bg-gray-50/30">
+<div class="p-2 border-r border-gray-200 text-right pr-3 text-xs font-medium text-gray-400">12:00 PM</div>
+<div class="border-r border-gray-200 p-1.5">
+<div class="h-full rounded-xl bg-amber-50/40 border border-amber-200/50 flex items-center justify-center text-xs text-amber-700 font-medium">
+<span class="material-symbols-outlined text-[14px] mr-1.5">restaurant</span> Shop Lunch Rotation
+                  </div>
+</div>
+<div class="border-r border-gray-200 p-1.5">
+<div class="h-full rounded-xl bg-amber-50/40 border border-amber-200/50 flex items-center justify-center text-xs text-amber-700 font-medium">
+<span class="material-symbols-outlined text-[14px] mr-1.5">restaurant</span> Lunch Rotation
+                  </div>
+</div>
+<div class="p-1.5">
+<div class="h-full rounded-xl bg-amber-50/40 border border-amber-200/50 flex items-center justify-center text-xs text-amber-700 font-medium">
+<span class="material-symbols-outlined text-[14px] mr-1.5">restaurant</span> Lunch Rotation
+                  </div>
+</div>
+</div>
+<!-- Time Row: 1:00 PM -->
+<div class="grid grid-cols-[100px_1fr_1fr_1fr] min-h-[70px] border-b border-gray-100 group hover:bg-gray-50/40">
+<div class="p-2 border-r border-gray-200 text-right pr-3 text-xs font-medium text-gray-400">1:00 PM</div>
+<div class="border-r border-gray-200 p-1.5">
+<div class="bg-gray-50 border border-gray-200 rounded-xl p-2.5 h-full flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div>
+<span class="text-xs font-bold text-gray-800">Kofi Agyeman</span>
+<p class="text-[11px] text-gray-500">Taper Fade</p>
+</div>
+<span class="text-xs font-bold text-gray-700">GH₵ 60</span>
+</div>
+<div class="text-[10px] text-gray-400 text-right">1:00 - 1:45 PM</div>
+</div>
+</div>
+<!-- Kwame Asante Chair 2: ACTIVE IN CHAIR (Fiifi Mensah) -->
+<div class="border-r border-gray-200 p-1.5">
+<div class="bg-emerald-50/90 border-2 border-emerald-500 rounded-xl p-2.5 h-full flex flex-col justify-between shadow-sm relative overflow-hidden ring-4 ring-emerald-500/10">
+<div class="absolute top-0 right-0 bg-emerald-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-bl-lg uppercase tracking-wider flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-white animate-ping"></span> In Chair
+                    </div>
+<div>
+<div class="flex items-center gap-1 mb-0.5">
+<span class="text-xs font-bold text-gray-900">Fiifi Mensah</span>
+<span class="text-[9px] font-semibold text-emerald-800 bg-emerald-200/70 px-1 rounded">Chair 2 Active</span>
+</div>
+<p class="text-[11px] text-emerald-950 font-medium">Royal Combo (Haircut + Beard Glow)</p>
+<div class="text-[11px] text-emerald-800 font-bold mt-0.5">GH₵ 120 <span class="font-normal text-[10px] text-emerald-700">(MoMo Pre-paid)</span></div>
+</div>
+<div class="flex items-center justify-between pt-1.5 mt-1 border-t border-emerald-200">
+<div class="flex items-center gap-1 text-[10px] font-bold text-emerald-800">
+<span class="material-symbols-outlined text-[13px]">schedule</span> Finishing line-up (~10m left)
+                      </div>
+<button class="bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] font-bold px-2 py-1 rounded-lg shadow-2xs transition-colors">
+                        Complete Cut
+                      </button>
+</div>
+</div>
+</div>
+<div class="p-1.5">
+<div class="h-full rounded-xl border border-dashed border-gray-200 hover:border-brand/40 flex items-center justify-center text-xs text-gray-400 hover:text-brand hover:bg-rose-50/30 transition-all cursor-pointer">
+<span class="material-symbols-outlined text-[14px] mr-1">add</span> Available
+                  </div>
+</div>
+</div>
+<!-- Time Row: 2:00 PM (Intersected by NOW Line at 2:15 PM) -->
+<div class="grid grid-cols-[100px_1fr_1fr_1fr] min-h-[75px] border-b border-gray-100 group hover:bg-gray-50/40">
+<div class="p-2 border-r border-gray-200 text-right pr-3 text-xs font-bold text-brand">2:00 PM</div>
+<!-- Kojo Transitioning Buffer -->
+<div class="border-r border-gray-200 p-1.5">
+<div class="h-full rounded-xl bg-gray-50 border border-dashed border-gray-300 p-2 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-gray-400 text-[18px]">sanitizer</span>
+<div>
+<div class="text-[11px] font-semibold text-gray-700">Station Sanitization &amp; Blade Prep</div>
+<div class="text-[10px] text-gray-400">15 min standard buffer between clients</div>
+</div>
+</div>
+<span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">Ready</span>
+</div>
+</div>
+<!-- Kwame Asante continuation -->
+<div class="border-r border-gray-200 p-1.5">
+<div class="text-xs text-gray-400 flex items-center justify-center h-full">
+<span class="text-[11px] text-gray-500 font-medium">Session wrap-up &amp; hot towel finish</span>
+</div>
+</div>
+<!-- Emmanuel Osei at 2:45 PM -->
+<div class="p-1.5">
+<div class="bg-white border-2 border-blue-200 rounded-xl p-2.5 h-full flex flex-col justify-between shadow-2xs">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-1">
+<span class="text-xs font-bold text-gray-900">Kwabena Darko</span>
+<span class="text-[9px] font-bold bg-blue-100 text-blue-800 px-1 py-0.2 rounded">Confirmed</span>
+</div>
+<p class="text-[11px] text-gray-600">Beard Grooming &amp; Shape-up</p>
+</div>
+<span class="text-xs font-bold text-gray-900">GH₵ 50</span>
+</div>
+<div class="flex items-center justify-between text-[10px] text-gray-500 pt-1">
+<span>Starts at 2:45 PM</span>
+<span class="text-emerald-700 font-semibold">Deposit Paid</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Time Row: 3:00 PM (PRIMARY HIGHLIGHT: Kweku Annan #TRM-8492 at 3:30 PM) -->
+<div class="grid grid-cols-[100px_1fr_1fr_1fr] min-h-[140px] border-b border-gray-100 group bg-rose-50/10">
+<div class="p-2 border-r border-gray-200 text-right pr-3 text-xs font-medium text-gray-500">
+<span class="font-bold text-gray-800">3:00 PM</span>
+<div class="text-[10px] text-gray-400">3:30 PM</div>
+</div>
+<!-- KOJO MENSAH: THE HIGHLIGHTED BOOKING CARD (#TRM-8492) -->
+<div class="border-r border-gray-200 p-2">
+<div class="bg-white border-2 border-brand rounded-2xl p-3.5 shadow-md shadow-brand/10 hover:shadow-lg transition-all relative overflow-hidden ring-4 ring-brand/10">
+<!-- Top Badge Bar -->
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-1.5">
+<span class="bg-brand text-white text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md flex items-center gap-1 shadow-2xs">
+<span class="material-symbols-outlined text-[13px] fill">check_circle</span>
+                          Confirmed
+                        </span>
+<span class="text-[11px] font-bold text-gray-500 bg-gray-100 px-1.5 py-0.5 rounded border border-gray-200">#TRM-8492</span>
+</div>
+<div class="text-right">
+<span class="text-sm font-black text-brand">GH₵ 80</span>
+</div>
+</div>
+<!-- Client info -->
+<div class="mb-2">
+<div class="flex items-center justify-between">
+<h4 class="text-sm font-bold text-gray-900 tracking-tight">Kweku Annan</h4>
+<span class="text-[11px] font-semibold text-gray-500">3:30 - 4:15 PM (45m)</span>
+</div>
+<p class="text-xs text-gray-600 font-medium">Signature Haircut &amp; Line-up</p>
+</div>
+<!-- Client Note Box -->
+<div class="p-2 bg-gray-50 border border-gray-200 rounded-xl mb-2.5 flex items-start gap-1.5">
+<span class="material-symbols-outlined text-brand text-[15px] flex-shrink-0 mt-0.5">edit_note</span>
+<p class="text-[11px] text-gray-700 italic leading-snug">"Low skin fade on sides, keep length on top."</p>
+</div>
+<!-- MoMo Payment Status Breakdown -->
+<div class="flex items-center justify-between p-2 bg-emerald-50/70 border border-emerald-200 rounded-xl mb-3 text-xs">
+<div class="flex items-center gap-1.5 text-emerald-800 font-medium">
+<span class="material-symbols-outlined text-[15px] fill text-emerald-600">lock</span>
+<span>GH₵ 30 MoMo Deposit Paid</span>
+</div>
+<span class="text-[11px] font-bold text-gray-600">GH₵ 50 due at chair</span>
+</div>
+<!-- Quick Actions Buttons -->
+<div class="grid grid-cols-3 gap-1.5 pt-1">
+<button class="bg-gray-100 hover:bg-gray-200 text-gray-800 text-[11px] font-bold py-1.5 px-2 rounded-lg flex items-center justify-center gap-1 transition-colors">
+<span class="material-symbols-outlined text-[14px]">call</span>
+<span>Call</span>
+</button>
+<button class="bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold py-1.5 px-2 rounded-lg flex items-center justify-center gap-1 shadow-2xs transition-colors">
+<span class="material-symbols-outlined text-[14px]">chat</span>
+<span>WhatsApp</span>
+</button>
+<button class="bg-gray-900 hover:bg-black text-white text-[11px] font-bold py-1.5 px-2 rounded-lg flex items-center justify-center gap-1 shadow-2xs transition-colors">
+<span class="material-symbols-outlined text-[14px]">qr_code_scanner</span>
+<span>Scan Pass</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Kwame Asante Chair 2: 3:00 PM Slot -->
+<div class="border-r border-gray-200 p-2">
+<div class="bg-white border border-gray-200 rounded-2xl p-3 h-full flex flex-col justify-between hover:border-gray-300 shadow-2xs">
+<div>
+<div class="flex items-center justify-between mb-1">
+<span class="text-[10px] font-bold bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded">3:00 - 4:00 PM</span>
+<span class="text-xs font-bold text-gray-900">GH₵ 80</span>
+</div>
+<div class="text-xs font-bold text-gray-900">Kofi Addo</div>
+<p class="text-[11px] text-gray-500">Haircut &amp; Texturizer</p>
+</div>
+<div class="p-2 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center justify-between text-[11px] text-emerald-800">
+<span class="font-medium">Deposit Escrowed</span>
+<span class="font-bold">GH₵ 30</span>
+</div>
+</div>
+</div>
+<!-- Emmanuel Osei Chair 3: Available / Prep -->
+<div class="p-2">
+<div class="h-full rounded-2xl border-2 border-dashed border-gray-200 hover:border-brand/40 p-4 flex flex-col items-center justify-center text-center group/btn hover:bg-rose-50/20 transition-all cursor-pointer">
+<span class="w-8 h-8 rounded-full bg-gray-100 group-hover/btn:bg-brand group-hover/btn:text-white text-gray-600 flex items-center justify-center mb-1.5 transition-colors">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</span>
+<span class="text-xs font-bold text-gray-800 group-hover/btn:text-brand transition-colors">+ Reserve Chair</span>
+<p class="text-[10px] text-gray-400 mt-0.5">Open 45m walk-in window</p>
+</div>
+</div>
+</div>
+<!-- Time Row: 4:00 PM -->
+<div class="grid grid-cols-[100px_1fr_1fr_1fr] min-h-[75px] border-b border-gray-100 group hover:bg-gray-50/40">
+<div class="p-2 border-r border-gray-200 text-right pr-3 text-xs font-medium text-gray-400">4:00 PM</div>
+<!-- Kojo: Quick buffer / open slot -->
+<div class="border-r border-gray-200 p-1.5">
+<div class="h-full rounded-xl border border-dashed border-gray-200 hover:border-brand/40 flex items-center justify-between px-3 text-xs text-gray-500 hover:text-brand hover:bg-rose-50/30 transition-all cursor-pointer">
+<span class="flex items-center gap-1 font-medium"><span class="material-symbols-outlined text-[15px]">event_seat</span> Master Chair 1 Open (45 min gap)</span>
+<span class="font-bold text-brand bg-brand-light px-2 py-0.5 rounded-md text-[11px]">+ Quick Book</span>
+</div>
+</div>
+<!-- Kwame Asante -->
+<div class="border-r border-gray-200 p-1.5">
+<div class="h-full rounded-xl border border-dashed border-gray-200 hover:border-brand/40 flex items-center justify-center text-xs text-gray-400 hover:text-brand hover:bg-rose-50/30 transition-all cursor-pointer">
+<span class="material-symbols-outlined text-[14px] mr-1">add</span> Available for Walk-in
+                  </div>
+</div>
+<!-- Emmanuel Osei at 4:00 PM -->
+<div class="p-1.5">
+<div class="bg-white border border-gray-200 rounded-xl p-2.5 h-full flex flex-col justify-between shadow-2xs">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-1">
+<span class="text-xs font-bold text-gray-900">Michael Mensah</span>
+<span class="text-[9px] font-bold bg-blue-50 text-blue-700 px-1 py-0.2 rounded">Confirmed</span>
+</div>
+<p class="text-[11px] text-gray-600">Skin Fade &amp; Grey Blending Tint</p>
+</div>
+<span class="text-xs font-bold text-gray-900">GH₵ 90</span>
+</div>
+<div class="text-[10px] text-gray-400 text-right">4:00 - 5:00 PM</div>
+</div>
+</div>
+</div>
+<!-- Time Row: 5:00 PM -->
+<div class="grid grid-cols-[100px_1fr_1fr_1fr] min-h-[75px] border-b border-gray-100 group hover:bg-gray-50/40">
+<div class="p-2 border-r border-gray-200 text-right pr-3 text-xs font-medium text-gray-400">5:00 PM</div>
+<!-- Kojo 5:30 PM Booking -->
+<div class="border-r border-gray-200 p-1.5">
+<div class="bg-white border border-gray-200 rounded-xl p-2.5 h-full flex flex-col justify-between shadow-2xs">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-1">
+<span class="text-xs font-bold text-gray-900">Yaw Boateng</span>
+<span class="text-[9px] font-bold bg-purple-50 text-purple-700 px-1 py-0.2 rounded">Upcoming</span>
+</div>
+<p class="text-[11px] text-gray-600">Beard Sculpting &amp; Hot Towel Conditioning</p>
+</div>
+<span class="text-xs font-bold text-gray-900">GH₵ 50</span>
+</div>
+<div class="flex items-center justify-between text-[10px] text-gray-500 pt-1 border-t border-gray-100">
+<span>5:30 - 6:15 PM</span>
+<span class="font-medium text-gray-700">MoMo on Arrival</span>
+</div>
+</div>
+</div>
+<!-- Kwame Asante 5:00 PM -->
+<div class="border-r border-gray-200 p-1.5">
+<div class="bg-white border border-gray-200 rounded-xl p-2.5 h-full flex flex-col justify-between shadow-2xs">
+<div class="flex items-start justify-between">
+<div>
+<span class="text-xs font-bold text-gray-900">Kojo Frimpong</span>
+<p class="text-[11px] text-gray-600">Full Royal Combo</p>
+</div>
+<span class="text-xs font-bold text-gray-900">GH₵ 120</span>
+</div>
+<div class="text-[10px] text-gray-400 text-right">5:00 - 6:00 PM</div>
+</div>
+</div>
+<!-- Emmanuel Osei -->
+<div class="p-1.5">
+<div class="h-full rounded-xl border border-dashed border-gray-200 hover:border-brand/40 flex items-center justify-center text-xs text-gray-400 hover:text-brand hover:bg-rose-50/30 transition-all cursor-pointer">
+<span class="material-symbols-outlined text-[14px] mr-1">add</span> Available
+                  </div>
+</div>
+</div>
+<!-- Time Row: 6:00 PM to 8:00 PM (Evening Closing) -->
+<div class="grid grid-cols-[100px_1fr_1fr_1fr] min-h-[65px] border-b border-gray-100 group hover:bg-gray-50/40">
+<div class="p-2 border-r border-gray-200 text-right pr-3 text-xs font-medium text-gray-400">6:00 PM</div>
+<div class="border-r border-gray-200 p-1.5">
+<div class="h-full rounded-xl border border-dashed border-gray-200 hover:border-brand/40 flex items-center justify-center text-xs text-gray-400 hover:text-brand hover:bg-rose-50/30 transition-all cursor-pointer">
+<span class="material-symbols-outlined text-[14px] mr-1">add</span> Evening Slot Open
+                  </div>
+</div>
+<div class="border-r border-gray-200 p-1.5">
+<div class="h-full rounded-xl border border-dashed border-gray-200 hover:border-brand/40 flex items-center justify-center text-xs text-gray-400 hover:text-brand hover:bg-rose-50/30 transition-all cursor-pointer">
+<span class="material-symbols-outlined text-[14px] mr-1">add</span> Evening Slot Open
+                  </div>
+</div>
+<div class="p-1.5">
+<div class="h-full rounded-xl border border-dashed border-gray-200 hover:border-brand/40 flex items-center justify-center text-xs text-gray-400 hover:text-brand hover:bg-rose-50/30 transition-all cursor-pointer">
+<span class="material-symbols-outlined text-[14px] mr-1">add</span> Evening Slot Open
+                  </div>
+</div>
+</div>
+<!-- Closing Footer Row -->
+<div class="grid grid-cols-[100px_1fr] bg-gray-50/80 p-3 border-t border-gray-200 text-xs text-gray-500">
+<div class="text-right pr-3 font-bold text-gray-400">8:00 PM</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-gray-400 text-[16px]">lock_clock</span>
+<span>Shop Closing Time (8:00 PM). All chair schedules automatically archived to daily settlement report.</span>
+</div>
+<div class="flex items-center gap-2 text-[11px] font-semibold text-brand">
+<span class="material-symbols-outlined text-[15px]">verified_user</span>
+<span>MTN MoMo &amp; Telecel Escrow Secured</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+</div>
+</div>
+</body>
+</html>

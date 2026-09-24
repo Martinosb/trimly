@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Trimly - Owner Dashboard</title>
+<!-- Google Fonts Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-primary-fixed-variant": "#920029",
+            "error-container": "#ffdad6",
+            "background": "#f9f9f9",
+            "surface-bright": "#f9f9f9",
+            "surface-container-highest": "#e2e2e2",
+            "surface-container-high": "#e8e8e8",
+            "on-secondary-fixed": "#1b1c1c",
+            "surface": "#f9f9f9",
+            "surface-tint": "#be0038",
+            "secondary-fixed-dim": "#c8c6c5",
+            "inverse-primary": "#ffb2b6",
+            "on-tertiary": "#ffffff",
+            "on-error-container": "#93000a",
+            "on-primary-container": "#fffbff",
+            "primary-fixed": "#ffdada",
+            "tertiary": "#006a45",
+            "on-error": "#ffffff",
+            "surface-container-low": "#f3f3f4",
+            "inverse-on-surface": "#f0f1f1",
+            "on-secondary-container": "#636262",
+            "on-primary": "#ffffff",
+            "on-tertiary-fixed-variant": "#005234",
+            "tertiary-container": "#008558",
+            "on-surface": "#1a1c1c",
+            "primary-container": "#e21e4a",
+            "outline": "#906f70",
+            "error": "#ba1a1a",
+            "primary": "#ba0036",
+            "on-secondary-fixed-variant": "#474746",
+            "on-background": "#1a1c1c",
+            "surface-container-lowest": "#ffffff",
+            "secondary-container": "#e2dfde",
+            "on-tertiary-fixed": "#002113",
+            "secondary": "#5f5e5e",
+            "secondary-fixed": "#e5e2e1",
+            "surface-dim": "#dadada",
+            "on-surface-variant": "#5c3f41",
+            "primary-fixed-dim": "#ffb2b6",
+            "on-tertiary-container": "#f6fff6",
+            "tertiary-fixed": "#80f9bd",
+            "tertiary-fixed-dim": "#62dca3",
+            "on-primary-fixed": "#40000d",
+            "surface-variant": "#e2e2e2",
+            "surface-container": "#eeeeee",
+            "outline-variant": "#e5bdbe",
+            "on-secondary": "#ffffff",
+            "inverse-surface": "#2f3131"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "fontFamily": {
+            "headline": ["Inter", "sans-serif"],
+            "display": ["Inter", "sans-serif"],
+            "body": ["Inter", "sans-serif"],
+            "label": ["Inter", "sans-serif"]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body antialiased min-h-screen pb-28">
+<!-- Mobile Wrapper Container -->
+<div class="max-w-md mx-auto min-h-screen relative flex flex-col bg-background">
+<!-- TopAppBar Component (from JSON Specification) -->
+<header class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 h-16 w-full max-w-md mx-auto bg-surface-container-lowest dark:bg-surface shadow-sm">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-full bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="storefront">storefront</span>
+</div>
+<div>
+<h1 class="font-headline font-bold text-base tracking-tight text-on-surface dark:text-inverse-on-surface leading-tight">Gentlemen's Cut Osu</h1>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-tertiary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-tertiary"></span>
+</span>
+<span class="text-[11px] font-medium text-tertiary">Live Sync</span>
+<span class="text-[10px] text-secondary">• Chair Sync 2.4s</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<button class="p-2 rounded-full hover:bg-surface-container-low transition-colors duration-150 active:scale-95 text-secondary" title="Sync Appointments">
+<span class="material-symbols-outlined text-[20px]" data-icon="sync">sync</span>
+</button>
+<button class="p-2 rounded-full hover:bg-surface-container-low transition-colors duration-150 active:scale-95 text-secondary relative" title="Notifications">
+<span class="material-symbols-outlined text-[20px]" data-icon="notifications">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-primary rounded-full ring-2 ring-surface-container-lowest"></span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-20 px-4 flex flex-col gap-4">
+<!-- Date Switcher Strip -->
+<section class="flex items-center justify-between bg-surface-container-lowest rounded-xl p-2.5 shadow-sm border border-surface-container-highest/60">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-secondary hover:bg-surface-container-low transition-colors active:scale-95">
+<span class="material-symbols-outlined text-sm" data-icon="chevron_left">chevron_left</span>
+</button>
+<div class="flex items-center gap-2 cursor-pointer py-1 px-2.5 rounded-lg hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-primary text-[18px]" data-icon="calendar_month">calendar_month</span>
+<span class="font-headline font-semibold text-sm text-on-surface">Tue, Sep 25, 2025</span>
+<span class="bg-primary/10 text-primary text-[10px] font-bold px-1.5 py-0.5 rounded-md">TODAY</span>
+</div>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-secondary hover:bg-surface-container-low transition-colors active:scale-95">
+<span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</button>
+</section>
+<!-- Staff Filter Chips -->
+<section class="w-full overflow-x-auto no-scrollbar py-0.5">
+<div class="flex items-center gap-2 min-w-max">
+<!-- Active Filter Pill -->
+<button class="flex items-center gap-1.5 bg-primary text-on-primary px-3.5 py-2 rounded-full text-xs font-semibold shadow-sm transition-transform active:scale-95">
+<span class="material-symbols-outlined text-sm" data-icon="check" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check</span>
+<span>All (3)</span>
+</button>
+<!-- Staff Pill: Kojo Mensah -->
+<button class="flex items-center gap-2 bg-surface-container-lowest border border-surface-container-highest px-3.5 py-1.5 rounded-full text-xs font-medium text-on-surface hover:bg-surface-container-low transition-colors active:scale-95">
+<div class="w-5 h-5 rounded-full bg-surface-container-high text-on-surface font-bold text-[10px] flex items-center justify-center ring-1 ring-tertiary">
+              KM
+            </div>
+<span>Kojo Mensah</span>
+<span class="bg-surface-container px-1.5 py-0.5 rounded-full text-[10px] text-secondary font-semibold">7</span>
+</button>
+<!-- Staff Pill: Kwame Asante -->
+<button class="flex items-center gap-2 bg-surface-container-lowest border border-surface-container-highest px-3.5 py-1.5 rounded-full text-xs font-medium text-on-surface hover:bg-surface-container-low transition-colors active:scale-95">
+<div class="w-5 h-5 rounded-full bg-surface-container-high text-on-surface font-bold text-[10px] flex items-center justify-center">
+              KA
+            </div>
+<span>Kwame Asante</span>
+<span class="bg-surface-container px-1.5 py-0.5 rounded-full text-[10px] text-secondary font-semibold">6</span>
+</button>
+<!-- Staff Pill: Emmanuel Osei -->
+<button class="flex items-center gap-2 bg-surface-container-lowest border border-surface-container-highest px-3.5 py-1.5 rounded-full text-xs font-medium text-on-surface hover:bg-surface-container-low transition-colors active:scale-95">
+<div class="w-5 h-5 rounded-full bg-surface-container-high text-on-surface font-bold text-[10px] flex items-center justify-center">
+              EO
+            </div>
+<span>Emmanuel Osei</span>
+<span class="bg-surface-container px-1.5 py-0.5 rounded-full text-[10px] text-secondary font-semibold">5</span>
+</button>
+</div>
+</section>
+<!-- Real-Time Daily Stats Summary Grid -->
+<section class="grid grid-cols-3 gap-2.5">
+<!-- Metric 1: Bookings -->
+<div class="bg-surface-container-lowest p-3 rounded-xl border border-surface-container-highest/70 flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between mb-1">
+<span class="text-[11px] font-medium text-secondary">Bookings</span>
+<span class="material-symbols-outlined text-[16px] text-primary" data-icon="book_online">book_online</span>
+</div>
+<div>
+<div class="text-lg font-headline font-bold text-on-surface tracking-tight">18</div>
+<p class="text-[10px] font-medium text-secondary truncate mt-0.5">4 remaining today</p>
+</div>
+</div>
+<!-- Metric 2: Revenue -->
+<div class="bg-surface-container-lowest p-3 rounded-xl border border-surface-container-highest/70 flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between mb-1">
+<span class="text-[11px] font-medium text-secondary">Revenue</span>
+<span class="material-symbols-outlined text-[16px] text-tertiary" data-icon="payments">payments</span>
+</div>
+<div>
+<div class="text-lg font-headline font-bold text-on-surface tracking-tight">GH₵ 1,450</div>
+<span class="inline-block text-[9px] font-semibold text-tertiary bg-tertiary/10 px-1.5 py-0.5 rounded mt-0.5 truncate max-w-full">
+              GH₵ 420 MoMo
+            </span>
+</div>
+</div>
+<!-- Metric 3: Chair Attendance -->
+<div class="bg-surface-container-lowest p-3 rounded-xl border border-surface-container-highest/70 flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between mb-1">
+<span class="text-[11px] font-medium text-secondary">No-Shows</span>
+<span class="material-symbols-outlined text-[16px] text-tertiary" data-icon="verified">verified</span>
+</div>
+<div>
+<div class="text-lg font-headline font-bold text-on-surface tracking-tight">0</div>
+<p class="text-[10px] font-medium text-tertiary truncate mt-0.5 flex items-center gap-0.5">
+<span>100% Chair</span>
+</p>
+</div>
+</div>
+</section>
+<!-- Shop Context Image Preview -->
+<section class="relative rounded-2xl overflow-hidden shadow-sm border border-surface-container-highest/60 group">
+<div class="h-32 w-full bg-cover bg-center" data-alt="A sunlit, upscale modern barbershop in Osu Accra with polished terrazzo flooring, deep mahogany timber paneling, and brushed brass arched mirrors. High ceiling beams cast subtle shadows while skilled barbers attend to discerning gentlemen seated in custom leather chairs. Clean daylight filters through large black gridded windows creating an inviting, prestigious grooming atmosphere with lush indoor fiddle-leaf plants." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBZ3L0utdGVXe19uNNTA52WXRzJMEECqR4Tb3A1KxKiHyQ_W5QPghZ1LWxk4K5ZZ0YFVNyhFdsTgmf6sfUYHv_hWREEHRh15IaQBQfUTSmAsSvdz8YDPB3KxepinR9zKi7VwfjWt_Rb3THpIp12w3JyxllnoxvO9n2tsZLbS_4ylg18asgmPqlnYTYpddT3uqDVZZVltq3TJT3U5ogWnVab7pzrvV5IXZnb1KnwWEO_Iw9OgzRoGCTQSu_SyZIeR5VTcbPSd_xaty4')">
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent flex items-end p-3 text-white">
+<div class="flex items-center justify-between w-full">
+<div>
+<p class="text-[10px] font-medium tracking-wide uppercase text-white/80">Osu Oxford Street Branch</p>
+<h2 class="text-xs font-headline font-bold text-white flex items-center gap-1.5">
+<span>Shop Floor Capacity: 3 Active Chairs</span>
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary-fixed"></span>
+</h2>
+</div>
+<span class="bg-surface-container-lowest/20 backdrop-blur-md text-[10px] font-medium px-2 py-1 rounded text-white border border-white/20">
+              Station Map
+            </span>
+</div>
+</div>
+</section>
+<!-- Live Schedule Timeline Header -->
+<div class="flex items-center justify-between pt-1">
+<div>
+<h2 class="text-sm font-headline font-bold text-on-surface tracking-tight">Today's Chair Schedule</h2>
+<p class="text-[11px] text-secondary">5 sessions recorded across 3 barbers</p>
+</div>
+<div class="flex items-center gap-1.5 bg-primary/10 px-2.5 py-1 rounded-full border border-primary/20">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="text-[11px] font-semibold text-primary font-headline">Current Time: 2:15 PM</span>
+</div>
+</div>
+<!-- Schedule Timeline Stack -->
+<section class="space-y-3 relative">
+<!-- Timeline Line Accent -->
+<div class="absolute left-[4.85rem] top-3 bottom-6 w-0.5 bg-surface-container-highest -z-0"></div>
+<!-- 1. COMPLETED CARD -->
+<div class="flex items-start gap-3 relative z-10 opacity-80 hover:opacity-100 transition-opacity">
+<!-- Time Column -->
+<div class="w-16 pt-1 text-right flex-shrink-0">
+<span class="text-xs font-bold text-secondary block leading-none">9:00 AM</span>
+<span class="text-[10px] text-secondary font-medium">9:45 AM</span>
+</div>
+<!-- Timeline Node -->
+<div class="w-3.5 h-3.5 rounded-full bg-surface-container-highest border-2 border-surface-container-lowest flex items-center justify-center mt-1 flex-shrink-0">
+<div class="w-1.5 h-1.5 rounded-full bg-secondary"></div>
+</div>
+<!-- Card Content -->
+<div class="flex-1 bg-surface-container-lowest rounded-xl p-3 border border-surface-container-highest shadow-sm">
+<div class="flex items-center justify-between mb-1">
+<span class="inline-flex items-center gap-1 text-[10px] font-semibold text-secondary bg-surface-container-low px-2 py-0.5 rounded-full border border-surface-container-highest">
+<span class="material-symbols-outlined text-[12px]" data-icon="check_circle">check_circle</span>
+                Completed
+              </span>
+<span class="text-xs font-bold text-on-surface">GH₵ 80</span>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<h3 class="font-headline font-semibold text-xs text-on-surface">Nii Armah</h3>
+<p class="text-[11px] text-secondary">Signature Haircut &amp; Hot Towel</p>
+</div>
+<div class="text-right">
+<span class="text-[11px] font-medium text-on-surface block">Barber: Kojo</span>
+<span class="text-[10px] text-tertiary font-medium">Settled via MTN MoMo</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Live Current Time Indicator Marker -->
+<div class="relative flex items-center gap-2 py-1 my-1">
+<div class="w-16 text-right">
+<span class="text-[10px] font-bold text-primary">2:15 PM</span>
+</div>
+<div class="w-2.5 h-2.5 rounded-full bg-primary ring-4 ring-primary/20 flex-shrink-0"></div>
+<div class="flex-1 border-t-2 border-dashed border-primary/50"></div>
+<span class="text-[9px] font-bold text-primary uppercase tracking-wider bg-surface-container-lowest px-1 rounded">Now</span>
+</div>
+<!-- 2. IN CHAIR CARD (Active) -->
+<div class="flex items-start gap-3 relative z-10">
+<!-- Time Column -->
+<div class="w-16 pt-1 text-right flex-shrink-0">
+<span class="text-xs font-bold text-primary block leading-none">1:30 PM</span>
+<span class="text-[10px] text-secondary font-medium">2:15 PM</span>
+</div>
+<!-- Timeline Node -->
+<div class="w-3.5 h-3.5 rounded-full bg-tertiary-container border-2 border-surface-container-lowest flex items-center justify-center mt-1 flex-shrink-0 animate-pulse">
+<div class="w-1.5 h-1.5 rounded-full bg-surface-container-lowest"></div>
+</div>
+<!-- Card Content -->
+<div class="flex-1 bg-surface-container-lowest rounded-xl p-3 border-2 border-tertiary-container/30 shadow-md relative overflow-hidden">
+<div class="absolute top-0 right-0 w-24 h-24 bg-tertiary/5 rounded-full -mr-8 -mt-8 pointer-events-none"></div>
+<div class="flex items-center justify-between mb-1.5">
+<span class="inline-flex items-center gap-1.5 text-[10px] font-bold text-tertiary bg-tertiary-fixed/30 px-2 py-0.5 rounded-full">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-ping"></span>
+                In Chair • Chair 1 - Active
+              </span>
+<span class="text-xs font-extrabold text-on-surface">GH₵ 120</span>
+</div>
+<div class="flex items-start justify-between">
+<div>
+<h3 class="font-headline font-bold text-sm text-on-surface">Fiifi Mensah</h3>
+<p class="text-[11px] text-secondary">Royal Combo (Haircut + Beard Glow)</p>
+<div class="flex items-center gap-1.5 mt-1">
+<span class="text-[10px] text-secondary">Barber:</span>
+<span class="text-[11px] font-semibold text-on-surface">Kwame Asante</span>
+</div>
+</div>
+<button class="bg-surface-container-low hover:bg-surface-container text-on-surface font-semibold text-[11px] px-2.5 py-1.5 rounded-lg border border-surface-container-highest transition-colors active:scale-95 shadow-sm">
+                Complete Cut
+              </button>
+</div>
+<div class="mt-2.5 pt-2 border-t border-surface-container flex items-center justify-between text-[11px]">
+<span class="text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-tertiary" data-icon="schedule">schedule</span>
+                Finishing line-up (10m left)
+              </span>
+<span class="text-tertiary font-medium">MTN MoMo Pre-paid</span>
+</div>
+</div>
+</div>
+<!-- 3. PRIMARY FEATURED CARD (Confirmed 3:30 PM - 4:15 PM) -->
+<div class="flex items-start gap-3 relative z-10 pt-1">
+<!-- Time Column -->
+<div class="w-16 pt-1 text-right flex-shrink-0">
+<span class="text-xs font-bold text-on-surface block leading-none">3:30 PM</span>
+<span class="text-[10px] text-secondary font-medium">4:15 PM</span>
+</div>
+<!-- Timeline Node -->
+<div class="w-3.5 h-3.5 rounded-full bg-primary border-2 border-surface-container-lowest flex items-center justify-center mt-1 flex-shrink-0 ring-2 ring-primary/20">
+<div class="w-1.5 h-1.5 rounded-full bg-white"></div>
+</div>
+<!-- Card Content -->
+<div class="flex-1 bg-surface-container-lowest rounded-xl p-3.5 border-2 border-primary/40 shadow-lg relative">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-2">
+<span class="bg-tertiary text-on-tertiary text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]" data-icon="verified_user">verified_user</span>
+                    Confirmed
+                  </span>
+<span class="text-[10px] font-mono text-secondary font-semibold">#TRM-8492</span>
+</div>
+<h3 class="font-headline font-bold text-sm text-on-surface mt-1">Kweku Annan</h3>
+<p class="text-[11px] font-medium text-secondary">Signature Haircut &amp; Line-up</p>
+</div>
+<div class="text-right">
+<span class="text-sm font-extrabold text-primary block leading-none">GH₵ 80</span>
+<span class="text-[10px] font-semibold text-secondary">Chair 1 (Kojo)</span>
+</div>
+</div>
+<!-- Notes Callout -->
+<div class="mt-2.5 bg-surface-container-low/80 p-2 rounded-lg border border-surface-container-highest/60 flex items-start gap-2">
+<span class="material-symbols-outlined text-[14px] text-primary mt-0.5" data-icon="stylus">stylus</span>
+<p class="text-[11px] text-on-surface-variant font-medium leading-tight">
+<strong class="font-bold text-on-surface">Client notes:</strong> "Low skin fade on sides, keep length on top."
+              </p>
+</div>
+<!-- Financial Breakdown / MoMo Escrow status -->
+<div class="mt-2 text-[11px] text-secondary flex items-center justify-between border-b border-surface-container pb-2">
+<span class="flex items-center gap-1 text-tertiary font-semibold">
+<span class="material-symbols-outlined text-[14px]" data-icon="lock">lock</span>
+                GH₵ 30 MoMo Deposit Paid
+              </span>
+<span class="text-secondary font-medium">GH₵ 50 due at chair</span>
+</div>
+<!-- Action Cluster -->
+<div class="grid grid-cols-3 gap-1.5 mt-2.5">
+<button class="flex items-center justify-center gap-1 bg-surface-container-low hover:bg-surface-container-high text-on-surface font-semibold text-[11px] py-2 rounded-lg border border-surface-container-highest transition-colors active:scale-95">
+<span class="material-symbols-outlined text-[14px] text-secondary" data-icon="call">call</span>
+<span>Call</span>
+</button>
+<button class="flex items-center justify-center gap-1 bg-tertiary text-white font-semibold text-[11px] py-2 rounded-lg transition-transform active:scale-95 shadow-sm hover:bg-tertiary-container">
+<span class="material-symbols-outlined text-[14px]" data-icon="chat">chat</span>
+<span>WhatsApp</span>
+</button>
+<button class="flex items-center justify-center gap-1 bg-primary text-white font-semibold text-[11px] py-2 rounded-lg transition-transform active:scale-95 shadow-sm hover:bg-primary-container">
+<span class="material-symbols-outlined text-[14px]" data-icon="qr_code_scanner">qr_code_scanner</span>
+<span>Scan QR</span>
+</button>
+</div>
+</div>
+</div>
+<!-- 4. OPEN CHAIR SLOT CARD -->
+<div class="flex items-start gap-3 relative z-10">
+<!-- Time Column -->
+<div class="w-16 pt-1 text-right flex-shrink-0">
+<span class="text-xs font-semibold text-secondary block leading-none">4:30 PM</span>
+<span class="text-[10px] text-secondary font-medium">5:15 PM</span>
+</div>
+<!-- Timeline Node -->
+<div class="w-3.5 h-3.5 rounded-full bg-surface-container-highest border-2 border-surface-container-lowest flex items-center justify-center mt-1 flex-shrink-0">
+<div class="w-1.5 h-1.5 rounded-full bg-outline-variant"></div>
+</div>
+<!-- Card Content (Dashed Open Slot) -->
+<div class="flex-1 bg-surface-container-lowest/80 border-2 border-dashed border-outline-variant/60 rounded-xl p-3 flex items-center justify-between hover:bg-surface-container-lowest transition-colors">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[18px]" data-icon="chair">chair</span>
+</div>
+<div>
+<h4 class="font-headline font-semibold text-xs text-on-surface">Master Chair 2 Available</h4>
+<p class="text-[11px] text-secondary">Open window (45 min gap)</p>
+</div>
+</div>
+<button class="bg-primary/10 hover:bg-primary/20 text-primary font-bold text-[11px] px-3 py-1.5 rounded-lg transition-colors active:scale-95 flex items-center gap-1">
+<span class="material-symbols-outlined text-xs" data-icon="add">add</span>
+              Quick Book
+            </button>
+</div>
+</div>
+<!-- 5. UPCOMING APPOINTMENT -->
+<div class="flex items-start gap-3 relative z-10">
+<!-- Time Column -->
+<div class="w-16 pt-1 text-right flex-shrink-0">
+<span class="text-xs font-semibold text-secondary block leading-none">5:30 PM</span>
+<span class="text-[10px] text-secondary font-medium">6:15 PM</span>
+</div>
+<!-- Timeline Node -->
+<div class="w-3.5 h-3.5 rounded-full bg-surface-container-highest border-2 border-surface-container-lowest flex items-center justify-center mt-1 flex-shrink-0">
+<div class="w-1.5 h-1.5 rounded-full bg-secondary"></div>
+</div>
+<!-- Card Content -->
+<div class="flex-1 bg-surface-container-lowest rounded-xl p-3 border border-surface-container-highest shadow-sm">
+<div class="flex items-center justify-between mb-1">
+<span class="text-[10px] font-semibold text-secondary bg-surface-container px-2 py-0.5 rounded-full">
+                Upcoming
+              </span>
+<span class="text-xs font-bold text-on-surface">GH₵ 50</span>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<h3 class="font-headline font-semibold text-xs text-on-surface">Yaw Boateng</h3>
+<p class="text-[11px] text-secondary">Beard Sculpting &amp; Conditioning</p>
+</div>
+<div class="text-right">
+<span class="text-[11px] font-semibold text-on-surface block">Barber: Emmanuel</span>
+<span class="text-[10px] text-secondary font-medium">MoMo on Arrival</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Quick Summary Footer Info -->
+<section class="bg-surface-container-low p-3.5 rounded-xl border border-surface-container-highest text-center mb-6">
+<p class="text-[11px] text-secondary">
+          End of Day closing scheduled at <span class="font-semibold text-on-surface">8:00 PM</span>. All deposits are protected by <span class="text-primary font-semibold">Trimly MoMo Escrow</span>.
+        </p>
+</section>
+</main>
+<!-- Contextual Floating Action Button (FAB) -->
+<div class="fixed bottom-20 right-4 z-40 max-w-md mx-auto">
+<button class="bg-primary hover:bg-primary-container text-white font-headline font-bold text-sm px-4 py-3 rounded-full shadow-lg flex items-center gap-2 transition-transform duration-150 active:scale-95 border border-white/20">
+<span class="material-symbols-outlined text-[20px]" data-icon="add">add</span>
+<span>+ Add Walk-in</span>
+</button>
+</div>
+<!-- BottomNavBar Component (from JSON Specification) -->
+<!-- Active State: 'Schedule' is active; strictly implementing style_shell_layout & style_active_navigation -->
+<nav class="fixed bottom-0 left-0 right-0 z-50 flex justify-around items-center h-16 px-2 w-full max-w-md mx-auto pb-safe bg-surface-container-lowest dark:bg-surface shadow-[0_-1px_3px_rgba(0,0,0,0.05)]">
+<!-- Nav 1: Schedule (ACTIVE) -->
+<a class="flex flex-col items-center justify-center text-primary dark:text-inverse-primary gap-1 py-1 transition-transform duration-100 active:scale-95" href="#schedule">
+<span class="material-symbols-outlined text-[22px]" data-icon="calendar_today" data-weight="fill" style="font-variation-settings: 'FILL' 1;">calendar_today</span>
+<span class="font-label font-medium text-[11px] tracking-tight">Schedule</span>
+</a>
+<!-- Nav 2: Services -->
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim gap-1 py-1 hover:text-primary dark:hover:text-inverse-primary transition-colors duration-150 active:scale-95" href="#services">
+<span class="material-symbols-outlined text-[22px]" data-icon="content_cut">content_cut</span>
+<span class="font-label font-medium text-[11px] tracking-tight">Services</span>
+</a>
+<!-- Nav 3: Staff -->
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim gap-1 py-1 hover:text-primary dark:hover:text-inverse-primary transition-colors duration-150 active:scale-95" href="#staff">
+<span class="material-symbols-outlined text-[22px]" data-icon="groups">groups</span>
+<span class="font-label font-medium text-[11px] tracking-tight">Staff</span>
+</a>
+<!-- Nav 4: Settings -->
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim gap-1 py-1 hover:text-primary dark:hover:text-inverse-primary transition-colors duration-150 active:scale-95" href="#settings">
+<span class="material-symbols-outlined text-[22px]" data-icon="tune">tune</span>
+<span class="font-label font-medium text-[11px] tracking-tight">Settings</span>
+</a>
+</nav>
+</div>
+</body></html>

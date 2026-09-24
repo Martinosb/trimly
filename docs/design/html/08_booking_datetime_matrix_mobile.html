@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Trimly - Select Date &amp; Time</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-variant": "#e2e2e2",
+            "secondary-container": "#e2dfde",
+            "surface-container-high": "#e8e8e8",
+            "on-primary-fixed-variant": "#920029",
+            "surface-container-low": "#f3f3f4",
+            "on-tertiary-container": "#f6fff6",
+            "inverse-primary": "#ffb2b6",
+            "on-error-container": "#93000a",
+            "background": "#f9f9f9",
+            "tertiary-fixed-dim": "#62dca3",
+            "on-error": "#ffffff",
+            "surface-container": "#eeeeee",
+            "on-secondary-container": "#636262",
+            "on-background": "#1a1c1c",
+            "error": "#ba1a1a",
+            "on-tertiary-fixed": "#002113",
+            "inverse-on-surface": "#f0f1f1",
+            "surface-bright": "#f9f9f9",
+            "primary-fixed-dim": "#ffb2b6",
+            "on-surface": "#1a1c1c",
+            "tertiary-fixed": "#80f9bd",
+            "outline": "#906f70",
+            "secondary-fixed": "#e5e2e1",
+            "on-primary": "#ffffff",
+            "secondary": "#5f5e5e",
+            "primary-container": "#e21e4a",
+            "inverse-surface": "#2f3131",
+            "on-primary-container": "#fffbff",
+            "on-surface-variant": "#5c3f41",
+            "tertiary": "#006a45",
+            "surface-container-highest": "#e2e2e2",
+            "outline-variant": "#e5bdbe",
+            "primary-fixed": "#ffdada",
+            "on-secondary-fixed-variant": "#474746",
+            "error-container": "#ffdad6",
+            "surface-tint": "#be0038",
+            "secondary-fixed-dim": "#c8c6c5",
+            "on-primary-fixed": "#40000d",
+            "surface": "#f9f9f9",
+            "surface-dim": "#dadada",
+            "on-tertiary": "#ffffff",
+            "on-secondary-fixed": "#1b1c1c",
+            "on-tertiary-fixed-variant": "#005234",
+            "tertiary-container": "#008558",
+            "on-secondary": "#ffffff",
+            "primary": "#ba0036",
+            "surface-container-lowest": "#ffffff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "fontFamily": {
+            "headline": ["Inter", "sans-serif"],
+            "display": ["Inter", "sans-serif"],
+            "body": ["Inter", "sans-serif"],
+            "label": ["Inter", "sans-serif"]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      font-family: 'Inter', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface antialiased flex justify-center min-h-screen">
+<main class="w-full max-w-md bg-surface-container-lowest min-h-screen flex flex-col relative shadow-2xl pb-32">
+<!-- TopAppBar (from Shared Components JSON) -->
+<header class="fixed top-0 left-0 right-0 z-40 bg-surface/90 backdrop-blur-md shadow-sm border-b border-surface-container-high transition-colors">
+<div class="flex justify-between items-center w-full px-4 h-16 max-w-md mx-auto">
+<button aria-label="Back" class="p-2 rounded-full text-on-surface hover:bg-surface-container active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[24px]">arrow_back</span>
+</button>
+<div class="flex flex-col items-center">
+<span class="font-headline font-bold text-lg text-on-surface tracking-tight">The Osei Kings</span>
+<span class="font-label text-xs text-secondary font-medium tracking-wide">Step 3 of 4: Select Date &amp; Time</span>
+</div>
+<button aria-label="Share" class="p-2 rounded-full text-on-surface hover:bg-surface-container active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[22px]">share</span>
+</button>
+</div>
+<!-- Sleek Progress Bar (75% completed) -->
+<div class="w-full bg-surface-container h-1 overflow-hidden">
+<div class="bg-primary-container h-full w-3/4 rounded-r-full transition-all duration-500 ease-out"></div>
+</div>
+</header>
+<!-- Main Content Container with Top Safe Area Offset -->
+<div class="pt-20 px-5 flex flex-col gap-6">
+<!-- Barber & Service Summary Pill Card -->
+<div class="flex items-center justify-between p-3.5 bg-surface rounded-2xl border border-surface-container-high shadow-sm hover:border-outline-variant transition-colors">
+<div class="flex items-center gap-3">
+<img class="w-12 h-12 rounded-full object-cover ring-2 ring-surface-container-lowest" data-alt="A distinguished male barber with trimmed neat beard wearing an authentic modern apron in a luxury light-filled Accra studio with pristine warm lighting and elegant mahogany mirrors." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkd0GTnht6oUGwd3HUp-WKbvmX8n5O4e4_BCJ1iW62xgK4k3YL5TfoUe7XxK_yieTiUv7WBizbnaPur2ehMYdwRocgX1JJveD2LpoPOBayRUlKXZa7ZdC74pNPyiOH6NIMAy4773nbN6y7_4zyKnxOE-HScT5tB_J-7TwlFfB3XPQB4nSdSrZgCqC-O3KeDoaNNMdPmHown-r5ld-apGEZA38j0P8y9ppAsyKrOmQh8UxVr_69rO_ldKSiABQPXFx6oF-DrONfU2M"/>
+<div class="flex flex-col">
+<span class="font-headline text-sm font-bold text-on-surface flex items-center gap-1.5">
+              Kojo Mensah
+              <span class="inline-flex items-center text-tertiary text-xs font-semibold">
+<span class="material-symbols-outlined text-[15px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+</span>
+</span>
+<span class="font-body text-xs text-secondary font-medium">Haircut &amp; Line-up (45m) • GH₵ 80</span>
+</div>
+</div>
+<button class="text-xs font-semibold text-primary px-3 py-1.5 rounded-full hover:bg-primary-fixed transition-colors active:scale-95" type="button">
+          Change
+        </button>
+</div>
+<!-- Date Selection Strip -->
+<section class="flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<h2 class="font-headline text-base font-bold text-on-surface tracking-tight">September 2025</h2>
+<button aria-label="Select month" class="text-on-surface-variant hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-lg">calendar_month</span>
+</button>
+</div>
+<!-- Real-time availability micro badge -->
+<div class="flex items-center gap-1.5 bg-surface-container-low px-2.5 py-1 rounded-full border border-surface-container-high">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+<span class="font-label text-xs font-medium text-tertiary">14 slots available</span>
+</div>
+</div>
+<!-- Horizontal Date Picker Strip -->
+<div class="flex items-center gap-2.5 overflow-x-auto pb-1 pt-0.5 hide-scrollbar">
+<!-- Mon 24 -->
+<button class="flex flex-col items-center justify-center min-w-[3.75rem] py-3 rounded-2xl border border-surface-container-high bg-surface-container-lowest hover:border-secondary active:scale-95 transition-all" type="button">
+<span class="text-[11px] font-medium text-secondary uppercase tracking-wider">Mon</span>
+<span class="text-base font-bold text-on-surface mt-0.5">24</span>
+</button>
+<!-- Tue 25: SELECTED (Today) -->
+<button class="flex flex-col items-center justify-center min-w-[3.75rem] py-3 rounded-2xl bg-on-surface text-surface-container-lowest shadow-md active:scale-95 transition-all ring-2 ring-on-surface ring-offset-2 ring-offset-surface-container-lowest relative" type="button">
+<span class="text-[10px] font-semibold text-primary-fixed uppercase tracking-wider">Today</span>
+<span class="text-base font-extrabold text-surface-container-lowest mt-0.5">25</span>
+</button>
+<!-- Wed 26 -->
+<button class="flex flex-col items-center justify-center min-w-[3.75rem] py-3 rounded-2xl border border-surface-container-high bg-surface-container-lowest hover:border-secondary active:scale-95 transition-all" type="button">
+<span class="text-[11px] font-medium text-secondary uppercase tracking-wider">Wed</span>
+<span class="text-base font-bold text-on-surface mt-0.5">26</span>
+</button>
+<!-- Thu 27 -->
+<button class="flex flex-col items-center justify-center min-w-[3.75rem] py-3 rounded-2xl border border-surface-container-high bg-surface-container-lowest hover:border-secondary active:scale-95 transition-all" type="button">
+<span class="text-[11px] font-medium text-secondary uppercase tracking-wider">Thu</span>
+<span class="text-base font-bold text-on-surface mt-0.5">27</span>
+</button>
+<!-- Fri 28 -->
+<button class="flex flex-col items-center justify-center min-w-[3.75rem] py-3 rounded-2xl border border-surface-container-high bg-surface-container-lowest hover:border-secondary active:scale-95 transition-all" type="button">
+<span class="text-[11px] font-medium text-secondary uppercase tracking-wider">Fri</span>
+<span class="text-base font-bold text-on-surface mt-0.5">28</span>
+</button>
+<!-- Sat 29 -->
+<button class="flex flex-col items-center justify-center min-w-[3.75rem] py-3 rounded-2xl border border-surface-container-high bg-surface-container-lowest hover:border-secondary active:scale-95 transition-all" type="button">
+<span class="text-[11px] font-medium text-secondary uppercase tracking-wider">Sat</span>
+<span class="text-base font-bold text-on-surface mt-0.5">29</span>
+</button>
+</div>
+</section>
+<!-- Double-Booking Prevention Live Hold Banner -->
+<section class="bg-primary-fixed/40 border border-primary-fixed-dim/60 rounded-2xl p-3.5 flex items-start gap-3 shadow-xs">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+<span class="material-symbols-outlined text-[18px]">lock_clock</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<span class="text-xs font-bold text-on-primary-fixed tracking-tight">Slot 3:30 PM Reserved for You</span>
+<span class="font-mono text-xs font-bold px-2 py-0.5 bg-surface-container-lowest text-primary-container rounded-md border border-outline-variant/40" id="timer-display">09:30</span>
+</div>
+<p class="font-body text-xs text-on-surface-variant mt-1 leading-relaxed">
+            Locked in database to prevent double-booking. Finalize your appointment before the timer expires.
+          </p>
+</div>
+</section>
+<!-- Live Slot Matrix (Grouped by Time of Day) -->
+<section class="flex flex-col gap-6">
+<!-- Morning Section -->
+<div>
+<div class="flex items-center justify-between mb-3">
+<h3 class="font-headline text-xs font-bold text-secondary uppercase tracking-wider flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-secondary">wb_sunny</span> Morning
+            </h3>
+<span class="text-[11px] font-medium text-secondary">3 open</span>
+</div>
+<div class="grid grid-cols-2 gap-2.5">
+<!-- 9:00 AM Available -->
+<button class="flex items-center justify-between px-4 py-3 rounded-xl border border-surface-container-high bg-surface-container-lowest hover:border-on-surface active:scale-[0.98] transition-all group" type="button">
+<span class="font-headline text-sm font-semibold text-on-surface">9:00 AM</span>
+<span class="w-2 h-2 rounded-full bg-tertiary-container group-hover:scale-125 transition-transform"></span>
+</button>
+<!-- 9:45 AM Available -->
+<button class="flex items-center justify-between px-4 py-3 rounded-xl border border-surface-container-high bg-surface-container-lowest hover:border-on-surface active:scale-[0.98] transition-all group" type="button">
+<span class="font-headline text-sm font-semibold text-on-surface">9:45 AM</span>
+<span class="w-2 h-2 rounded-full bg-tertiary-container group-hover:scale-125 transition-transform"></span>
+</button>
+<!-- 10:30 AM Booked -->
+<div class="flex items-center justify-between px-4 py-3 rounded-xl border border-surface-container-high bg-surface-container-low opacity-45 cursor-not-allowed select-none">
+<span class="font-headline text-sm font-medium text-secondary line-through">10:30 AM</span>
+<span class="text-[10px] font-medium text-secondary uppercase">Booked</span>
+</div>
+<!-- 11:15 AM Available -->
+<button class="flex items-center justify-between px-4 py-3 rounded-xl border border-surface-container-high bg-surface-container-lowest hover:border-on-surface active:scale-[0.98] transition-all group" type="button">
+<span class="font-headline text-sm font-semibold text-on-surface">11:15 AM</span>
+<span class="w-2 h-2 rounded-full bg-tertiary-container group-hover:scale-125 transition-transform"></span>
+</button>
+</div>
+</div>
+<!-- Afternoon Section -->
+<div>
+<div class="flex items-center justify-between mb-3">
+<h3 class="font-headline text-xs font-bold text-secondary uppercase tracking-wider flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-secondary">light_mode</span> Afternoon
+            </h3>
+<span class="text-[11px] font-medium text-secondary">4 open</span>
+</div>
+<div class="grid grid-cols-2 gap-2.5">
+<!-- 12:00 PM Available -->
+<button class="flex items-center justify-between px-4 py-3 rounded-xl border border-surface-container-high bg-surface-container-lowest hover:border-on-surface active:scale-[0.98] transition-all group" type="button">
+<span class="font-headline text-sm font-semibold text-on-surface">12:00 PM</span>
+<span class="w-2 h-2 rounded-full bg-tertiary-container group-hover:scale-125 transition-transform"></span>
+</button>
+<!-- 1:30 PM Available -->
+<button class="flex items-center justify-between px-4 py-3 rounded-xl border border-surface-container-high bg-surface-container-lowest hover:border-on-surface active:scale-[0.98] transition-all group" type="button">
+<span class="font-headline text-sm font-semibold text-on-surface">1:30 PM</span>
+<span class="w-2 h-2 rounded-full bg-tertiary-container group-hover:scale-125 transition-transform"></span>
+</button>
+<!-- 2:15 PM Booked -->
+<div class="flex items-center justify-between px-4 py-3 rounded-xl border border-surface-container-high bg-surface-container-low opacity-45 cursor-not-allowed select-none">
+<span class="font-headline text-sm font-medium text-secondary line-through">2:15 PM</span>
+<span class="text-[10px] font-medium text-secondary uppercase">Booked</span>
+</div>
+<!-- 3:30 PM SELECTED STATE -->
+<button class="flex items-center justify-between px-4 py-3 rounded-xl bg-primary-container text-on-primary-container shadow-md ring-2 ring-primary-container ring-offset-2 ring-offset-surface-container-lowest active:scale-[0.98] transition-all" type="button">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+<span class="font-headline text-sm font-bold tracking-tight">3:30 PM</span>
+</div>
+<span class="text-[10px] font-semibold bg-surface-container-lowest/20 px-1.5 py-0.5 rounded">Selected</span>
+</button>
+<!-- 4:15 PM Available -->
+<button class="flex items-center justify-between px-4 py-3 rounded-xl border border-surface-container-high bg-surface-container-lowest hover:border-on-surface active:scale-[0.98] transition-all group" type="button">
+<span class="font-headline text-sm font-semibold text-on-surface">4:15 PM</span>
+<span class="w-2 h-2 rounded-full bg-tertiary-container group-hover:scale-125 transition-transform"></span>
+</button>
+<!-- 5:00 PM Available -->
+<button class="flex items-center justify-between px-4 py-3 rounded-xl border border-surface-container-high bg-surface-container-lowest hover:border-on-surface active:scale-[0.98] transition-all group" type="button">
+<span class="font-headline text-sm font-semibold text-on-surface">5:00 PM</span>
+<span class="w-2 h-2 rounded-full bg-tertiary-container group-hover:scale-125 transition-transform"></span>
+</button>
+</div>
+</div>
+<!-- Evening Section -->
+<div>
+<div class="flex items-center justify-between mb-3">
+<h3 class="font-headline text-xs font-bold text-secondary uppercase tracking-wider flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-secondary">bedtime</span> Evening
+            </h3>
+<span class="text-[11px] font-medium text-secondary">2 open</span>
+</div>
+<div class="grid grid-cols-2 gap-2.5">
+<!-- 5:45 PM Available -->
+<button class="flex items-center justify-between px-4 py-3 rounded-xl border border-surface-container-high bg-surface-container-lowest hover:border-on-surface active:scale-[0.98] transition-all group" type="button">
+<span class="font-headline text-sm font-semibold text-on-surface">5:45 PM</span>
+<span class="w-2 h-2 rounded-full bg-tertiary-container group-hover:scale-125 transition-transform"></span>
+</button>
+<!-- 6:30 PM Available -->
+<button class="flex items-center justify-between px-4 py-3 rounded-xl border border-surface-container-high bg-surface-container-lowest hover:border-on-surface active:scale-[0.98] transition-all group" type="button">
+<span class="font-headline text-sm font-semibold text-on-surface">6:30 PM</span>
+<span class="w-2 h-2 rounded-full bg-tertiary-container group-hover:scale-125 transition-transform"></span>
+</button>
+</div>
+</div>
+</section>
+<!-- Chair & Turnaround Hygiene Protocol Micro-Callout -->
+<div class="bg-surface-container-low rounded-xl p-3.5 flex items-center gap-3 border border-surface-container-high/80">
+<span class="material-symbols-outlined text-primary-container text-[20px] shrink-0">cleaning_services</span>
+<p class="font-body text-xs text-on-surface-variant leading-relaxed">
+<strong class="font-semibold text-on-surface">Master Chair 1:</strong> 15-min medical-grade sanitization and blade prep buffer guaranteed between clients.
+        </p>
+</div>
+</div>
+<!-- BottomNavBar / Sticky Action Bar (from Shared Components JSON) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex items-center justify-between px-5 py-3 max-w-md mx-auto bg-surface-container-lowest shadow-md border-t border-surface-container-high">
+<!-- Destination 1: Summary -->
+<div class="flex flex-col text-on-surface">
+<span class="font-label text-[11px] font-medium text-secondary leading-none">Tuesday, Sep 25</span>
+<span class="font-headline font-bold text-base text-on-surface tracking-tight mt-0.5 leading-tight">3:30 PM (45m)</span>
+<span class="font-label text-xs font-semibold text-primary leading-none mt-0.5">GH₵ 80 total</span>
+</div>
+<!-- Destination 2: Continue Action -->
+<button class="bg-primary text-on-primary rounded-xl px-5 py-3 flex items-center gap-2 font-medium hover:bg-primary-container/90 active:scale-[0.99] transition-transform duration-150 shadow-sm" type="button">
+<span class="font-label text-sm font-semibold">Continue</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</nav>
+</main>
+<script>
+    // Live countdown timer for the lock hold banner
+    let timeLeft = 570; // 9 mins 30 secs
+    const timerDisplay = document.getElementById('timer-display');
+    
+    function updateCountdown() {
+      if (timeLeft <= 0) {
+        timerDisplay.textContent = '00:00';
+        return;
+      }
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+      timeLeft--;
+    }
+    
+    setInterval(updateCountdown, 1000);
+  </script>
+</body></html>

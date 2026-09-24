@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trimly - Client Details & Payment (Step 4 of 4)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              DEFAULT: '#ff385c',
+              dark: '#e01e48',
+              light: '#fff1f3',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .material-symbols-outlined.fill {
+      font-variation-settings: 'FILL' 1;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900 font-sans antialiased min-h-screen">
+  <div class="max-w-md mx-auto bg-white min-h-screen flex flex-col shadow-xl border-x border-gray-200">
+    
+    <!-- Header with Back & Title -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-100">
+      <div class="flex items-center justify-between px-4 h-16">
+        <button type="button" class="w-10 h-10 -ml-2 rounded-full flex items-center justify-center text-gray-700 hover:bg-gray-100 active:scale-95 transition-all">
+          <span class="material-symbols-outlined text-[24px]">arrow_back</span>
+        </button>
+        <div class="text-center">
+          <h1 class="font-bold text-base text-gray-900 leading-snug">The Osei Kings</h1>
+          <p class="text-xs font-medium text-gray-500">Step 4 of 4: Contact &amp; Payment</p>
+        </div>
+        <button type="button" class="w-10 h-10 -mr-2 rounded-full flex items-center justify-center text-gray-700 hover:bg-gray-100 active:scale-95 transition-all">
+          <span class="material-symbols-outlined text-[22px]">share</span>
+        </button>
+      </div>
+
+      <!-- 100% Progress Bar -->
+      <div class="w-full bg-gray-100 h-1">
+        <div class="bg-[#ff385c] h-1 w-full transition-all duration-300"></div>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 p-4 pb-36 space-y-5">
+      
+      <!-- Appointment Summary Card -->
+      <div class="bg-white border border-gray-200/90 rounded-2xl p-4 shadow-sm flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="relative w-14 h-14 rounded-full overflow-hidden shrink-0 border border-gray-200">
+            <img src="https://lh3.googleusercontent.com/aida/AEtjO1Wvm0glYLcE-cA9rLrUeAtXvtrbD1oRxNbOYLK-gcV8pGTw9VZv9-WCZhFpGeqK7SnsQg-PAdBwjL2B4iRy3b93mR-i738OYTBR2eaRxWd4qrQTZGzJUau2AflNnX7vftb45BOGm4P1JJtOeSZQFid0_Ut67evQvcw6YWiCO5UmTLuC03_GfE4ONwSDkyVfkke7xTu-LObx9z7IHCk4npTqBaMhOxwRvuZi_rp8gM-PbGdd9QOiANueSA" alt="Kojo Mensah" class="w-full h-full object-cover object-center" />
+            <div class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full"></div>
+          </div>
+          <div class="min-w-0">
+            <div class="flex items-center gap-1.5">
+              <h2 class="font-bold text-gray-900 text-sm truncate">Kojo Mensah</h2>
+              <span class="material-symbols-outlined fill text-emerald-600 text-[16px]">verified</span>
+            </div>
+            <p class="text-xs text-gray-600 truncate mt-0.5">Gentlemen's Cut (45m) • <span class="font-semibold text-gray-900">GH₵ 80</span></p>
+            <div class="flex items-center gap-1 text-[11px] text-gray-500 mt-1 font-medium">
+              <span class="material-symbols-outlined text-[14px] text-gray-400">calendar_today</span>
+              <span>Tue, Sep 25 • 3:30 PM</span>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="text-xs font-semibold text-[#ff385c] hover:underline px-2 py-1 shrink-0">
+          Change
+        </button>
+      </div>
+
+      <!-- Section 1: Client Details -->
+      <section class="space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-6 h-6 rounded-full bg-gray-900 text-white text-xs font-bold flex items-center justify-center">1</span>
+            <h3 class="font-bold text-gray-900 text-base">Client Details</h3>
+          </div>
+          <span class="text-xs text-gray-500">Required for confirmation</span>
+        </div>
+
+        <div class="bg-white border border-gray-200 rounded-2xl p-4 space-y-3.5 shadow-sm">
+          <!-- Full Name -->
+          <div>
+            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Full Name</label>
+            <div class="relative">
+              <input type="text" value="Kweku Annan" class="w-full px-3.5 py-2.5 bg-gray-50/70 border border-gray-300 rounded-xl text-sm font-medium text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#ff385c] focus:border-transparent transition-all" />
+              <span class="material-symbols-outlined text-[18px] text-gray-400 absolute right-3 top-3">person</span>
+            </div>
+          </div>
+
+          <!-- Phone Number with Ghana Flag & Note -->
+          <div>
+            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Mobile Phone Number</label>
+            <div class="flex items-center rounded-xl border border-gray-300 bg-gray-50/70 overflow-hidden focus-within:ring-2 focus-within:ring-[#ff385c] focus-within:bg-white focus-within:border-transparent transition-all">
+              <div class="flex items-center gap-1.5 px-3 py-2.5 border-r border-gray-200 bg-gray-100/70 select-none">
+                <span class="text-base leading-none">🇬🇭</span>
+                <span class="text-xs font-bold text-gray-700">+233</span>
+              </div>
+              <input type="tel" value="024 987 6543" class="w-full px-3 py-2.5 bg-transparent text-sm font-semibold text-gray-900 focus:outline-none" />
+              <div class="pr-3 flex items-center">
+                <span class="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap">MTN</span>
+              </div>
+            </div>
+            <div class="flex items-center gap-1.5 mt-1.5 text-xs text-emerald-700 font-medium">
+              <span class="material-symbols-outlined text-[15px] fill text-emerald-600">check_circle</span>
+              <span>Instant SMS &amp; WhatsApp reminders sent here</span>
+            </div>
+          </div>
+
+          <!-- Email (Optional) -->
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider">Email Address</label>
+              <span class="text-[11px] text-gray-400 font-medium">Optional (for PDF receipt)</span>
+            </div>
+            <div class="relative">
+              <input type="email" value="kweku.annan@gmail.com" class="w-full px-3.5 py-2.5 bg-gray-50/70 border border-gray-300 rounded-xl text-sm font-medium text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#ff385c] focus:border-transparent transition-all" />
+              <span class="material-symbols-outlined text-[18px] text-gray-400 absolute right-3 top-3">mail</span>
+            </div>
+          </div>
+
+          <!-- Notes for barber -->
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider">Notes for Barber</label>
+              <span class="text-[11px] text-gray-400 font-medium">Custom requests</span>
+            </div>
+            <div class="relative">
+              <textarea rows="2" class="w-full px-3.5 py-2.5 bg-gray-50/70 border border-gray-300 rounded-xl text-sm text-gray-800 font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#ff385c] focus:border-transparent transition-all resize-none">Low skin fade on sides, keep length on top</textarea>
+              <span class="material-symbols-outlined text-[18px] text-gray-400 absolute right-3 top-3">content_cut</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Payment Choice -->
+      <section class="space-y-3 pt-2">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-6 h-6 rounded-full bg-gray-900 text-white text-xs font-bold flex items-center justify-center">2</span>
+            <h3 class="font-bold text-gray-900 text-base">Payment Choice</h3>
+          </div>
+          <span class="text-xs font-semibold text-gray-500">Shop policy</span>
+        </div>
+
+        <div class="space-y-3">
+          
+          <!-- Option 1: Deposit (SELECTED) -->
+          <div class="relative rounded-2xl border-2 border-[#ff385c] bg-rose-50/40 p-4 shadow-sm transition-all cursor-pointer">
+            <div class="flex items-start gap-3">
+              <div class="pt-0.5 shrink-0">
+                <div class="w-5 h-5 rounded-full border-2 border-[#ff385c] flex items-center justify-center bg-white">
+                  <div class="w-2.5 h-2.5 rounded-full bg-[#ff385c]"></div>
+                </div>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between gap-2 flex-wrap">
+                  <span class="font-bold text-sm text-gray-900">Pay Deposit Now (GH₵ 30)</span>
+                  <span class="bg-[#ff385c] text-white text-[10px] font-bold px-2 py-0.5 rounded-full tracking-wide uppercase">Best for No-Shows</span>
+                </div>
+                <p class="text-xs text-gray-600 mt-1 leading-relaxed">
+                  Lock your chair now with a refundable deposit. Pay remaining <span class="font-bold text-gray-900">GH₵ 50</span> at the shop after your cut.
+                </p>
+
+                <!-- Nested MoMo Quick Pay Field -->
+                <div class="mt-3.5 pt-3.5 border-t border-rose-200/70 space-y-2.5">
+                  <div class="flex items-center justify-between">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-gray-700">Mobile Money / Card Checkout</span>
+                    <span class="inline-flex items-center gap-1 text-[11px] text-amber-700 font-bold bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
+                      <span>⚡</span> MTN MoMo detected
+                    </span>
+                  </div>
+
+                  <div class="bg-white border border-gray-300 rounded-xl p-2.5 flex items-center justify-between shadow-xs">
+                    <div class="flex items-center gap-2">
+                      <span class="material-symbols-outlined text-gray-400 text-[20px]">phone_android</span>
+                      <span class="text-xs font-semibold text-gray-900">+233 024 987 6543</span>
+                    </div>
+                    <button type="button" class="text-[11px] font-semibold text-[#ff385c] hover:underline">Edit</button>
+                  </div>
+
+                  <!-- Supported Network Logos / Badges -->
+                  <div class="flex items-center gap-1.5 flex-wrap pt-0.5">
+                    <span class="text-[10px] text-gray-500 font-medium mr-1">Supported:</span>
+                    <span class="px-2 py-0.5 bg-yellow-400 text-black text-[10px] font-black rounded tracking-tight shadow-xs">MTN MoMo</span>
+                    <span class="px-2 py-0.5 bg-red-600 text-white text-[10px] font-bold rounded tracking-tight shadow-xs">Telecel Cash</span>
+                    <span class="px-2 py-0.5 bg-blue-700 text-white text-[10px] font-bold rounded tracking-tight shadow-xs">AT Money</span>
+                    <span class="px-2 py-0.5 bg-slate-900 text-white text-[10px] font-semibold rounded tracking-tight shadow-xs">Visa / MC</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- Option 2: Pay Full Amount Now -->
+          <div class="rounded-2xl border border-gray-200 bg-white p-4 shadow-xs hover:border-gray-300 transition-all cursor-pointer">
+            <div class="flex items-start gap-3">
+              <div class="pt-0.5 shrink-0">
+                <div class="w-5 h-5 rounded-full border border-gray-400 flex items-center justify-center bg-white"></div>
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-sm text-gray-900">Pay Full Amount Now (GH₵ 80)</span>
+                  <span class="text-xs font-semibold text-gray-500">100% upfront</span>
+                </div>
+                <p class="text-xs text-gray-600 mt-1 leading-relaxed">
+                  Complete settlement now via Mobile Money or Card. Funds escrowed securely until service is completed.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Option 3: Reserve & Pay at Shop -->
+          <div class="rounded-2xl border border-gray-200 bg-white p-4 shadow-xs hover:border-gray-300 transition-all cursor-pointer">
+            <div class="flex items-start gap-3">
+              <div class="pt-0.5 shrink-0">
+                <div class="w-5 h-5 rounded-full border border-gray-400 flex items-center justify-center bg-white"></div>
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-sm text-gray-900">Reserve &amp; Pay at Shop</span>
+                  <span class="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">GH₵ 0 Now</span>
+                </div>
+                <p class="text-xs text-gray-600 mt-1 leading-relaxed">
+                  Free reservation. Settle entire GH₵ 80 with cash or MoMo directly at the counter upon arrival.
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Price Breakdown Summary Card -->
+      <section class="bg-gray-50/80 border border-gray-200 rounded-2xl p-4 space-y-2.5">
+        <h4 class="text-xs font-bold uppercase tracking-wider text-gray-700">Price Breakdown</h4>
+        
+        <div class="space-y-1.5 text-xs text-gray-600">
+          <div class="flex justify-between items-center">
+            <span>Signature Haircut &amp; Line-up</span>
+            <span class="font-medium text-gray-900">GH₵ 80.00</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-emerald-700 font-medium">Deposit due now</span>
+            <span class="font-bold text-emerald-700">GH₵ 30.00</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span>Remaining balance at shop</span>
+            <span class="font-medium text-gray-900">GH₵ 50.00</span>
+          </div>
+        </div>
+
+        <div class="pt-2 border-t border-gray-200 flex justify-between items-center text-sm font-bold text-gray-900">
+          <span>Total Service Value</span>
+          <span>GH₵ 80.00</span>
+        </div>
+
+        <!-- Security & Guarantee note -->
+        <div class="pt-2 border-t border-dashed border-gray-200 flex items-start gap-2 text-[11px] text-gray-500 leading-tight">
+          <span class="material-symbols-outlined text-[16px] text-emerald-600 shrink-0 mt-0.5">verified_user</span>
+          <span><strong>Zero-Wait Escrow Guarantee:</strong> Deposit held securely by Trimly until cut completion. Free cancellation up to 2 hours before appointment.</span>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sticky Bottom Confirmation Bar -->
+    <footer class="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-gray-200 max-w-md mx-auto px-4 py-3 shadow-[0_-4px_20px_rgba(0,0,0,0.06)]">
+      <div class="flex items-center justify-between gap-4">
+        <div>
+          <span class="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Due Now</span>
+          <div class="flex items-baseline gap-1.5">
+            <span class="text-xl font-black text-gray-900">GH₵ 30</span>
+            <span class="text-xs font-normal text-gray-500">(GH₵ 50 at shop)</span>
+          </div>
+        </div>
+        
+        <button type="button" class="flex-1 bg-[#ff385c] hover:bg-[#e01e48] active:scale-[0.98] text-white font-bold text-sm py-3.5 px-5 rounded-xl shadow-md transition-all flex items-center justify-center gap-2">
+          <span>Confirm &amp; Pay GH₵ 30</span>
+          <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+        </button>
+      </div>
+    </footer>
+
+  </div>
+</body>
+</html>
