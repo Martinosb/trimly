@@ -18,12 +18,12 @@ export async function createBookingHold(params: BookingHoldParams): Promise<Book
   try {
     const { data, error } = await supabase.rpc("create_booking_hold", {
       p_shop_id: params.shopId,
-      p_staff_id: staffIdToPass,
+      p_staff_id: (staffIdToPass as any),
       p_service_id: params.serviceId,
       p_client_name: params.clientName,
       p_client_phone: params.clientPhone,
-      p_client_email: params.clientEmail || null,
-      p_client_notes: params.clientNotes || null,
+      p_client_email: (params.clientEmail as any),
+      p_client_notes: (params.clientNotes as any),
       p_start_at: params.startAt,
       p_payment_method: params.paymentMethod || "pay_at_shop",
       p_hold_minutes: params.holdMinutes || 10,
