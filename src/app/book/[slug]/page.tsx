@@ -169,13 +169,12 @@ export default function BookingPortalPage({
 
   // 2. Fetch Slots when Service, Staff, or Date changes
   useEffect(() => {
-    if (!selectedService || bookingStep < 3) return;
+    if (!selectedService || bookingStep !== 3) return;
 
     const currentServiceId = selectedService.id;
 
     async function loadSlots() {
       setLoadingSlots(true);
-      setSelectedSlot(null);
       try {
         const staffParam = selectedStaff === "any" ? "any" : selectedStaff.id;
         const res = await fetch(
@@ -218,7 +217,10 @@ export default function BookingPortalPage({
 
   // Submit Booking Hold & Confirmation
   const handleCompleteBooking = async () => {
-    if (!shop || !selectedService || !selectedSlot) return;
+    if (!shop || !selectedService || !selectedSlot) {
+      setErrorMessage("Please complete all booking steps (service and time slot) first.");
+      return;
+    }
     if (!clientName.trim() || clientPhone.trim().length < 8) {
       setErrorMessage("Please enter your name and a valid phone number.");
       return;
@@ -337,7 +339,7 @@ export default function BookingPortalPage({
         <div className="bg-white p-8 rounded-2xl shadow-sm border border-[#ebebeb] max-w-sm">
           <Scissors className="w-12 h-12 text-[#ff385c] mx-auto mb-3" />
           <h1 className="text-xl font-bold text-[#222222]">Barber Shop Not Found</h1>
-          <p className="text-sm text-[#717171] mt-1 mb-6">
+          <p className="text-sm text-[#595959] mt-1 mb-6">
             The shop you are looking for does not exist or has moved.
           </p>
           <Link
@@ -360,7 +362,7 @@ export default function BookingPortalPage({
             <Clock className="w-7 h-7" />
           </div>
           <h1 className="text-2xl font-bold text-[#222222]">{shop.name} is Temporarily Unavailable</h1>
-          <p className="text-sm text-[#717171] mt-2 mb-6">
+          <p className="text-sm text-[#595959] mt-2 mb-6">
             This barber shop is currently not taking new online bookings. Please check back later or contact the shop directly at {shop.phone}.
           </p>
           <Link
@@ -386,6 +388,7 @@ export default function BookingPortalPage({
           {bookingStep > 1 && bookingStep < 5 ? (
             <button
               type="button"
+              aria-label="Previous step"
               onClick={() => setBookingStep((bookingStep - 1) as 1 | 2 | 3 | 4)}
               className="w-8 h-8 rounded-full flex items-center justify-center text-[#222222] hover:bg-[#f7f7f7] transition-colors"
             >
@@ -394,6 +397,7 @@ export default function BookingPortalPage({
           ) : (
             <Link
               href="/"
+              aria-label="Trimly Home"
               className="w-8 h-8 rounded-full flex items-center justify-center text-[#222222] hover:bg-[#f7f7f7] transition-colors"
             >
               <Scissors className="w-4 h-4 text-[#ff385c] rotate-45" />
@@ -404,7 +408,7 @@ export default function BookingPortalPage({
             <span className="font-bold text-sm tracking-tight text-[#222222] block truncate max-w-[200px]">
               {shop.name}
             </span>
-            <span className="text-[11px] text-[#717171] flex items-center justify-center gap-1">
+            <span className="text-[11px] text-[#595959] flex items-center justify-center gap-1">
               <MapPin className="w-3 h-3 text-[#ff385c]" /> {shop.city}, Ghana
             </span>
           </div>
@@ -429,10 +433,10 @@ export default function BookingPortalPage({
                 key={item.step}
                 className={`flex-1 text-center py-2 border-b-2 transition-colors ${
                   bookingStep === item.step
-                    ? "border-[#ff385c] text-[#ff385c] font-bold"
+                    ? "border-[#ff385c] text-[#b00020] font-bold"
                     : bookingStep > item.step
-                    ? "border-emerald-500 text-emerald-600"
-                    : "border-transparent text-[#929292]"
+                    ? "border-emerald-600 text-emerald-700 font-medium"
+                    : "border-transparent text-[#595959]"
                 }`}
               >
                 {item.label}
@@ -450,7 +454,7 @@ export default function BookingPortalPage({
                 <h1 className="text-xl font-bold tracking-tight text-[#222222]">
                   Select a Service
                 </h1>
-                <p className="text-xs text-[#717171] mt-0.5">
+                <p className="text-xs text-[#595959] mt-0.5">
                   Pick your treatment or styling package
                 </p>
               </div>
@@ -461,7 +465,10 @@ export default function BookingPortalPage({
                   return (
                     <div
                       key={svc.id}
-                      onClick={() => setSelectedService(svc)}
+                      onClick={() => {
+                        setSelectedService(svc);
+                        setSelectedSlot(null);
+                      }}
                       className={`p-4 rounded-2xl border transition-all cursor-pointer relative ${
                         isSelected
                           ? "border-[#ff385c] bg-[#ff385c]/5 shadow-sm ring-1 ring-[#ff385c]"
@@ -473,17 +480,17 @@ export default function BookingPortalPage({
                           <div className="flex items-center gap-2">
                             <span className="font-bold text-sm text-[#222222]">{svc.name}</span>
                             {svc.is_popular && (
-                              <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 bg-[#ff385c]/10 text-[#ff385c] rounded-full">
+                              <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 bg-rose-100 text-[#9f1239] rounded-full border border-rose-200">
                                 Popular
                               </span>
                             )}
                           </div>
                           {svc.description && (
-                            <p className="text-xs text-[#717171] mt-1 line-clamp-2">
+                            <p className="text-xs text-[#595959] mt-1 line-clamp-2">
                               {svc.description}
                             </p>
                           )}
-                          <div className="flex items-center gap-3 text-xs text-[#717171] mt-2 font-medium">
+                          <div className="flex items-center gap-3 text-xs text-[#595959] mt-2 font-medium">
                             <span className="flex items-center gap-1">
                               <Clock className="w-3.5 h-3.5" /> {svc.duration_min} mins
                             </span>
@@ -510,14 +517,17 @@ export default function BookingPortalPage({
                 <h1 className="text-xl font-bold tracking-tight text-[#222222]">
                   Choose your Barber
                 </h1>
-                <p className="text-xs text-[#717171] mt-0.5">
+                <p className="text-xs text-[#595959] mt-0.5">
                   Book with your favourite specialist or pick fastest available
                 </p>
               </div>
 
               {/* Any Available Option */}
               <div
-                onClick={() => setSelectedStaff("any")}
+                onClick={() => {
+                  setSelectedStaff("any");
+                  setSelectedSlot(null);
+                }}
                 className={`p-4 rounded-2xl border transition-all cursor-pointer ${
                   selectedStaff === "any"
                     ? "border-[#ff385c] bg-[#ff385c]/5 shadow-sm ring-1 ring-[#ff385c]"
@@ -535,7 +545,7 @@ export default function BookingPortalPage({
                         Fastest
                       </span>
                     </div>
-                    <p className="text-xs text-[#717171] mt-0.5">
+                    <p className="text-xs text-[#595959] mt-0.5">
                       Assigns the first qualified barber with an open chair
                     </p>
                   </div>
@@ -554,7 +564,10 @@ export default function BookingPortalPage({
                   return (
                     <div
                       key={st.id}
-                      onClick={() => setSelectedStaff(st)}
+                      onClick={() => {
+                        setSelectedStaff(st);
+                        setSelectedSlot(null);
+                      }}
                       className={`p-4 rounded-2xl border transition-all cursor-pointer ${
                         isSelected
                           ? "border-[#ff385c] bg-[#ff385c]/5 shadow-sm ring-1 ring-[#ff385c]"
@@ -568,7 +581,7 @@ export default function BookingPortalPage({
                         <div className="flex-1">
                           <div className="font-bold text-sm text-[#222222]">{st.name}</div>
                           <div className="text-xs text-[#ff385c] font-medium">{st.role}</div>
-                          {st.bio && <p className="text-[11px] text-[#717171] mt-0.5 line-clamp-1">{st.bio}</p>}
+                          {st.bio && <p className="text-[11px] text-[#595959] mt-0.5 line-clamp-1">{st.bio}</p>}
                         </div>
                         {isSelected && (
                           <div className="w-6 h-6 rounded-full bg-[#ff385c] text-white flex items-center justify-center shrink-0">
@@ -590,7 +603,7 @@ export default function BookingPortalPage({
                 <h1 className="text-xl font-bold tracking-tight text-[#222222]">
                   Pick Date & Time
                 </h1>
-                <p className="text-xs text-[#717171] mt-0.5">
+                <p className="text-xs text-[#595959] mt-0.5">
                   Live availability for {selectedStaff === "any" ? "Any Barber" : selectedStaff.name}
                 </p>
               </div>
@@ -603,18 +616,21 @@ export default function BookingPortalPage({
                     <button
                       key={opt.iso}
                       type="button"
-                      onClick={() => setSelectedDate(opt.iso)}
+                      onClick={() => {
+                        setSelectedDate(opt.iso);
+                        setSelectedSlot(null);
+                      }}
                       className={`flex flex-col items-center py-2.5 px-3.5 rounded-xl border shrink-0 transition-all ${
                         isSelected
                           ? "border-[#ff385c] bg-[#ff385c] text-white shadow-sm"
                           : "border-[#ebebeb] bg-white text-[#222222] hover:border-[#dddddd]"
                       }`}
                     >
-                      <span className={`text-[10px] font-semibold uppercase ${isSelected ? "text-white/80" : "text-[#717171]"}`}>
+                      <span className={`text-[10px] font-semibold uppercase ${isSelected ? "text-white/80" : "text-[#595959]"}`}>
                         {opt.dayName}
                       </span>
                       <span className="text-base font-black my-0.5">{opt.dayNum}</span>
-                      <span className={`text-[10px] ${isSelected ? "text-white/80" : "text-[#717171]"}`}>
+                      <span className={`text-[10px] ${isSelected ? "text-white/80" : "text-[#595959]"}`}>
                         {opt.monthName}
                       </span>
                     </button>
@@ -638,7 +654,7 @@ export default function BookingPortalPage({
                   <div className="text-center py-8 bg-[#fafafa] rounded-2xl border border-dashed border-[#dddddd]">
                     <Clock className="w-8 h-8 text-[#929292] mx-auto mb-2" />
                     <p className="text-sm font-semibold text-[#222222]">No available slots on this date</p>
-                    <p className="text-xs text-[#717171] mt-0.5">Please pick another date above or select another barber.</p>
+                    <p className="text-xs text-[#595959] mt-0.5">Please pick another date above or select another barber.</p>
                   </div>
                 ) : (
                   <div className="grid grid-cols-3 gap-2 max-h-72 overflow-y-auto pr-1">
@@ -656,7 +672,7 @@ export default function BookingPortalPage({
                           }`}
                         >
                           <span className="text-xs block">{slot.formattedTime}</span>
-                          <span className={`text-[9px] block mt-0.5 ${isSelected ? "text-white/80" : "text-[#717171]"}`}>
+                          <span className={`text-[9px] block mt-0.5 ${isSelected ? "text-white/80" : "text-[#595959]"}`}>
                             {slot.availableBarbers.length} chair{slot.availableBarbers.length > 1 ? "s" : ""}
                           </span>
                         </button>
@@ -675,7 +691,7 @@ export default function BookingPortalPage({
                 <h1 className="text-xl font-bold tracking-tight text-[#222222]">
                   Client Details & Payment
                 </h1>
-                <p className="text-xs text-[#717171] mt-0.5">
+                <p className="text-xs text-[#595959] mt-0.5">
                   Confirm your contact and choose payment method
                 </p>
               </div>
@@ -691,7 +707,7 @@ export default function BookingPortalPage({
               <div className="p-3.5 bg-[#fafafa] border border-[#ebebeb] rounded-xl flex items-center justify-between">
                 <div>
                   <div className="font-bold text-sm text-[#222222]">{selectedService?.name}</div>
-                  <div className="text-xs text-[#717171] mt-0.5">
+                  <div className="text-xs text-[#595959] mt-0.5">
                     {selectedSlot?.formattedTime} • {selectedStaff === "any" ? "Any Barber" : selectedStaff.name}
                   </div>
                 </div>
@@ -779,7 +795,7 @@ export default function BookingPortalPage({
                           <span className="text-xs font-bold text-[#222222] block">
                             Pay GHS {depositRequired} Deposit via MoMo
                           </span>
-                          <span className="text-[11px] text-[#717171]">
+                          <span className="text-[11px] text-[#595959]">
                             Remaining GHS {balanceAtShop} due at the shop
                           </span>
                         </div>
@@ -808,7 +824,7 @@ export default function BookingPortalPage({
                         <span className="text-xs font-bold text-[#222222] block">
                           Pay Full GHS {selectedService?.price} Now
                         </span>
-                        <span className="text-[11px] text-[#717171]">
+                        <span className="text-[11px] text-[#595959]">
                           Mobile Money or Debit Card
                         </span>
                       </div>
@@ -837,7 +853,7 @@ export default function BookingPortalPage({
                           <span className="text-xs font-bold text-[#222222] block">
                             Reserve & Pay at Shop
                           </span>
-                          <span className="text-[11px] text-[#717171]">
+                          <span className="text-[11px] text-[#595959]">
                             Pay full amount in cash/MoMo upon arrival
                           </span>
                         </div>
@@ -856,7 +872,7 @@ export default function BookingPortalPage({
                 {/* MoMo Provider Picker if MoMo selected */}
                 {paymentChoice !== "pay_at_shop" && (
                   <div className="mt-3 p-3 bg-[#fafafa] rounded-xl border border-[#ebebeb]">
-                    <span className="text-[11px] font-semibold text-[#717171] uppercase tracking-wider block mb-2">
+                    <span className="text-[11px] font-semibold text-[#595959] uppercase tracking-wider block mb-2">
                       Select MoMo Network
                     </span>
                     <div className="grid grid-cols-3 gap-2">
@@ -872,7 +888,7 @@ export default function BookingPortalPage({
                           className={`py-2 px-1 text-center rounded-lg border text-xs font-semibold transition-all ${
                             momoProvider === net.id
                               ? "border-[#ff385c] bg-white text-[#ff385c] shadow-xs"
-                              : "border-[#dddddd] bg-white text-[#717171]"
+                              : "border-[#dddddd] bg-white text-[#595959]"
                           }`}
                         >
                           {net.name}
@@ -896,7 +912,7 @@ export default function BookingPortalPage({
                 <h1 className="text-2xl font-black tracking-tight text-[#222222]">
                   Booking Confirmed!
                 </h1>
-                <p className="text-xs text-[#717171] mt-1">
+                <p className="text-xs text-[#595959] mt-1">
                   We&apos;ve reserved your seat at {shop.name}.
                 </p>
               </div>
@@ -905,7 +921,7 @@ export default function BookingPortalPage({
               <div className="bg-[#fafafa] border border-[#ebebeb] rounded-2xl p-4 text-left shadow-sm space-y-3 relative overflow-hidden">
                 <div className="flex items-center justify-between border-b border-[#ebebeb] pb-3">
                   <div>
-                    <span className="text-[10px] uppercase font-bold text-[#717171] tracking-wider block">
+                    <span className="text-[10px] uppercase font-bold text-[#595959] tracking-wider block">
                       Booking Pass
                     </span>
                     <span className="font-mono text-sm font-black text-[#ff385c]">
@@ -923,15 +939,15 @@ export default function BookingPortalPage({
 
                 <div className="grid grid-cols-2 gap-2 text-xs">
                   <div>
-                    <span className="text-[#717171] block">Service</span>
+                    <span className="text-[#595959] block">Service</span>
                     <span className="font-bold text-[#222222]">{confirmedBooking.serviceName}</span>
                   </div>
                   <div>
-                    <span className="text-[#717171] block">Barber</span>
+                    <span className="text-[#595959] block">Barber</span>
                     <span className="font-bold text-[#222222]">{confirmedBooking.staffName}</span>
                   </div>
                   <div>
-                    <span className="text-[#717171] block">Date & Time</span>
+                    <span className="text-[#595959] block">Date & Time</span>
                     <span className="font-bold text-[#222222]">
                       {new Date(confirmedBooking.startAt).toLocaleDateString("en-US", {
                         weekday: "short",
@@ -942,7 +958,7 @@ export default function BookingPortalPage({
                     </span>
                   </div>
                   <div>
-                    <span className="text-[#717171] block">Location</span>
+                    <span className="text-[#595959] block">Location</span>
                     <span className="font-bold text-[#222222] truncate block">{shop.address}</span>
                   </div>
                 </div>
@@ -955,7 +971,7 @@ export default function BookingPortalPage({
                       alt="Booking QR Code"
                       className="w-36 h-36 mx-auto rounded-lg border border-[#ebebeb] p-1 bg-white"
                     />
-                    <span className="text-[10px] text-[#717171] block mt-1">
+                    <span className="text-[10px] text-[#595959] block mt-1">
                       Show this pass to your barber upon arrival
                     </span>
                   </div>

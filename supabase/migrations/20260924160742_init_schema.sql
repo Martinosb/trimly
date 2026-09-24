@@ -317,6 +317,7 @@ RETURNS TABLE (
 LANGUAGE plpgsql
 SECURITY DEFINER
 AS $$
+#variable_conflict use_column
 DECLARE
   v_shop RECORD;
   v_service RECORD;
@@ -382,13 +383,13 @@ BEGIN
       AND sh.start_time <= p_start_at::TIME
       AND sh.end_time >= v_end_at::TIME
     LEFT JOIN (
-      SELECT staff_id, COUNT(*) AS today_bookings
-      FROM bookings
-      WHERE shop_id = p_shop_id
-        AND status IN ('pending', 'confirmed')
-        AND start_at::DATE = p_start_at::DATE
-      GROUP BY staff_id
-    ) b_cnt ON b_cnt.staff_id = s.id
+      SELECT bk.staff_id AS booked_staff_id, COUNT(*) AS today_bookings
+      FROM bookings bk
+      WHERE bk.shop_id = p_shop_id
+        AND bk.status IN ('pending', 'confirmed')
+        AND bk.start_at::DATE = p_start_at::DATE
+      GROUP BY bk.staff_id
+    ) b_cnt ON b_cnt.booked_staff_id = s.id
     WHERE s.shop_id = p_shop_id
       AND s.is_active = true
       -- Ensure not on time off
