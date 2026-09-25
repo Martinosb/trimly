@@ -60,8 +60,28 @@ test.describe("Trimly End-to-End User Journeys", () => {
     // Step 5: Booking Confirmed & Pass with QR Code
     await expect(page.getByText("Booking Confirmed!")).toBeVisible({ timeout: 15000 });
     await expect(page.locator("img[alt='Booking QR Code']")).toBeVisible();
-    await expect(page.getByText("Booking Pass")).toBeVisible();
+    await expect(page.getByText("Booking Pass", { exact: true })).toBeVisible();
     await expect(page.getByText(/#[a-f0-9]{6,12}/i)).toBeVisible();
+
+    // Verify Pass Mandate & Hard Gate
+    await expect(page.getByText("Mandatory: Save Booking Pass Image")).toBeVisible();
+    const lockedBtn = page.getByRole("button", { name: /Manage Appointment \(Locked until pass is saved\)/i });
+    await expect(lockedBtn).toBeVisible();
+
+    // Click locked button to verify warning modal triggers
+    await lockedBtn.click();
+    await expect(page.getByText("Save Pass Image First")).toBeVisible();
+    await page.getByRole("button", { name: "Dismiss" }).click();
+    await expect(page.getByText("Save Pass Image First")).not.toBeVisible();
+
+    // Now click Save Pass to Photos / Image
+    const savePassBtn = page.getByRole("button", { name: /Save Pass to Photos \/ Image \(Required\)/i });
+    await expect(savePassBtn).toBeVisible();
+    await savePassBtn.click();
+
+    // Verify Pass is saved and Manage Appointment link unlocks
+    await expect(page.getByText("Booking Pass Saved to Device")).toBeVisible();
+    await expect(page.getByRole("link", { name: /Manage or Cancel Appointment/i })).toBeVisible();
   });
 
   test("3. Owner Live Timeline and Walk-In Seat Booking", async ({ page }) => {

@@ -9,6 +9,7 @@ import {
   Clock,
   Star,
   Check,
+  CheckCircle2,
   ChevronRight,
   ChevronLeft,
   Calendar,
@@ -20,10 +21,13 @@ import {
   Download,
   AlertCircle,
   Sparkles,
+  Lock,
+  Unlock,
 } from "lucide-react";
 import confetti from "canvas-confetti";
 import QRCode from "qrcode";
 import { createClient } from "@/lib/supabase/client";
+import { renderPassCardToCanvas, savePassImageToDevice } from "@/lib/pass-card-renderer";
 
 interface Shop {
   id: string;
@@ -116,6 +120,9 @@ export default function BookingPortalPage({
     paymentStatus: string;
   } | null>(null);
   const [qrDataUrl, setQrDataUrl] = useState<string>("");
+  const [hasSavedPass, setHasSavedPass] = useState(false);
+  const [savingPass, setSavingPass] = useState(false);
+  const [showMandateWarning, setShowMandateWarning] = useState(false);
 
   // 1. Fetch initial shop data
   useEffect(() => {
@@ -287,9 +294,9 @@ export default function BookingPortalPage({
         throw new Error("Slot reserved, but failed to confirm booking.");
       }
 
-      // Generate QR Code pass
+      // Generate high-resolution QR Code pass
       const passUrl = `${window.location.origin}/book/${slug}/manage?code=${booking.cancellationCode}`;
-      const qrUrl = await QRCode.toDataURL(passUrl, { width: 220, margin: 1 });
+      const qrUrl = await QRCode.toDataURL(passUrl, { width: 360, margin: 1 });
       setQrDataUrl(qrUrl);
 
       setConfirmedBooking({
@@ -304,6 +311,14 @@ export default function BookingPortalPage({
         paymentStatus,
       });
 
+      if (typeof window !== "undefined") {
+        const alreadySaved =
+          localStorage.getItem(`trimly_pass_saved_${booking.cancellationCode}`) === "true";
+        setHasSavedPass(alreadySaved);
+      } else {
+        setHasSavedPass(false);
+      }
+
       setBookingStep(5);
       confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
     } catch (err: unknown) {
@@ -311,6 +326,39 @@ export default function BookingPortalPage({
       setErrorMessage(msg);
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const handleSavePass = async () => {
+    if (!confirmedBooking || !shop) return;
+    setSavingPass(true);
+    try {
+      const canvas = await renderPassCardToCanvas({
+        shopName: shop.name,
+        shopAddress: shop.address,
+        shopCity: shop.city,
+        cancellationCode: confirmedBooking.cancellationCode,
+        serviceName: confirmedBooking.serviceName,
+        staffName: confirmedBooking.staffName,
+        startAt: confirmedBooking.startAt,
+        paymentStatus: confirmedBooking.paymentStatus,
+        price: confirmedBooking.price,
+        qrDataUrl,
+      });
+
+      const success = await savePassImageToDevice(canvas, confirmedBooking.cancellationCode);
+      if (success) {
+        setHasSavedPass(true);
+        setShowMandateWarning(false);
+        if (typeof window !== "undefined") {
+          localStorage.setItem(`trimly_pass_saved_${confirmedBooking.cancellationCode}`, "true");
+        }
+      }
+    } catch (err) {
+      console.error("Failed to render or save pass image:", err);
+      alert("Could not automatically save pass image. Please take a screenshot of your pass card.");
+    } finally {
+      setSavingPass(false);
     }
   };
 
@@ -917,6 +965,43 @@ export default function BookingPortalPage({
                 </p>
               </div>
 
+              {/* Mandate Callout Banner */}
+              {!hasSavedPass ? (
+                <div className="p-3.5 bg-amber-50 border border-amber-200 rounded-2xl text-left flex items-start gap-3 shadow-xs">
+                  <AlertCircle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <span className="font-bold text-xs text-amber-950">
+                        Mandatory: Save Booking Pass Image
+                      </span>
+                      <span className="text-[10px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded bg-amber-200/80 text-amber-900">
+                        Required
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-amber-800 leading-relaxed">
+                      You must save this pass to your photos or downloads before leaving. Your barber scans this QR code upon arrival and shop cellular network can be spotty.
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <div className="p-3.5 bg-emerald-50 border border-emerald-200 rounded-2xl text-left flex items-start gap-3 shadow-xs">
+                  <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <span className="font-bold text-xs text-emerald-950">
+                        Booking Pass Saved to Device
+                      </span>
+                      <span className="text-[10px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded bg-emerald-200 text-emerald-900">
+                        Verified
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-emerald-800 leading-relaxed">
+                      Your pass image is saved in your device photos / downloads. Show it to your barber when you arrive at {shop.name}.
+                    </p>
+                  </div>
+                </div>
+              )}
+
               {/* Boarding Pass Card */}
               <div className="bg-[#fafafa] border border-[#ebebeb] rounded-2xl p-4 text-left shadow-sm space-y-3 relative overflow-hidden">
                 <div className="flex items-center justify-between border-b border-[#ebebeb] pb-3">
@@ -980,13 +1065,63 @@ export default function BookingPortalPage({
 
               {/* Action Buttons */}
               <div className="space-y-2 pt-2">
-                <Link
-                  href={`/book/${slug}/manage?code=${confirmedBooking.cancellationCode}`}
-                  className="w-full py-3 px-4 rounded-xl border border-[#222222] text-[#222222] hover:bg-[#f7f7f7] font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors"
-                >
-                  <span>Manage or Cancel Appointment</span>
-                </Link>
+                {/* Primary Mandatory Save Pass Button */}
+                {!hasSavedPass ? (
+                  <button
+                    type="button"
+                    onClick={handleSavePass}
+                    disabled={savingPass}
+                    className="w-full py-3.5 px-4 rounded-xl bg-[#ff385c] hover:bg-[#e00b41] active:scale-[0.99] text-white font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2 group ring-2 ring-[#ff385c]/30 hover:ring-[#ff385c]/60 cursor-pointer"
+                  >
+                    {savingPass ? (
+                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    ) : (
+                      <>
+                        <Download className="w-4 h-4 stroke-[2.5] group-hover:-translate-y-0.5 transition-transform" />
+                        <span>Save Pass to Photos / Image (Required)</span>
+                      </>
+                    )}
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={handleSavePass}
+                    disabled={savingPass}
+                    className="w-full py-3 px-4 rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 text-emerald-800 font-bold text-xs transition-all flex items-center justify-center gap-2 cursor-pointer"
+                  >
+                    {savingPass ? (
+                      <div className="w-4 h-4 border-2 border-emerald-600/30 border-t-emerald-600 rounded-full animate-spin" />
+                    ) : (
+                      <>
+                        <Check className="w-4 h-4 stroke-[3] text-emerald-600" />
+                        <span>Pass Saved to Photos • Download Again</span>
+                      </>
+                    )}
+                  </button>
+                )}
 
+                {/* Hard-gated Manage Appointment Button */}
+                {!hasSavedPass ? (
+                  <button
+                    type="button"
+                    onClick={() => setShowMandateWarning(true)}
+                    className="w-full py-3 px-4 rounded-xl border border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 text-gray-500 font-semibold text-xs flex items-center justify-center gap-2 transition-colors cursor-pointer"
+                    title="Save your pass image above to unlock"
+                  >
+                    <Lock className="w-3.5 h-3.5 text-gray-400" />
+                    <span>Manage Appointment (Locked until pass is saved)</span>
+                  </button>
+                ) : (
+                  <Link
+                    href={`/book/${slug}/manage?code=${confirmedBooking.cancellationCode}`}
+                    className="w-full py-3 px-4 rounded-xl border border-[#222222] text-[#222222] hover:bg-[#f7f7f7] font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors"
+                  >
+                    <Unlock className="w-3.5 h-3.5 text-emerald-600" />
+                    <span>Manage or Cancel Appointment</span>
+                  </Link>
+                )}
+
+                {/* WhatsApp Share */}
                 <a
                   href={`https://wa.me/?text=${encodeURIComponent(
                     `Booked my haircut at ${shop.name}! Ref: #${confirmedBooking.cancellationCode}`
@@ -999,6 +1134,47 @@ export default function BookingPortalPage({
                   <span>Share on WhatsApp</span>
                 </a>
               </div>
+
+              {/* Mandate Warning Modal */}
+              {showMandateWarning && !hasSavedPass && (
+                <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-xs">
+                  <div className="bg-white rounded-2xl p-5 max-w-sm w-full space-y-4 shadow-2xl text-left border border-amber-200">
+                    <div className="w-12 h-12 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center mx-auto">
+                      <AlertCircle className="w-6 h-6" />
+                    </div>
+                    <div className="text-center">
+                      <h3 className="text-base font-bold text-[#222222]">Save Pass Image First</h3>
+                      <p className="text-xs text-[#595959] mt-1.5 leading-relaxed">
+                        Barbers require this QR pass for check-in upon arrival. Because cellular network at the barbershop can be unpredictable, saving your booking pass image to your device photos or files is required before proceeding.
+                      </p>
+                    </div>
+                    <div className="space-y-2 pt-1">
+                      <button
+                        type="button"
+                        onClick={handleSavePass}
+                        disabled={savingPass}
+                        className="w-full py-3 px-4 rounded-xl bg-[#ff385c] hover:bg-[#e00b41] text-white font-bold text-xs flex items-center justify-center gap-2 shadow-sm transition-colors cursor-pointer"
+                      >
+                        {savingPass ? (
+                          <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        ) : (
+                          <>
+                            <Download className="w-4 h-4" />
+                            <span>Save Pass to Phone Now</span>
+                          </>
+                        )}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setShowMandateWarning(false)}
+                        className="w-full py-2 px-4 rounded-xl text-gray-500 hover:text-gray-800 text-xs font-medium text-center transition-colors cursor-pointer"
+                      >
+                        Dismiss
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </main>

@@ -14,8 +14,11 @@ import {
   Phone,
   ArrowLeft,
   Search,
+  Download,
 } from "lucide-react";
+import QRCode from "qrcode";
 import { createClient } from "@/lib/supabase/client";
+import { renderPassCardToCanvas, savePassImageToDevice } from "@/lib/pass-card-renderer";
 
 interface BookingDetail {
   id: string;
@@ -56,8 +59,37 @@ function ManageBookingContent({
   const [cancelling, setCancelling] = useState(false);
   const [cancelSuccess, setCancelSuccess] = useState(false);
   const [cancelReason, setCancelReason] = useState("");
+  const [downloadingPass, setDownloadingPass] = useState(false);
 
   const supabase = createClient();
+
+  const handleDownloadPass = async () => {
+    if (!booking) return;
+    setDownloadingPass(true);
+    try {
+      const passUrl = `${window.location.origin}/book/${slug}/manage?code=${booking.cancellation_code}`;
+      const qrDataUrl = await QRCode.toDataURL(passUrl, { width: 360, margin: 1 });
+      const canvas = await renderPassCardToCanvas({
+        shopName: booking.shops?.name || "Barber Shop",
+        shopAddress: booking.shops?.address || "",
+        shopCity: booking.shops?.city || "Ghana",
+        cancellationCode: booking.cancellation_code,
+        serviceName: booking.services?.name || "Barber Service",
+        staffName: booking.staff?.name || "Barber Specialist",
+        startAt: booking.start_at,
+        paymentStatus: booking.payment_status,
+        price: booking.price,
+        qrDataUrl,
+      });
+
+      await savePassImageToDevice(canvas, booking.cancellation_code);
+    } catch (e) {
+      console.error("Failed to download pass image:", e);
+      alert("Could not download pass image.");
+    } finally {
+      setDownloadingPass(false);
+    }
+  };
 
   const fetchBooking = async (searchCode: string) => {
     if (!searchCode.trim()) return;
@@ -249,6 +281,25 @@ function ManageBookingContent({
                   </div>
                 </div>
               </div>
+
+              {/* Pass Image Download */}
+              {booking.status !== "cancelled" && (
+                <button
+                  type="button"
+                  onClick={handleDownloadPass}
+                  disabled={downloadingPass}
+                  className="w-full py-2.5 px-3 rounded-xl border border-[#222222] bg-white hover:bg-[#f7f7f7] text-[#222222] text-xs font-bold transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs"
+                >
+                  {downloadingPass ? (
+                    <div className="w-4 h-4 border-2 border-[#222222]/30 border-t-[#222222] rounded-full animate-spin" />
+                  ) : (
+                    <>
+                      <Download className="w-3.5 h-3.5 text-[#ff385c]" />
+                      <span>Download Booking Pass Image</span>
+                    </>
+                  )}
+                </button>
+              )}
 
               {/* Cancellation Policy Box & Button */}
               {booking.status !== "cancelled" && booking.status !== "completed" && (
