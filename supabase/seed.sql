@@ -1,14 +1,161 @@
 -- Trimly Seed Data
 
+-- 0. Demo Auth Users in auth.users & auth.identities (Password: Password123!)
+INSERT INTO auth.users (
+  id,
+  instance_id,
+  aud,
+  role,
+  email,
+  encrypted_password,
+  email_confirmed_at,
+  raw_app_meta_data,
+  raw_user_meta_data,
+  created_at,
+  updated_at
+) VALUES 
+(
+  'c2ce3a13-0505-495a-869a-c713a5494087',
+  '00000000-0000-0000-0000-000000000000',
+  'authenticated',
+  'authenticated',
+  'info@gentlemenscut.com',
+  extensions.crypt('Password123!', extensions.gen_salt('bf')),
+  now(),
+  '{"provider":"email","providers":["email"]}',
+  '{"full_name":"Gentlemen''s Cut Owner"}',
+  now(),
+  now()
+),
+(
+  'c2a7a616-bf5c-498f-8e2c-6fc3ff63a6eb',
+  '00000000-0000-0000-0000-000000000000',
+  'authenticated',
+  'authenticated',
+  'moseiboakye@st.knust.edu.gh',
+  extensions.crypt('Password123!', extensions.gen_salt('bf')),
+  now(),
+  '{"provider":"email","providers":["email"]}',
+  '{"full_name":"Martin Osei Boakye"}',
+  now(),
+  now()
+),
+(
+  '4da0b933-1e2b-4a12-9602-10166b354407',
+  '00000000-0000-0000-0000-000000000000',
+  'authenticated',
+  'authenticated',
+  'kojo@gentlemenscut.com',
+  extensions.crypt('Password123!', extensions.gen_salt('bf')),
+  now(),
+  '{"provider":"email","providers":["email"]}',
+  '{"full_name":"Kojo Mensah"}',
+  now(),
+  now()
+),
+(
+  '71e6f017-7210-4829-99ab-76ac623edb90',
+  '00000000-0000-0000-0000-000000000000',
+  'authenticated',
+  'authenticated',
+  'kwame@gentlemenscut.com',
+  extensions.crypt('Password123!', extensions.gen_salt('bf')),
+  now(),
+  '{"provider":"email","providers":["email"]}',
+  '{"full_name":"Kwame Asante"}',
+  now(),
+  now()
+),
+(
+  '82dae066-bac0-454f-b914-a4e5e1cbd0ca',
+  '00000000-0000-0000-0000-000000000000',
+  'authenticated',
+  'authenticated',
+  'emmanuel@gentlemenscut.com',
+  extensions.crypt('Password123!', extensions.gen_salt('bf')),
+  now(),
+  '{"provider":"email","providers":["email"]}',
+  '{"full_name":"Emmanuel Osei"}',
+  now(),
+  now()
+)
+ON CONFLICT (id) DO UPDATE
+SET encrypted_password = EXCLUDED.encrypted_password,
+    email_confirmed_at = EXCLUDED.email_confirmed_at;
+
+INSERT INTO auth.identities (
+  id,
+  user_id,
+  identity_data,
+  provider,
+  provider_id,
+  last_sign_in_at,
+  created_at,
+  updated_at
+) VALUES
+(
+  'f164f17f-6bcd-443c-a2e9-e267397c2b07',
+  'c2ce3a13-0505-495a-869a-c713a5494087',
+  jsonb_build_object('sub', 'c2ce3a13-0505-495a-869a-c713a5494087', 'email', 'info@gentlemenscut.com'),
+  'email',
+  'c2ce3a13-0505-495a-869a-c713a5494087',
+  now(),
+  now(),
+  now()
+),
+(
+  'd7d96c36-0c60-47ba-9b6d-e8cbb2d9e073',
+  'c2a7a616-bf5c-498f-8e2c-6fc3ff63a6eb',
+  jsonb_build_object('sub', 'c2a7a616-bf5c-498f-8e2c-6fc3ff63a6eb', 'email', 'moseiboakye@st.knust.edu.gh'),
+  'email',
+  'c2a7a616-bf5c-498f-8e2c-6fc3ff63a6eb',
+  now(),
+  now(),
+  now()
+),
+(
+  '219aefd6-a6bd-4a41-a06b-de52e4c30fc8',
+  '4da0b933-1e2b-4a12-9602-10166b354407',
+  jsonb_build_object('sub', '4da0b933-1e2b-4a12-9602-10166b354407', 'email', 'kojo@gentlemenscut.com'),
+  'email',
+  '4da0b933-1e2b-4a12-9602-10166b354407',
+  now(),
+  now(),
+  now()
+),
+(
+  '7ff01cef-c4b7-4e38-be7a-aa1bb25559a4',
+  '71e6f017-7210-4829-99ab-76ac623edb90',
+  jsonb_build_object('sub', '71e6f017-7210-4829-99ab-76ac623edb90', 'email', 'kwame@gentlemenscut.com'),
+  'email',
+  '71e6f017-7210-4829-99ab-76ac623edb90',
+  now(),
+  now(),
+  now()
+),
+(
+  '84d4772d-1fa5-4943-acfb-353f25829f41',
+  '82dae066-bac0-454f-b914-a4e5e1cbd0ca',
+  jsonb_build_object('sub', '82dae066-bac0-454f-b914-a4e5e1cbd0ca', 'email', 'emmanuel@gentlemenscut.com'),
+  'email',
+  '82dae066-bac0-454f-b914-a4e5e1cbd0ca',
+  now(),
+  now(),
+  now()
+)
+ON CONFLICT (id) DO NOTHING;
+
 -- 1. Martin's Platform Admin Record
-INSERT INTO platform_admins (id, email)
+INSERT INTO platform_admins (id, user_id, email)
 VALUES 
-  ('00000000-0000-0000-0000-000000000001', 'moseiboakye@st.knust.edu.gh')
-ON CONFLICT (email) DO NOTHING;
+  ('00000000-0000-0000-0000-000000000001', 'c2a7a616-bf5c-498f-8e2c-6fc3ff63a6eb', 'moseiboakye@st.knust.edu.gh')
+ON CONFLICT (email) DO UPDATE
+SET user_id = EXCLUDED.user_id;
 
 -- 2. Demo Shop: Gentlemen's Cut
 INSERT INTO shops (
   id,
+  owner_id,
   name,
   slug,
   tagline,
@@ -25,6 +172,7 @@ INSERT INTO shops (
   is_suspended
 ) VALUES (
   '11111111-1111-1111-1111-111111111111',
+  'c2ce3a13-0505-495a-869a-c713a5494087',
   'Gentlemen''s Cut',
   'gentlemens-cut',
   'Accra''s Premier Grooming & Styling Experience',
@@ -40,7 +188,8 @@ INSERT INTO shops (
   2,
   false
 ) ON CONFLICT (slug) DO UPDATE 
-SET name = EXCLUDED.name,
+SET owner_id = EXCLUDED.owner_id,
+    name = EXCLUDED.name,
     tagline = EXCLUDED.tagline,
     description = EXCLUDED.description,
     address = EXCLUDED.address,
@@ -51,6 +200,7 @@ SET name = EXCLUDED.name,
 INSERT INTO staff (
   id,
   shop_id,
+  user_id,
   name,
   role,
   phone,
@@ -61,6 +211,7 @@ INSERT INTO staff (
 (
   '22222222-2222-2222-2222-222222222221',
   '11111111-1111-1111-1111-111111111111',
+  '4da0b933-1e2b-4a12-9602-10166b354407',
   'Kojo Mensah',
   'Master Barber & Founder',
   '+233 24 999 1111',
@@ -71,6 +222,7 @@ INSERT INTO staff (
 (
   '22222222-2222-2222-2222-222222222222',
   '11111111-1111-1111-1111-111111111111',
+  '71e6f017-7210-4829-99ab-76ac623edb90',
   'Kwame Asante',
   'Senior Stylist',
   '+233 24 999 2222',
@@ -81,6 +233,7 @@ INSERT INTO staff (
 (
   '22222222-2222-2222-2222-222222222223',
   '11111111-1111-1111-1111-111111111111',
+  '82dae066-bac0-454f-b914-a4e5e1cbd0ca',
   'Emmanuel Osei',
   'Barber & Scalp Specialist',
   '+233 24 999 3333',
@@ -88,7 +241,9 @@ INSERT INTO staff (
   'Certified scalp therapist and precision cutter. Known for gentle hot-towel shaves.',
   true
 )
-ON CONFLICT (id) DO NOTHING;
+ON CONFLICT (id) DO UPDATE
+SET user_id = EXCLUDED.user_id;
+
 
 -- 4. Services (5 Services)
 INSERT INTO services (

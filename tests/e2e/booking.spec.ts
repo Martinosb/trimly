@@ -88,4 +88,14 @@ test.describe("Trimly End-to-End User Journeys", () => {
     await expect(page.getByText("Gentlemen's Cut")).toBeVisible();
     await expect(page.getByRole("button", { name: /Drilldown/i }).first()).toBeVisible();
   });
+
+  test("5. Shop Owner Login via quick shortcut redirects to /dashboard", async ({ page }) => {
+    await page.goto("/login");
+    await page.getByRole("button", { name: /Demo Shop Owner/i }).click();
+    await page.locator("form button[type='submit']").click();
+    await page.waitForURL("**/dashboard", { timeout: 15000 });
+    await expect(page.getByText("Live Chairs")).toBeVisible();
+  });
 });
+
+
