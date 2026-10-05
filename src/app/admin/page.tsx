@@ -148,7 +148,7 @@ export default function PlatformAdminConsole() {
             <div>
               <div className="flex items-center gap-2">
                 <h1 className="text-2xl font-black tracking-tight text-[#222222]">
-                  Trimly Platform Admin
+                  GxStyl Platform Admin
                 </h1>
                 <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-neutral-900 text-white uppercase tracking-wider">
                   Dev Console

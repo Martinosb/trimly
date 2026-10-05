@@ -38,7 +38,7 @@ export default async function HomePage() {
               <Scissors className="w-4 h-4 sm:w-5 sm:h-5 fill-current rotate-45" />
             </div>
             <span className="font-extrabold text-xl sm:text-2xl tracking-tight text-[#222222]">
-              Trimly
+              GxStyl
             </span>
           </Link>
 
@@ -212,7 +212,7 @@ export default async function HomePage() {
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
           <div className="flex items-center gap-2 flex-wrap justify-center sm:justify-start">
             <Scissors className="w-4 h-4 text-[#ff385c]" />
-            <span className="font-bold text-[#222222]">Trimly</span>
+            <span className="font-bold text-[#222222]">GxStyl</span>
             <span>— The new way to get a beautiful cut.</span>
           </div>
 
@@ -225,6 +225,12 @@ export default async function HomePage() {
             </Link>
             <Link href="/admin" className="hover:text-[#222222]">
               Platform Admin
+            </Link>
+            <Link href="/privacy" className="hover:text-[#222222]">
+              Privacy Policy
+            </Link>
+            <Link href="/terms" className="hover:text-[#222222]">
+              Terms
             </Link>
           </div>
         </div>

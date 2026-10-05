@@ -37,7 +37,7 @@ export class HubtelPaymentProvider implements PaymentProvider {
           invoice: {
             items: [
               {
-                name: `Trimly Booking Reservation`,
+                name: `GxStyl Booking Reservation`,
                 quantity: 1,
                 unitPrice: params.amount,
                 totalPrice: params.amount,
@@ -47,7 +47,7 @@ export class HubtelPaymentProvider implements PaymentProvider {
             description: `Payment for booking #${params.bookingId}`,
           },
           store: {
-            name: "Trimly Ghana",
+            name: "GxStyl Ghana",
           },
           customData: {
             bookingId: params.bookingId,

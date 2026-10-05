@@ -1,6 +1,6 @@
-// Trimly Service Worker: Offline Caching + Web Push
+// GxStyl Service Worker: Offline Caching + Web Push
 
-const CACHE_NAME = "trimly-cache-v1";
+const CACHE_NAME = "gxstyl-cache-v1";
 const STATIC_ASSETS = ["/", "/login", "/favicon.ico", "/manifest.json"];
 
 // Install Event
@@ -50,7 +50,7 @@ self.addEventListener("fetch", (event) => {
 // Push Event: Handle incoming Web Push notifications
 self.addEventListener("push", (event) => {
   let data = {
-    title: "Trimly Cut Alert ✂",
+    title: "GxStyl Cut Alert ✂",
     body: "You have an update on your appointment.",
     url: "/",
   };

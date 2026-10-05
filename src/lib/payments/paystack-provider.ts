@@ -21,7 +21,7 @@ export class PaystackPaymentProvider implements PaymentProvider {
       const email =
         params.clientEmail && params.clientEmail.includes("@")
           ? params.clientEmail
-          : `${params.clientPhone.replace(/\D/g, "")}@trimly.cerkyl.com`;
+          : `${params.clientPhone.replace(/\D/g, "")}@gxstyl.com`;
 
       const response = await fetch("https://api.paystack.co/transaction/initialize", {
         method: "POST",

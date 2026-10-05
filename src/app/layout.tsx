@@ -9,7 +9,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Trimly — The new way to get a beautiful cut",
+  title: "GxStyl — The new way to get a beautiful cut",
   description:
     "Multi-tenant barber and salon booking in Ghana. Instant appointments, live real-time chairs, zero queues.",
   manifest: "/manifest.json",
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "Trimly",
+    title: "GxStyl",
   },
 };
 

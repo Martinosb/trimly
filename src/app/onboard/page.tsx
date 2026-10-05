@@ -281,7 +281,7 @@ export default function OnboardingPage() {
               <Scissors className="w-4 h-4 fill-current rotate-45" />
             </div>
             <div>
-              <span className="font-bold text-base tracking-tight text-[#222222]">Trimly</span>
+              <span className="font-bold text-base tracking-tight text-[#222222]">GxStyl</span>
               <span className="text-xs text-[#717171] block">Shop Setup Wizard</span>
             </div>
           </div>
@@ -336,7 +336,7 @@ export default function OnboardingPage() {
                   Your Custom Booking Link *
                 </label>
                 <div className="flex items-center rounded-xl border border-[#dddddd] px-2.5 sm:px-3 py-2 bg-[#fcfcfc] focus-within:border-[#ff385c] min-w-0">
-                  <span className="text-[11px] sm:text-xs text-[#717171] select-none shrink-0">trimly.cut/book/</span>
+                  <span className="text-[11px] sm:text-xs text-[#717171] select-none shrink-0">gxstyl.com/book/</span>
                   <input
                     type="text"
                     required
@@ -685,7 +685,7 @@ export default function OnboardingPage() {
 
               <div>
                 <h2 className="text-2xl font-bold tracking-tight text-[#222222]">
-                  Your shop is live on Trimly!
+                  Your shop is live on GxStyl!
                 </h2>
                 <p className="text-sm text-[#717171] mt-1.5 max-w-sm mx-auto">
                   Share your link on Instagram, WhatsApp, and Google Maps to start receiving instant bookings.

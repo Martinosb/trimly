@@ -1,10 +1,33 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Scissors, Lock, Mail, ArrowRight, CheckCircle2, AlertCircle } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+
+function GoogleIcon({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        fill="#4285F4"
+        d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.65v3h3.88c2.27-2.09 3.66-5.17 3.66-9.09z"
+      />
+      <path
+        fill="#34A853"
+        d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.26v3.09C3.27 21.36 7.35 24 12 24z"
+      />
+      <path
+        fill="#FBBC05"
+        d="M5.28 14.32c-.25-.72-.38-1.49-.38-2.32 0-.83.13-1.6.38-2.32V6.59H1.26C.46 8.18 0 9.99 0 12c0 2.01.46 3.82 1.26 5.41l4.02-3.09z"
+      />
+      <path
+        fill="#EA4335"
+        d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.35 0 3.27 2.64 1.26 6.59l4.02 3.09c.95-2.83 3.6-4.93 6.72-4.93z"
+      />
+    </svg>
+  );
+}
 
 function LoginForm() {
   const router = useRouter();
@@ -16,9 +39,44 @@ function LoginForm() {
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [loading, setLoading] = useState(false);
+  const [oauthLoading, setOauthLoading] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
   const supabase = createClient();
+
+  // Sync error query param if redirected back with error
+  useEffect(() => {
+    const errorParam = searchParams.get("error");
+    if (errorParam) {
+      setMessage({ type: "error", text: decodeURIComponent(errorParam) });
+    }
+  }, [searchParams]);
+
+  const handleGoogleSignIn = async () => {
+    setOauthLoading(true);
+    setMessage(null);
+
+    try {
+      const nextParam = searchParams.get("next");
+      const nextDestination = nextParam || (mode === "signup" ? "/onboard" : "/dashboard");
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(nextDestination)}`,
+          queryParams: {
+            access_type: "offline",
+            prompt: "consent",
+          },
+        },
+      });
+
+      if (error) throw error;
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to sign in with Google";
+      setMessage({ type: "error", text: msg });
+      setOauthLoading(false);
+    }
+  };
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -89,12 +147,12 @@ function LoginForm() {
             <span className="text-xl">✕</span>
           </Link>
 
-          {/* Trimly Logo */}
+          {/* GxStyl Logo */}
           <div className="flex items-center gap-2 absolute left-1/2 -translate-x-1/2">
             <div className="w-8 h-8 rounded-full bg-[#ff385c]/10 flex items-center justify-center text-[#ff385c]">
               <Scissors className="w-4 h-4 fill-current rotate-45" />
             </div>
-            <span className="font-bold text-xl tracking-tight text-[#222222]">Trimly</span>
+            <span className="font-bold text-xl tracking-tight text-[#222222]">GxStyl</span>
           </div>
 
           <div className="w-9" />
@@ -141,7 +199,7 @@ function LoginForm() {
             <p className="text-sm text-[#717171] mt-1">
               {mode === "login"
                 ? "Manage appointments, staff chairs, and revenue."
-                : "Join Ghana's top barbers and salons on Trimly."}
+                : "Join Ghana's top barbers and salons on GxStyl."}
             </p>
           </div>
 
@@ -161,6 +219,35 @@ function LoginForm() {
               <span>{message.text}</span>
             </div>
           )}
+
+          {/* Google Sign In Option */}
+          <button
+            type="button"
+            onClick={handleGoogleSignIn}
+            disabled={loading || oauthLoading}
+            className="w-full py-3.5 px-4 rounded-xl border border-[#dddddd] hover:border-[#222222] hover:bg-[#fafafa] active:scale-[0.98] text-[#222222] font-semibold text-sm shadow-xs transition-all duration-150 flex items-center justify-center gap-3 disabled:opacity-50 disabled:pointer-events-none mb-5"
+          >
+            {oauthLoading ? (
+              <div className="w-5 h-5 border-2 border-[#222222]/30 border-t-[#222222] rounded-full animate-spin" />
+            ) : (
+              <>
+                <GoogleIcon className="w-5 h-5 shrink-0" />
+                <span>Continue with Google</span>
+              </>
+            )}
+          </button>
+
+          {/* Divider */}
+          <div className="relative mb-5">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-[#ebebeb]" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-white px-3 text-[#717171] font-semibold tracking-wider">
+                or with email
+              </span>
+            </div>
+          </div>
 
           <form onSubmit={handleAuth} className="space-y-4">
             {mode === "signup" && (
@@ -216,7 +303,7 @@ function LoginForm() {
 
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || oauthLoading}
               className="w-full py-3.5 px-4 rounded-xl bg-[#ff385c] hover:bg-[#e00b41] active:scale-[0.98] text-white font-semibold text-sm shadow-sm transition-all duration-150 flex items-center justify-center gap-2 disabled:opacity-50 disabled:pointer-events-none mt-2"
             >
               {loading ? (
@@ -230,35 +317,42 @@ function LoginForm() {
             </button>
           </form>
 
-          {/* Quick Demo Credentials helper */}
-          <div className="mt-8 pt-5 border-t border-[#f0f0f0]">
-            <p className="text-xs font-medium text-[#717171] mb-2 text-center">
-              Quick demo shortcuts for review:
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              <button
-                type="button"
-                onClick={() => handleQuickLogin("info@gentlemenscut.com")}
-                className="text-xs py-2 px-2.5 rounded-lg border border-[#dddddd] hover:border-[#222222] bg-white font-medium text-[#222222] transition-colors text-left truncate"
-              >
-                ✂ Demo Shop Owner
-              </button>
-              <button
-                type="button"
-                onClick={() => handleQuickLogin("moseiboakye@st.knust.edu.gh")}
-                className="text-xs py-2 px-2.5 rounded-lg border border-[#dddddd] hover:border-[#222222] bg-white font-medium text-[#222222] transition-colors text-left truncate"
-              >
-                ⚡ Platform Admin
-              </button>
+          {/* Quick Demo Credentials helper (Only in local development) */}
+          {process.env.NODE_ENV !== "production" && (
+            <div className="mt-8 pt-5 border-t border-[#f0f0f0]">
+              <p className="text-xs font-medium text-[#717171] mb-2 text-center">
+                Development demo shortcuts:
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={() => handleQuickLogin("info@gentlemenscut.com")}
+                  className="text-xs py-2 px-2.5 rounded-lg border border-[#dddddd] hover:border-[#222222] bg-white font-medium text-[#222222] transition-colors text-left truncate"
+                >
+                  ✂ Demo Shop Owner
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleQuickLogin("moseiboakye@st.knust.edu.gh")}
+                  className="text-xs py-2 px-2.5 rounded-lg border border-[#dddddd] hover:border-[#222222] bg-white font-medium text-[#222222] transition-colors text-left truncate"
+                >
+                  ⚡ Platform Admin
+                </button>
+              </div>
             </div>
-          </div>
+          )}
         </main>
 
         {/* Footer */}
         <footer className="px-6 py-4 bg-[#fafafa] border-t border-[#f0f0f0] text-center text-xs text-[#717171]">
-          By continuing, you agree to Trimly&apos;s{" "}
-          <span className="underline cursor-pointer">Terms of Service</span> and{" "}
-          <span className="underline cursor-pointer">Privacy Policy</span>.
+          By continuing, you agree to GxStyl&apos;s{" "}
+          <Link href="/terms" className="underline hover:text-[#222222] transition-colors">
+            Terms of Service
+          </Link>{" "}
+          and{" "}
+          <Link href="/privacy" className="underline hover:text-[#222222] transition-colors">
+            Privacy Policy
+          </Link>.
         </footer>
       </div>
     </div>

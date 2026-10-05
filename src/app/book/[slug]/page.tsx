@@ -313,7 +313,7 @@ export default function BookingPortalPage({
 
       if (typeof window !== "undefined") {
         const alreadySaved =
-          localStorage.getItem(`trimly_pass_saved_${booking.cancellationCode}`) === "true";
+          localStorage.getItem(`gxstyl_pass_saved_${booking.cancellationCode}`) === "true";
         setHasSavedPass(alreadySaved);
       } else {
         setHasSavedPass(false);
@@ -351,7 +351,7 @@ export default function BookingPortalPage({
         setHasSavedPass(true);
         setShowMandateWarning(false);
         if (typeof window !== "undefined") {
-          localStorage.setItem(`trimly_pass_saved_${confirmedBooking.cancellationCode}`, "true");
+          localStorage.setItem(`gxstyl_pass_saved_${confirmedBooking.cancellationCode}`, "true");
         }
       }
     } catch (err) {
@@ -394,7 +394,7 @@ export default function BookingPortalPage({
             href="/"
             className="px-5 py-2.5 rounded-xl bg-[#222222] text-white text-sm font-semibold"
           >
-            Go to Trimly Home
+            Go to GxStyl Home
           </Link>
         </div>
       </div>
@@ -417,7 +417,7 @@ export default function BookingPortalPage({
             href="/"
             className="px-5 py-2.5 rounded-xl bg-[#ff385c] text-white text-sm font-semibold shadow-sm"
           >
-            Explore Other Barbers on Trimly
+            Explore Other Barbers on GxStyl
           </Link>
         </div>
       </div>
@@ -445,7 +445,7 @@ export default function BookingPortalPage({
           ) : (
             <Link
               href="/"
-              aria-label="Trimly Home"
+              aria-label="GxStyl Home"
               className="w-8 h-8 rounded-full flex items-center justify-center text-[#222222] hover:bg-[#f7f7f7] transition-colors"
             >
               <Scissors className="w-4 h-4 text-[#ff385c] rotate-45" />

@@ -1,6 +1,7 @@
 -- Enable required extensions
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS "btree_gist";
+CREATE EXTENSION IF NOT EXISTS "pgcrypto" WITH SCHEMA extensions;
 
 -- =====================================================================
 -- 1. PLATFORM ADMINS
@@ -182,7 +183,7 @@ CREATE TABLE bookings (
   payment_method TEXT CHECK (payment_method IN ('momo_mtn', 'momo_voda', 'momo_airteltigo', 'card', 'pay_at_shop')),
   price NUMERIC(10, 2) NOT NULL DEFAULT 0,
   deposit_amount NUMERIC(10, 2) NOT NULL DEFAULT 0,
-  cancellation_code TEXT NOT NULL DEFAULT encode(gen_random_bytes(6), 'hex'),
+  cancellation_code TEXT NOT NULL DEFAULT encode(extensions.gen_random_bytes(6), 'hex'),
   hold_expires_at TIMESTAMPTZ,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),

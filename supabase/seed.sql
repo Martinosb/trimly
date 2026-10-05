@@ -1,4 +1,4 @@
--- Trimly Seed Data
+-- GxStyl Seed Data
 
 -- 0. Demo Auth Users in auth.users & auth.identities (Password: Password123!)
 INSERT INTO auth.users (

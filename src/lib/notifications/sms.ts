@@ -6,7 +6,7 @@ export class MockSmsProvider implements SmsProvider {
 
   async send(params: { to: string; message: string; senderId?: string }): Promise<{ success: boolean; id: string }> {
     const id = `MOCK_SMS_${Date.now()}`;
-    console.log(`[SMS MOCK] To: ${params.to} | From: ${params.senderId || "Trimly"} | Msg: "${params.message}"`);
+    console.log(`[SMS MOCK] To: ${params.to} | From: ${params.senderId || "GxStyl"} | Msg: "${params.message}"`);
     return { success: true, id };
   }
 }
@@ -16,7 +16,7 @@ export class ArkeselSmsProvider implements SmsProvider {
   private apiKey: string;
   private defaultSender: string;
 
-  constructor(apiKey: string, defaultSender: string = "Trimly") {
+  constructor(apiKey: string, defaultSender: string = "GxStyl") {
     this.apiKey = apiKey;
     this.defaultSender = defaultSender;
   }
@@ -59,7 +59,7 @@ export function getSmsProvider(): SmsProvider {
   const apiKey = process.env.ARKESEL_API_KEY;
 
   if (!isMock && apiKey && apiKey !== "mock_arkesel_api_key") {
-    return new ArkeselSmsProvider(apiKey, process.env.ARKESEL_SENDER_ID || "Trimly");
+    return new ArkeselSmsProvider(apiKey, process.env.ARKESEL_SENDER_ID || "GxStyl");
   }
 
   return new MockSmsProvider();
@@ -81,7 +81,7 @@ export async function sendSmsNotification(params: {
   const res = await sms.send({
     to: params.to,
     message: params.message,
-    senderId: params.senderId || "Trimly",
+    senderId: params.senderId || "GxStyl",
   });
 
   const supabase = createAdminClient();

@@ -29,7 +29,7 @@ export default function DashboardLayout({
             </div>
             <div>
               <span className="font-extrabold text-xl tracking-tight text-[#222222]">
-                Trimly
+                GxStyl
               </span>
               <span className="text-[10px] text-[#717171] uppercase tracking-wider block font-semibold">
                 Shop Manager

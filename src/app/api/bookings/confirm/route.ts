@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
         const staff = bookingDetail.staff as unknown as { name: string; phone: string } | null;
         const service = bookingDetail.services as unknown as { name: string; duration_min: number } | null;
 
-        const shopName = shop?.name || "Trimly Barber";
+        const shopName = shop?.name || "GxStyl Barber";
         const shopSlug = shop?.slug || "";
         const staffName = staff?.name || "Your Barber";
         const serviceName = service?.name || "Haircut";
@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
           recipientType: "client",
           to: bookingDetail.client_phone,
           title: "Booking Confirmed",
-          message: `Trimly: Confirmed! ${serviceName} with ${staffName} at ${shopName} on ${dateFormatted} at ${timeFormatted}. Pass: ${manageUrl}`,
+          message: `GxStyl: Confirmed! ${serviceName} with ${staffName} at ${shopName} on ${dateFormatted} at ${timeFormatted}. Pass: ${manageUrl}`,
         });
 
         // 2. Dispatch Web Push notification to Shop Owner

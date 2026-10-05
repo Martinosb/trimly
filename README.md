@@ -1,6 +1,6 @@
-# Trimly — The New Way to Get a Beautiful Cut 💈🇬🇭
+# GxStyl — The New Way to Get a Beautiful Cut 💈🇬🇭
 
-**Trimly** is a production-grade, multi-tenant barber and salon booking SaaS engineered specifically for Ghana (Accra, Kumasi, Tema). Built with a mobile-first philosophy inspired by Airbnb's design tokens, Trimly eliminates long waiting bench times, eliminates double-bookings with database-level concurrency locks, and streamlines operations for barbershop owners.
+**GxStyl** is a production-grade, multi-tenant barber and salon booking SaaS engineered specifically for Ghana (Accra, Kumasi, Tema). Built with a mobile-first philosophy inspired by Airbnb's design tokens, GxStyl eliminates long waiting bench times, eliminates double-bookings with database-level concurrency locks, and streamlines operations for barbershop owners.
 
 ---
 
@@ -101,7 +101,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 Traditional booking systems suffer from race conditions: two customers open the same 3:00 PM slot simultaneously, and application-level checks allow both to insert.
 
-Trimly solves this at the database storage engine layer using PostgreSQL's `btree_gist` extension:
+GxStyl solves this at the database storage engine layer using PostgreSQL's `btree_gist` extension:
 
 ```sql
 ALTER TABLE bookings
@@ -135,7 +135,7 @@ npm test -- src/lib/slot-engine/concurrency.test.ts
 
 ## 💳 Payment & SMS Integration Guide
 
-Trimly ships with complete mock adapters for immediate local execution and zero-dependency testing, along with production-ready interfaces.
+GxStyl ships with complete mock adapters for immediate local execution and zero-dependency testing, along with production-ready interfaces.
 
 ### Mobile Money & Card Payments (`src/lib/payments/`)
 - **Mock Mode:** Enabled by default (`MOCK_PAYMENT_MODE=true`). Generates realistic reference codes and simulates instant confirmations.
@@ -150,7 +150,7 @@ Trimly ships with complete mock adapters for immediate local execution and zero-
 ### SMS Notifications (`src/lib/notifications/sms.ts`)
 - **Mock Mode:** Logs SMS payloads to stdout and local notifications table.
 - **Arkesel Plug-in:**
-  1. Set `ARKESEL_API_KEY=...` and `ARKESEL_SENDER_ID=Trimly`.
+  1. Set `ARKESEL_API_KEY=...` and `ARKESEL_SENDER_ID=GxStyl`.
   2. Replace mock dispatch in `src/lib/notifications/sms.ts` with `POST https://sms.arkesel.com/api/v2/sms/send`.
 
 ---
@@ -189,7 +189,7 @@ Audit reports are archived in `docs/e2e/report.html` and `docs/e2e/report.json`.
 ## 📁 Project Directory Layout
 
 ```
-trimly/
+gxstyl/
 ├── docs/e2e/                  # Lighthouse reports & mobile/desktop screenshots
 │   ├── 01_home_mobile.png
 │   ├── 02_booking_services_mobile.png
