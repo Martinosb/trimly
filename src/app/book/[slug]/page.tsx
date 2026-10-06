@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import confetti from "canvas-confetti";
 import QRCode from "qrcode";
+import { directionsUrl } from "@/lib/location";
 import { createClient } from "@/lib/supabase/client";
 import { renderPassCardToCanvas, savePassImageToDevice } from "@/lib/pass-card-renderer";
 
@@ -37,6 +38,9 @@ interface Shop {
   description: string | null;
   address: string;
   city: string;
+  region: string | null;
+  latitude: number | null;
+  longitude: number | null;
   phone: string;
   instagram: string | null;
   deposit_type: "none" | "fixed" | "percentage";
@@ -457,8 +461,9 @@ export default function BookingPortalPage({
               {shop.name}
             </span>
             <span className="text-[11px] text-[#595959] flex items-center justify-center gap-1">
-              <MapPin className="w-3 h-3 text-[#ff385c]" /> {shop.city}, Ghana
+              <MapPin className="w-3 h-3 text-[#ff385c]" /> {[shop.city, shop.region, "Ghana"].filter(Boolean).join(", ")}
             </span>
+            <a href={directionsUrl(shop)} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center text-xs font-semibold underline">Get directions<span className="sr-only"> (opens in a new tab)</span></a>
           </div>
 
           <div className="w-8 flex justify-end">

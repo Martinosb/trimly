@@ -15,6 +15,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+
       graphql: {
         Args: {
           extensions?: Json
@@ -362,6 +363,9 @@ export type Database = {
           avatar_url: string | null
           cancellation_hours: number
           city: string
+          region: string | null
+          latitude: number | null
+          longitude: number | null
           cover_url: string | null
           created_at: string
           deposit_type: string
@@ -384,6 +388,9 @@ export type Database = {
           avatar_url?: string | null
           cancellation_hours?: number
           city?: string
+          region?: string | null
+          latitude?: number | null
+          longitude?: number | null
           cover_url?: string | null
           created_at?: string
           deposit_type?: string
@@ -406,6 +413,9 @@ export type Database = {
           avatar_url?: string | null
           cancellation_hours?: number
           city?: string
+          region?: string | null
+          latitude?: number | null
+          longitude?: number | null
           cover_url?: string | null
           created_at?: string
           deposit_type?: string
@@ -582,6 +592,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      discover_shops: {
+        Args: { search_text?: string; search_region?: string; user_lat?: number; user_lon?: number; radius_km?: number; page_offset?: number }
+        Returns: { id: string; name: string; slug: string; tagline: string | null; address: string; city: string; region: string | null; latitude: number | null; longitude: number | null; distance_km: number | null; total_count: number }[]
+      }
       confirm_booking: {
         Args: {
           p_booking_id: string

@@ -6,11 +6,10 @@ import {
   Users,
   Tag,
   Settings,
-  PlusCircle,
-  ExternalLink,
   LogOut,
   Sparkles,
 } from "lucide-react";
+import { LiveBookingLink } from "@/components/dashboard/live-booking-link";
 
 export default function DashboardLayout({
   children,
@@ -20,11 +19,11 @@ export default function DashboardLayout({
   return (
     <div className="min-h-screen bg-[#f7f7f7] text-[#222222] font-sans flex flex-col lg:flex-row antialiased">
       {/* Desktop Sidebar (Airbnb style) */}
-      <aside className="hidden lg:flex flex-col justify-between w-64 bg-white border-r border-[#ebebeb] p-5 shrink-0 min-h-screen sticky top-0">
+      <aside className="hidden lg:flex flex-col justify-between w-64 bg-white/95 backdrop-blur-sm border-r border-[#ebebeb] p-5 shrink-0 min-h-screen sticky top-0">
         <div className="space-y-6">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 rounded-full bg-[#ff385c] flex items-center justify-center text-white shadow-xs">
+          <Link href="/" className="flex items-center gap-2 group rounded-xl focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#ff385c] focus-visible:ring-offset-2">
+            <div className="w-9 h-9 rounded-full bg-[#ff385c] flex items-center justify-center text-white shadow-sm transition-transform group-hover:scale-105">
               <Scissors className="w-4 h-4 fill-current rotate-45" />
             </div>
             <div>
@@ -41,7 +40,7 @@ export default function DashboardLayout({
           <nav className="space-y-1">
             <Link
               href="/dashboard"
-              className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-semibold text-sm hover:bg-[#f7f7f7] transition-colors text-[#222222]"
+              className="flex items-center gap-3 px-3.5 py-3 rounded-xl font-semibold text-sm bg-[#fff1f3] text-[#d61f45] transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#ff385c]"
             >
               <Calendar className="w-4 h-4 text-[#ff385c]" />
               <span>Live Timeline</span>
@@ -49,7 +48,7 @@ export default function DashboardLayout({
 
             <Link
               href="/dashboard/services"
-              className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-semibold text-sm hover:bg-[#f7f7f7] transition-colors text-[#717171] hover:text-[#222222]"
+              className="flex items-center gap-3 px-3.5 py-3 rounded-xl font-semibold text-sm hover:bg-[#f7f7f7] transition-colors text-[#717171] hover:text-[#222222] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#ff385c]"
             >
               <Tag className="w-4 h-4" />
               <span>Services & Prices</span>
@@ -57,7 +56,7 @@ export default function DashboardLayout({
 
             <Link
               href="/dashboard/staff"
-              className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-semibold text-sm hover:bg-[#f7f7f7] transition-colors text-[#717171] hover:text-[#222222]"
+              className="flex items-center gap-3 px-3.5 py-3 rounded-xl font-semibold text-sm hover:bg-[#f7f7f7] transition-colors text-[#717171] hover:text-[#222222] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#ff385c]"
             >
               <Users className="w-4 h-4" />
               <span>Barbers & Chairs</span>
@@ -65,7 +64,7 @@ export default function DashboardLayout({
 
             <Link
               href="/dashboard/settings"
-              className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-semibold text-sm hover:bg-[#f7f7f7] transition-colors text-[#717171] hover:text-[#222222]"
+              className="flex items-center gap-3 px-3.5 py-3 rounded-xl font-semibold text-sm hover:bg-[#f7f7f7] transition-colors text-[#717171] hover:text-[#222222] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#ff385c]"
             >
               <Settings className="w-4 h-4" />
               <span>Shop & Policies</span>
@@ -73,7 +72,7 @@ export default function DashboardLayout({
 
             <Link
               href="/staff"
-              className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-semibold text-sm hover:bg-[#f7f7f7] transition-colors text-[#717171] hover:text-[#222222]"
+              className="flex items-center gap-3 px-3.5 py-3 rounded-xl font-semibold text-sm hover:bg-[#f7f7f7] transition-colors text-[#717171] hover:text-[#222222] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#ff385c]"
             >
               <Sparkles className="w-4 h-4 text-emerald-600" />
               <span>Staff Mobile View</span>
@@ -83,14 +82,7 @@ export default function DashboardLayout({
 
         {/* Bottom Actions */}
         <div className="space-y-3 pt-4 border-t border-[#f0f0f0]">
-          <Link
-            href="/book/gentlemens-cut"
-            target="_blank"
-            className="flex items-center justify-between px-3.5 py-2 rounded-xl text-xs font-semibold text-[#717171] hover:text-[#222222] hover:bg-[#f7f7f7] transition-colors"
-          >
-            <span>Live Booking Link</span>
-            <ExternalLink className="w-3.5 h-3.5" />
-          </Link>
+          <LiveBookingLink />
 
           <form action="/auth/signout" method="POST">
             <button
@@ -110,7 +102,7 @@ export default function DashboardLayout({
       </div>
 
       {/* Mobile Bottom Navigation Bar (Stitch 12) */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-30 bg-white border-t border-[#ebebeb] flex items-center justify-around px-1 py-1 shadow-lg min-h-[52px]">
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-[#ebebeb] flex items-center justify-around px-1 py-1 shadow-[0_-6px_24px_rgba(34,34,34,0.08)] min-h-[60px] pb-[max(4px,env(safe-area-inset-bottom))]">
         <Link
           href="/dashboard"
           className="flex flex-col items-center justify-center py-1 px-2.5 text-[#ff385c] min-h-[44px] min-w-[44px]"

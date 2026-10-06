@@ -1,6 +1,6 @@
 # GxStyl — The New Way to Get a Beautiful Cut 💈🇬🇭
 
-**GxStyl** is a production-grade, multi-tenant barber and salon booking SaaS engineered specifically for Ghana (Accra, Kumasi, Tema). Built with a mobile-first philosophy inspired by Airbnb's design tokens, GxStyl eliminates long waiting bench times, eliminates double-bookings with database-level concurrency locks, and streamlines operations for barbershop owners.
+**GxStyl** is a production-grade, multi-tenant barber and salon booking SaaS engineered specifically for Ghana, including cities, towns, and villages nationwide. Built with a mobile-first philosophy inspired by Airbnb's design tokens, GxStyl eliminates long waiting bench times, eliminates double-bookings with database-level concurrency locks, and streamlines operations for barbershop owners.
 
 ---
 
@@ -158,6 +158,8 @@ GxStyl ships with complete mock adapters for immediate local execution and zero-
 ## 🧪 Testing & Verification Suite
 
 ### Vitest Unit & Database Concurrency Tests
+
+Start the local Supabase stack (`supabase start`) and configure `.env.local` with its URL and service-role key before running the database test. The concurrency test creates isolated fixtures, removes only its own records, and refuses non-local database URLs. An unavailable database fails with setup instructions rather than a misleading collision assertion.
 ```bash
 npm test
 ```

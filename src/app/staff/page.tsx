@@ -16,6 +16,7 @@ import {
   User,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { getCurrentShop } from "@/lib/auth/client-shop";
 
 interface StaffBooking {
   id: string;
@@ -48,11 +49,7 @@ export default function StaffChairSchedulePage() {
   // 1. Fetch Staff Members
   useEffect(() => {
     async function loadBarbers() {
-      const { data: shop } = await supabase
-        .from("shops")
-        .select("id")
-        .eq("slug", "gentlemens-cut")
-        .single();
+      const shop = await getCurrentShop(supabase);
 
       if (shop) {
         const { data: staffData } = await supabase

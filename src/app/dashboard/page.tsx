@@ -20,6 +20,7 @@ import {
   Filter,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { getCurrentShop } from "@/lib/auth/client-shop";
 
 interface Booking {
   id: string;
@@ -78,15 +79,10 @@ export default function OwnerTimelineDashboard() {
   const [walkInTime, setWalkInTime] = useState("12:00");
   const [walkInSubmitting, setWalkInSubmitting] = useState(false);
 
-  // 1. Fetch initial demo shop & staff
+  // 1. Fetch initial shop & staff
   useEffect(() => {
     async function initShop() {
-      // By default load the demo shop or the user's shop
-      const { data: shopData } = await supabase
-        .from("shops")
-        .select("*")
-        .eq("slug", "gentlemens-cut")
-        .single();
+      const shopData = await getCurrentShop(supabase);
 
       if (shopData) {
         setShop(shopData);

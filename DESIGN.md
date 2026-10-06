@@ -509,6 +509,17 @@ There are no progressive elevation tiers — the system either has the one shado
 
 **`text-input`** — White surface, 1px hairline outline, `{rounded.sm}` 8px radius, 56px height, 14×12px padding. Stacked label above (in `{typography.caption}` muted), placeholder text in `{typography.body-md}` muted. On focus, the border thickens to 2px ink and the border color flips to `{colors.ink}` — no glow, no ring.
 
+### Nationwide Locations
+
+The location extension uses the shipped Inter typography, white canvas, primary Rausch actions, and lightly outlined rounded controls. It adds no new palette or display treatment. Source: `src/components/location/`.
+
+- **Fields:** Region, free-text city/town/village, and area/address/landmark use visible semibold labels and small body text (14px); supporting notes use the existing muted text (12–14px). Inputs and action buttons have a minimum height of 44px, the existing extra-large radius, and visible primary-colored keyboard focus.
+- **Mobile layout:** Fields and discovery controls stack on narrow screens. Region/locality fields become two columns at 640px; discovery places search, region, and actions in one row at that width. Results progress from one to two to three columns at the 640px and 1024px breakpoints, with 24px gaps.
+- **Location confirmation:** Keep the optional pin controls subordinate to written location details. Explicit current-location and map actions, expandable manual coordinates, removable pins, and a confirmation checkbox form one group; editing location details resets confirmation.
+- **Map:** Leaflet loads when opened, inside an outlined rounded surface with visible OpenStreetMap attribution. The primary-colored pin can be dragged, set by clicking, or placed at the map centre with a keyboard-accessible button. Tile-failure guidance preserves GPS and manual-coordinate paths.
+- **Discovery cards:** White outlined cards use the existing larger radius, 20px padding, bold shop titles (20px), and small muted locality/address text. A full-width primary booking action anchors each card; directions remain an underlined text action. Loading, empty, error/retry, and pagination states stay in the results flow.
+- **The Optional Location Rule.** Browsing remains available without location permission. Nearby mode exposes its radius and clear action, identifies straight-line distances, and explains that only pinned shops appear; denied permission leaves written search usable.
+
 ### Footer
 
 **`footer-light`** — White surface (matches the page canvas — Airbnb has no contrast footer), 48×80px padding. Three columns of link blocks (Support / Hosting / Airbnb), separated by generous 24px gutters. Each column heads with a `{typography.title-sm}` ink label and stacks `{component.footer-link}` rows in `{typography.body-sm}` ink.

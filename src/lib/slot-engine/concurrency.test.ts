@@ -1,84 +1,90 @@
-import { describe, it, expect, afterAll } from "vitest";
+import { randomUUID } from "node:crypto";
+import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import { createBookingHold } from "./hold-manager";
 import { createAdminClient } from "@/lib/supabase/admin";
 
 describe("Database Concurrency & Double-Booking Exclusion Constraint", () => {
-  const supabase = createAdminClient();
+  let supabase: ReturnType<typeof createAdminClient>;
+  const shopId = randomUUID();
+  const staffId = randomUUID();
+  const serviceId = randomUUID();
+  let shopCreated = false;
 
-  const SHOP_ID = "11111111-1111-1111-1111-111111111111"; // Gentlemen's Cut
-  const STAFF_ID = "22222222-2222-2222-2222-222222222221"; // Kojo Mensah
-  const SERVICE_ID = "33333333-3333-3333-3333-333333333331"; // The Executive Cut (45 min)
+  // A fresh shop/staff namespace avoids existing appointments and parallel runs.
+  const slotStart = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+  slotStart.setUTCHours(14, 0, 0, 0);
+  const slotISO = slotStart.toISOString();
 
-  // Use a future date so it doesn't conflict with any existing bookings
-  const testSlotStart = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-  testSlotStart.setUTCHours(14, 0, 0, 0); // 14:00 UTC
-  const slotISO = testSlotStart.toISOString();
+  beforeAll(async () => {
+    // This test writes fixtures: never run it against the deployed database.
+    const url = new URL(process.env.NEXT_PUBLIC_SUPABASE_URL || "http://127.0.0.1:54321");
+    if (!["localhost", "127.0.0.1", "[::1]"].includes(url.hostname)) {
+      throw new Error("The concurrency test requires a local Supabase database. Set NEXT_PUBLIC_SUPABASE_URL to your local stack; production databases are not supported.");
+    }
+    supabase = createAdminClient();
+    const { error: connectionError } = await supabase.from("shops").select("id").limit(1);
+    if (connectionError) {
+      throw new Error(`Local Supabase is unavailable or its schema/credentials are not ready. Run supabase start, apply local migrations, and check .env.local. Database error: ${connectionError.message}`);
+    }
 
-  let createdBookingId: string | null = null;
+    const { error: shopError } = await supabase.from("shops").insert({
+      id: shopId, name: "Concurrency test shop", slug: `concurrency-test-${shopId}`,
+      address: "Test fixture", city: "Test locality", phone: "+233 24 000 0000",
+    });
+    if (shopError) throw new Error(`Cannot create test shop: ${shopError.message}`);
+    shopCreated = true;
+
+    const { error: staffError } = await supabase.from("staff").insert({
+      id: staffId, shop_id: shopId, name: "Concurrency test barber", is_active: true,
+    });
+    if (staffError) throw new Error(`Cannot create test barber: ${staffError.message}`);
+
+    const { error: serviceError } = await supabase.from("services").insert({
+      id: serviceId, shop_id: shopId, name: "Concurrency test haircut",
+      duration_min: 45, price: 100, is_active: true,
+    });
+    if (serviceError) throw new Error(`Cannot create test service: ${serviceError.message}`);
+
+    const { error: qualificationError } = await supabase.from("staff_services").insert({
+      staff_id: staffId, service_id: serviceId,
+    });
+    if (qualificationError) throw new Error(`Cannot qualify test barber: ${qualificationError.message}`);
+  });
 
   afterAll(async () => {
-    if (createdBookingId) {
-      await supabase.from("bookings").delete().eq("id", createdBookingId);
-    }
-    // Also clean up any test bookings on that slot
-    await supabase
-      .from("bookings")
-      .delete()
-      .eq("staff_id", STAFF_ID)
-      .eq("start_at", slotISO);
+    if (!shopCreated) return;
+    // Delete only this run's records, including partial setup or assertion failures.
+    const { error: bookingsError } = await supabase.from("bookings").delete().eq("shop_id", shopId);
+    if (bookingsError) throw new Error(`Cannot clean test bookings: ${bookingsError.message}`);
+    const { error: shopError } = await supabase.from("shops").delete().eq("id", shopId);
+    if (shopError) throw new Error(`Cannot clean test shop: ${shopError.message}`);
   });
 
   it("proves two simultaneous booking attempts for the same barber & slot result in exactly one winner and one collision", async () => {
-    // Fire both booking requests concurrently via Promise.all
-    const [resultA, resultB] = await Promise.all([
-      createBookingHold({
-        shopId: SHOP_ID,
-        staffId: STAFF_ID,
-        serviceId: SERVICE_ID,
-        clientName: "Client A (Simultaneous)",
-        clientPhone: "+233 24 111 0001",
-        clientEmail: "client.a@example.com",
-        startAt: slotISO,
-      }),
-      createBookingHold({
-        shopId: SHOP_ID,
-        staffId: STAFF_ID,
-        serviceId: SERVICE_ID,
-        clientName: "Client B (Simultaneous)",
-        clientPhone: "+233 24 111 0002",
-        clientEmail: "client.b@example.com",
-        startAt: slotISO,
-      }),
-    ]);
+    const attempts = await Promise.all(["A", "B"].map(client => createBookingHold({
+      shopId, staffId, serviceId,
+      clientName: `Client ${client} (Simultaneous)`,
+      clientPhone: "+233 24 000 0000",
+      startAt: slotISO,
+    })));
+    const successful = attempts.filter(result => result.success);
+    const failed = attempts.filter(result => !result.success);
 
-    // Track which one succeeded
-    const successful = [resultA, resultB].filter((r) => r.success);
-    const failed = [resultA, resultB].filter((r) => !r.success);
-
-    // Exactly one must succeed
-    expect(successful.length).toBe(1);
-    expect(failed.length).toBe(1);
-
+    // Expose actual RPC failures instead of an unhelpful "expected 0 to be 1".
+    const errors = JSON.stringify(failed.map(result => ({ code: result.code, error: result.error })));
+    expect(successful.length, `Expected one reservation; RPC errors: ${errors}`).toBe(1);
+    expect(failed).toHaveLength(1);
     const winner = successful[0];
     const loser = failed[0];
-
     expect(winner.booking).toBeDefined();
-    createdBookingId = winner.booking!.id;
-
-    // The loser must receive a SLOT_COLLISION error
     expect(loser.code).toBe("SLOT_COLLISION");
     expect(loser.error).toContain("This time slot was just booked");
 
-    // Verify database state: exactly ONE booking exists for this slot
-    const { data: dbRecords, error: dbError } = await supabase
-      .from("bookings")
+    const { data: bookings, error } = await supabase.from("bookings")
       .select("id, client_name, status")
-      .eq("staff_id", STAFF_ID)
-      .eq("start_at", slotISO);
-
-    expect(dbError).toBeNull();
-    expect(dbRecords).toBeDefined();
-    expect(dbRecords!.length).toBe(1);
-    expect(dbRecords![0].id).toBe(winner.booking!.id);
+      .eq("shop_id", shopId).eq("staff_id", staffId).eq("start_at", slotISO);
+    expect(error).toBeNull();
+    expect(bookings).toHaveLength(1);
+    expect(bookings![0].id).toBe(winner.booking!.id);
   });
 });
