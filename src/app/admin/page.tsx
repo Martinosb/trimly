@@ -187,7 +187,7 @@ export default function PlatformAdminConsole() {
               {activeShopsCount}
             </span>
             <span className="text-[11px] text-[#717171] mt-1 block">
-              Across Accra, Kumasi & Tema
+              Across Ghana
             </span>
           </div>
 

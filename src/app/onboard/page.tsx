@@ -21,7 +21,10 @@ import {
   ExternalLink,
 } from "lucide-react";
 import confetti from "canvas-confetti";
+import { LocationFields } from "@/components/location/location-fields";
+import { EMPTY_LOCATION, locationError, locationPayload } from "@/lib/location";
 import { createClient } from "@/lib/supabase/client";
+import { setRememberedShopSlug } from "@/lib/auth/client-shop";
 
 interface ServiceItem {
   id: string;
@@ -49,8 +52,8 @@ export default function OnboardingPage() {
   // Step 1: Shop details
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
-  const [city, setCity] = useState("Accra");
-  const [address, setAddress] = useState("");
+  const [location, setLocation] = useState({ ...EMPTY_LOCATION });
+  const [locationConfirmed, setLocationConfirmed] = useState(false);
   const [phone, setPhone] = useState("+233 ");
   const [tagline, setTagline] = useState("");
   const [slugStatus, setSlugStatus] = useState<"idle" | "checking" | "available" | "taken">("idle");
@@ -153,6 +156,8 @@ export default function OnboardingPage() {
 
   // Complete onboarding
   const handleFinalSubmit = async () => {
+    const error = locationError(location);
+    if (error || !locationConfirmed) { alert(error || "Confirm your shop’s location details."); setStep(1); return; }
     setSubmitting(true);
     try {
       const {
@@ -168,8 +173,7 @@ export default function OnboardingPage() {
           owner_id: ownerId,
           name,
           slug,
-          city,
-          address: address || "Accra, Ghana",
+          ...locationPayload(location),
           phone: phone || "+233 24 000 0000",
           tagline: tagline || "Premier Grooming & Styling",
           deposit_type: depositType,
@@ -251,6 +255,7 @@ export default function OnboardingPage() {
       }
 
       setCreatedShopSlug(slug);
+      setRememberedShopSlug(slug);
       setStep(5); // Success step
       confetti({
         particleCount: 100,
@@ -366,22 +371,6 @@ export default function OnboardingPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-semibold text-[#222222] uppercase tracking-wider mb-1">
-                    City *
-                  </label>
-                  <select
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
-                    className="w-full px-3 py-2.5 rounded-xl border border-[#dddddd] text-sm bg-white focus:outline-none focus:border-[#ff385c]"
-                  >
-                    <option value="Accra">Accra</option>
-                    <option value="Kumasi">Kumasi</option>
-                    <option value="Tema">Tema</option>
-                    <option value="Takoradi">Takoradi</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-semibold text-[#222222] uppercase tracking-wider mb-1">
                     Phone / MoMo *
                   </label>
                   <input
@@ -395,18 +384,7 @@ export default function OnboardingPage() {
                 </div>
               </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-[#222222] uppercase tracking-wider mb-1">
-                  Street Address
-                </label>
-                <input
-                  type="text"
-                  placeholder="e.g. Oxford Street, Osu, Near Total Energies"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-[#dddddd] text-sm focus:outline-none focus:border-[#ff385c]"
-                />
-              </div>
+              <LocationFields value={location} onChange={setLocation} confirmed={locationConfirmed} onConfirmedChange={setLocationConfirmed} />
 
               <div>
                 <label className="block text-xs font-semibold text-[#222222] uppercase tracking-wider mb-1">
@@ -758,6 +736,10 @@ export default function OnboardingPage() {
                   if (step === 1 && (!name || !slug)) {
                     alert("Please fill in your shop name and custom booking link");
                     return;
+                  }
+                  if (step === 1) {
+                    const error = locationError(location);
+                    if (error || !locationConfirmed) { alert(error || "Confirm your shop’s location details."); return; }
                   }
                   setStep(step + 1);
                 }}

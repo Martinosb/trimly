@@ -1,6 +1,6 @@
 // GxStyl Service Worker: Offline Caching + Web Push
 
-const CACHE_NAME = "gxstyl-cache-v1";
+const CACHE_NAME = "gxstyl-cache-v2";
 const STATIC_ASSETS = ["/", "/login", "/favicon.ico", "/manifest.json"];
 
 // Install Event
@@ -28,6 +28,10 @@ self.addEventListener("activate", (event) => {
 // Fetch Event: Network first with Cache fallback
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
+
+  // Nearby search URLs contain customer coordinates and must never be cached.
+  const url = new URL(event.request.url);
+  if (url.origin === self.location.origin && url.pathname === "/api/shops") return;
 
   event.respondWith(
     fetch(event.request)

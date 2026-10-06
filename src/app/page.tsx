@@ -2,237 +2,206 @@ import React from "react";
 import Link from "next/link";
 import {
   Scissors,
-  MapPin,
-  Star,
-  Clock,
   ShieldCheck,
   Smartphone,
   ChevronRight,
-  Sparkles,
-  Users,
   CalendarCheck,
-  ArrowRight,
 } from "lucide-react";
-import { createAdminClient } from "@/lib/supabase/admin";
+import { ShopDiscovery } from "@/components/location/shop-discovery";
 
-export const revalidate = 60; // Revalidate every minute
-
-export default async function HomePage() {
-  const supabase = createAdminClient();
-
-  // Fetch active shops from database
-  const { data: shops } = await supabase
-    .from("shops")
-    .select("id, name, slug, tagline, address, city, phone, is_suspended")
-    .eq("is_suspended", false)
-    .limit(6);
-
+export default function HomePage() {
   return (
-    <div className="min-h-screen bg-white text-[#222222] font-sans antialiased selection:bg-[#ffd1da] selection:text-[#ba0036]">
+    <div className="min-h-screen bg-background text-foreground font-sans antialiased selection:bg-primary/20 selection:text-primary">
+      {/* Accessible Skip Link */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-full focus:shadow-lg focus:outline-hidden focus:ring-2 focus:ring-primary focus:ring-offset-2"
+      >
+        Skip to main content
+      </a>
+
       {/* Top Navigation */}
-      <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-[#ebebeb] px-3.5 sm:px-8 py-3 sm:py-3.5">
-        <div className="max-w-6xl mx-auto flex items-center justify-between gap-2">
+      <header className="sticky top-0 z-30 bg-background/85 backdrop-blur-md border-b border-border px-4 sm:px-8 py-3 sm:py-3.5">
+        <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group shrink-0">
-            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#ff385c] flex items-center justify-center text-white shadow-xs transition-transform group-hover:scale-105">
-              <Scissors className="w-4 h-4 sm:w-5 sm:h-5 fill-current rotate-45" />
+          <Link
+            href="/"
+            aria-label="GxStyl Home"
+            className="flex items-center gap-2 group shrink-0 rounded-full focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+          >
+            <div className="w-9 h-9 rounded-full bg-primary flex items-center justify-center text-primary-foreground shadow-xs transition-transform motion-reduce:transform-none group-hover:scale-105">
+              <Scissors aria-hidden="true" className="w-4 h-4 fill-current rotate-45" />
             </div>
-            <span className="font-extrabold text-xl sm:text-2xl tracking-tight text-[#222222]">
+            <span className="font-extrabold text-xl sm:text-2xl tracking-tight text-foreground">
               GxStyl
             </span>
           </Link>
 
           {/* Right Action Buttons */}
-          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
+          <nav aria-label="Main Navigation" className="flex items-center gap-2 sm:gap-3 shrink-0">
             <Link
               href="/login"
-              className="text-xs sm:text-sm font-semibold px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-full hover:bg-[#f7f7f7] text-[#222222] transition-colors"
+              className="min-h-[44px] inline-flex items-center justify-center text-sm font-semibold px-3.5 sm:px-4 py-2 rounded-full hover:bg-muted text-foreground transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             >
               Shop Login
             </Link>
             <Link
               href="/onboard"
-              className="text-xs sm:text-sm font-semibold px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-[#222222] text-white hover:bg-black transition-all shadow-xs whitespace-nowrap"
+              className="min-h-[44px] inline-flex items-center justify-center text-sm font-semibold px-4 sm:px-5 py-2 rounded-full bg-foreground text-background hover:opacity-90 transition-all shadow-xs whitespace-nowrap focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             >
               List Shop
             </Link>
-          </div>
+          </nav>
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="px-4 sm:px-8 pt-8 sm:pt-16 pb-10 sm:pb-20 max-w-4xl mx-auto text-center">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ff385c]/10 text-[#ff385c] text-[11px] sm:text-xs font-bold uppercase tracking-wider mb-5 sm:mb-6">
-          <Sparkles className="w-3.5 h-3.5" />
-          <span>Accra • Kumasi • Tema</span>
-        </div>
-
-        <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-[#222222] leading-[1.12]">
-          The new way to get a{" "}
-          <span className="text-[#ff385c] underline decoration-wavy decoration-[#ff385c]/30">
-            beautiful cut
-          </span>
-          .
-        </h1>
-
-        <p className="mt-4 sm:mt-5 text-sm sm:text-lg md:text-xl text-[#717171] max-w-2xl mx-auto font-normal leading-relaxed">
-          Book top-tier barbers and grooming lounges in Ghana. Live open chairs, zero waiting in line, and instant MoMo deposits.
-        </p>
-
-        {/* Quick Search & Explore CTA */}
-        <div className="mt-7 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
-          <Link
-            href="/book/gentlemens-cut"
-            className="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-full bg-[#ff385c] hover:bg-[#e00b41] active:scale-[0.98] text-white font-bold text-sm sm:text-base shadow-lg shadow-[#ff385c]/25 transition-all flex items-center justify-center gap-2"
-          >
-            <span>Book at Gentlemen&apos;s Cut</span>
-            <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5]" />
-          </Link>
-
-          <Link
-            href="/onboard"
-            className="w-full sm:w-auto px-5 sm:px-6 py-3.5 sm:py-4 rounded-full border border-[#dddddd] hover:border-[#222222] text-[#222222] font-semibold text-sm sm:text-base transition-colors"
-          >
-            I&apos;m a Barber / Shop Owner
-          </Link>
-        </div>
-      </section>
-
-      {/* Featured Shops Grid */}
-      <section className="px-4 sm:px-8 py-10 bg-[#fafafa] border-t border-b border-[#ebebeb]">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex items-end justify-between mb-8">
-            <div>
-              <span className="text-xs font-bold text-[#ff385c] uppercase tracking-wider block">
-                Top Rated Barber Lounges
-              </span>
-              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#222222] mt-1">
-                Popular Grooming Spots
-              </h2>
-            </div>
-            <span className="text-xs font-semibold text-[#717171] hidden sm:block">
-              Live Real-Time Chairs
+      {/* Main Content Landmark */}
+      <main id="main-content">
+        {/* Hero Section */}
+        <section className="px-4 sm:px-8 pt-10 sm:pt-20 pb-12 sm:pb-24 max-w-4xl mx-auto text-center">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-foreground leading-[1.14]">
+            The new way to get a{" "}
+            <span className="text-primary underline decoration-wavy decoration-primary/30">
+              beautiful cut
             </span>
-          </div>
+            .
+          </h1>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {(shops && shops.length > 0 ? shops : []).map((shop) => (
-              <div
-                key={shop.id}
-                className="bg-white rounded-2xl border border-[#ebebeb] overflow-hidden shadow-sm hover:shadow-md transition-all group flex flex-col justify-between"
-              >
-                {/* Shop Cover Banner */}
-                <div className="h-36 bg-gradient-to-tr from-[#222222] to-[#444444] p-4 flex flex-col justify-between relative">
-                  <div className="flex justify-between items-center">
-                    <span className="inline-flex items-center gap-1 text-[11px] font-bold text-white bg-white/20 backdrop-blur px-2.5 py-0.5 rounded-full">
-                      <MapPin className="w-3 h-3 text-[#ff385c]" /> {shop.city}
-                    </span>
-                    <span className="inline-flex items-center gap-0.5 text-xs font-bold text-white bg-black/40 backdrop-blur px-2 py-0.5 rounded-full">
-                      <Star className="w-3 h-3 fill-current text-amber-400" /> 4.9
-                    </span>
-                  </div>
-
-                  <div>
-                    <h3 className="font-bold text-xl text-white tracking-tight group-hover:text-[#ff385c] transition-colors">
-                      {shop.name}
-                    </h3>
-                    <p className="text-xs text-white/80 line-clamp-1 mt-0.5">
-                      {shop.tagline || shop.address}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Shop Card Info */}
-                <div className="p-4 space-y-3">
-                  <div className="text-xs text-[#717171] flex items-center gap-1.5">
-                    <Clock className="w-3.5 h-3.5 text-[#ff385c]" />
-                    <span>Mon - Sat: 8:30 AM - 7:30 PM</span>
-                  </div>
-
-                  <Link
-                    href={`/book/${shop.slug}`}
-                    className="w-full py-2.5 px-4 rounded-xl bg-[#ff385c] hover:bg-[#e00b41] text-white font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors shadow-xs"
-                  >
-                    <span>Book Appointment</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Feature Highlights Section */}
-      <section className="px-4 sm:px-8 py-16 max-w-5xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-2xl sm:text-3xl font-black text-[#222222] tracking-tight">
-            Designed for Modern Ghanaian Grooming
-          </h2>
-          <p className="text-sm text-[#717171] mt-2 max-w-xl mx-auto">
-            Say goodbye to crowded waiting benches and awkward phone calls.
+          <p className="mt-5 text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto font-normal leading-relaxed">
+            Find barbers and grooming shops across Ghana. Live open chairs, zero waiting in line, and instant MoMo deposits.
           </p>
-        </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          <div className="p-6 rounded-2xl border border-[#ebebeb] bg-[#fafafa] space-y-3">
-            <div className="w-12 h-12 rounded-xl bg-[#ff385c]/10 text-[#ff385c] flex items-center justify-center">
-              <CalendarCheck className="w-6 h-6" />
+          {/* Quick Search & Explore CTA */}
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3.5">
+            <Link
+              href="#shops"
+              className="w-full sm:w-auto min-h-[48px] px-7 sm:px-8 py-3.5 rounded-full bg-primary hover:bg-rausch-active active:scale-[0.98] motion-reduce:transform-none text-primary-foreground font-bold text-sm sm:text-base shadow-lg shadow-primary/25 transition-all flex items-center justify-center gap-2 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            >
+              <span>Find a shop</span>
+              <ChevronRight aria-hidden="true" className="w-5 h-5 stroke-[2.5]" />
+            </Link>
+
+            <Link
+              href="/onboard"
+              className="w-full sm:w-auto min-h-[48px] px-6 sm:px-7 py-3.5 rounded-full border border-border hover:border-foreground text-foreground font-semibold text-sm sm:text-base transition-colors flex items-center justify-center focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            >
+              I&apos;m a Barber / Shop Owner
+            </Link>
+          </div>
+        </section>
+
+        {/* Featured Shops Grid */}
+        <section aria-labelledby="featured-shops-heading" className="px-4 sm:px-8 py-12 sm:py-16 bg-muted/40 border-t border-b border-border">
+          <div className="max-w-6xl mx-auto">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-2">
+              <div>
+                <h2 id="featured-shops-heading" className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
+                  Find your next grooming spot
+                </h2>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Search cities, towns, and villages across Ghana.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2 text-xs font-semibold text-muted-foreground">
+                <span className="relative flex h-2.5 w-2.5" aria-hidden="true">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 motion-reduce:animate-none"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                </span>
+                <span>Live Real-Time Chairs</span>
+              </div>
             </div>
-            <h3 className="font-bold text-base text-[#222222]">Live Concurrency Locking</h3>
-            <p className="text-xs text-[#717171] leading-relaxed">
-              Our Postgres exclusion engine guarantees that when you select a time slot, no one else can book over your chair.
+
+            <ShopDiscovery />
+          </div>
+        </section>
+
+        {/* Feature Highlights Section */}
+        <section aria-labelledby="features-heading" className="px-4 sm:px-8 py-16 sm:py-20 max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 id="features-heading" className="text-2xl sm:text-3xl font-black text-foreground tracking-tight">
+              Designed for Modern Ghanaian Grooming
+            </h2>
+            <p className="text-sm sm:text-base text-muted-foreground mt-2 max-w-xl mx-auto">
+              Say goodbye to crowded waiting benches and awkward phone calls.
             </p>
           </div>
 
-          <div className="p-6 rounded-2xl border border-[#ebebeb] bg-[#fafafa] space-y-3">
-            <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-              <Smartphone className="w-6 h-6" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="p-6 rounded-2xl border border-border bg-card space-y-3">
+              <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
+                <CalendarCheck aria-hidden="true" className="w-6 h-6" />
+              </div>
+              <h3 className="font-bold text-base text-foreground">Live Concurrency Locking</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Our Postgres exclusion engine guarantees that when you select a time slot, no one else can book over your chair.
+              </p>
             </div>
-            <h3 className="font-bold text-base text-[#222222]">MTN & Telecel MoMo</h3>
-            <p className="text-xs text-[#717171] leading-relaxed">
-              Pay deposits or full amounts directly via Mobile Money or choose to pay cash at the salon chair upon arrival.
-            </p>
-          </div>
 
-          <div className="p-6 rounded-2xl border border-[#ebebeb] bg-[#fafafa] space-y-3">
-            <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
-              <ShieldCheck className="w-6 h-6" />
+            <div className="p-6 rounded-2xl border border-border bg-card space-y-3">
+              <div className="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                <Smartphone aria-hidden="true" className="w-6 h-6" />
+              </div>
+              <h3 className="font-bold text-base text-foreground">MTN & Telecel MoMo</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Pay deposits or full amounts directly via Mobile Money or choose to pay cash at the salon chair upon arrival.
+              </p>
             </div>
-            <h3 className="font-bold text-base text-[#222222]">Instant Digital Pass</h3>
-            <p className="text-xs text-[#717171] leading-relaxed">
-              Receive a boarding pass with a QR code and reference number. Easily reschedule or cancel with 1-click self-service.
-            </p>
+
+            <div className="p-6 rounded-2xl border border-border bg-card space-y-3">
+              <div className="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center">
+                <ShieldCheck aria-hidden="true" className="w-6 h-6" />
+              </div>
+              <h3 className="font-bold text-base text-foreground">Instant Digital Pass</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Receive a boarding pass with a QR code and reference number. Easily reschedule or cancel with 1-click self-service.
+              </p>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </main>
 
       {/* Footer */}
-      <footer className="border-t border-[#ebebeb] py-10 px-4 sm:px-8 bg-[#fafafa] text-xs text-[#717171]">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
-          <div className="flex items-center gap-2 flex-wrap justify-center sm:justify-start">
-            <Scissors className="w-4 h-4 text-[#ff385c]" />
-            <span className="font-bold text-[#222222]">GxStyl</span>
+      <footer className="border-t border-border py-12 px-4 sm:px-8 bg-muted/30 text-sm text-muted-foreground">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+          <div className="flex items-center gap-2 flex-wrap justify-center md:justify-start">
+            <Scissors aria-hidden="true" className="w-4 h-4 text-primary" />
+            <span className="font-bold text-foreground">GxStyl</span>
             <span>— The new way to get a beautiful cut.</span>
           </div>
 
-          <div className="flex items-center gap-4 flex-wrap justify-center sm:justify-end">
-            <Link href="/login" className="hover:text-[#222222]">
+          <nav aria-label="Footer Navigation" className="flex items-center gap-1 sm:gap-2 flex-wrap justify-center md:justify-end">
+            <Link
+              href="/login"
+              className="min-h-[44px] min-w-[44px] inline-flex items-center px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            >
               Shop Login
             </Link>
-            <Link href="/onboard" className="hover:text-[#222222]">
+            <Link
+              href="/onboard"
+              className="min-h-[44px] min-w-[44px] inline-flex items-center px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            >
               Onboarding
             </Link>
-            <Link href="/admin" className="hover:text-[#222222]">
+            <Link
+              href="/admin"
+              className="min-h-[44px] min-w-[44px] inline-flex items-center px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            >
               Platform Admin
             </Link>
-            <Link href="/privacy" className="hover:text-[#222222]">
+            <Link
+              href="/privacy"
+              className="min-h-[44px] min-w-[44px] inline-flex items-center px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            >
               Privacy Policy
             </Link>
-            <Link href="/terms" className="hover:text-[#222222]">
+            <Link
+              href="/terms"
+              className="min-h-[44px] min-w-[44px] inline-flex items-center px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            >
               Terms
             </Link>
-          </div>
+          </nav>
         </div>
       </footer>
     </div>

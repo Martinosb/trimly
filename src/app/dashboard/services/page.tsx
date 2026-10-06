@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Plus, Trash2, Edit2, Check, Clock, Sparkles } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { getCurrentShop } from "@/lib/auth/client-shop";
 
 interface Service {
   id: string;
@@ -34,11 +35,7 @@ export default function ServicesManagementPage() {
   useEffect(() => {
     async function loadServices() {
       setLoading(true);
-      const { data: shop } = await supabase
-        .from("shops")
-        .select("id")
-        .eq("slug", "gentlemens-cut")
-        .single();
+      const shop = await getCurrentShop(supabase);
 
       if (shop) {
         setShopId(shop.id);
