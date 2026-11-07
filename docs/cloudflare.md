@@ -44,10 +44,16 @@ The website DNS records observed on 2026-11-07 were:
 | gxstyl.com | A | 76.76.21.21 | 3c1397499e6e04cf65c6cc2d215510b3 |
 | www.gxstyl.com | CNAME | cname.vercel-dns.com | 889a3bf58b123fa5d348f96b2e9e0729 |
 
-The zone ID is `cbf353616f4c56d62ccf95ab40368047`. These records were left intact while production credentials were unavailable. Cloudflare already manages the domain's authoritative nameservers.
+The zone ID is `cbf353616f4c56d62ccf95ab40368047`. These records were replaced on 2026-11-07 by Cloudflare-managed proxied Worker domain records. Cloudflare already manages the domain's authoritative nameservers.
 
 No `vercel.json`, Vercel storage bindings, or repository cron schedule was found. The app contains `/api/cron/reminders`, but its previous external scheduler is unknown; this migration does not invent a schedule or call an endpoint that sends notifications. Vercel deployment deletion is separate from DNS cutover; keep the old deployment available until the replacement passes production checks.
 
 ## Validation at preparation time
 
 The vinext compatibility scan reports 14 supported checks and no issues. The Worker production build, deployment dry-run, clean `npm ci`, and TypeScript check pass. The original Next.js development server also serves the homepage successfully. Public pages were tested in the local Worker runtime. The 11 database-independent tests pass. The database concurrency suite needs a local Supabase stack and was unavailable; it deliberately rejects production databases. Repository-wide lint has existing errors in application code; no application source was changed for the hosting migration.
+
+## Production status (2026-11-07)
+
+The Worker is deployed with the supplied Supabase credentials, and both custom domains are attached with Cloudflare-managed TLS. Live shop discovery returns existing shops, and the booking service-selection screen renders against the existing database. The login form renders on the hosted application. No real user sign-in, booking creation, payment, or cancellation was performed. Some verification requests continued reaching the previous Vercel origin immediately after DNS cutover; allow DNS caches to refresh.
+
+The supplied file contains only Supabase credentials. Existing VAPID keys and SMS/payment provider settings were not supplied; restore those separately if those integrations are needed. Supabase Auth redirect allowlists and email/Google sign-in still require verification with an actual user session. This deployment does not configure automatic GitHub builds; future source changes need an explicit Cloudflare deploy.
