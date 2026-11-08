@@ -121,12 +121,12 @@ export default function StaffManagementPage() {
 
   return (
     <div className="flex-1 p-4 sm:p-6 lg:p-8 max-w-5xl mx-auto w-full">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-6 border-b border-[#ebebeb]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-6 border-b border-border">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#222222]">
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
             Barbers & Chair Stations
           </h1>
-          <p className="text-xs text-[#717171] mt-0.5">
+          <p className="text-xs text-muted-foreground mt-0.5">
             Manage your barbers, individual calendars, and chair logins
           </p>
         </div>
@@ -134,7 +134,7 @@ export default function StaffManagementPage() {
         <button
           type="button"
           onClick={() => setShowAddForm(!showAddForm)}
-          className="py-2.5 px-4 rounded-xl bg-[#ff385c] hover:bg-[#e00b41] text-white text-xs font-bold flex items-center gap-1.5 shadow-sm transition-all self-start sm:self-auto"
+          className="py-2.5 px-4 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground text-xs font-bold flex items-center gap-1.5 shadow-sm transition-all self-start sm:self-auto"
         >
           <Plus className="w-4 h-4" />
           <span>Add Barber</span>
@@ -145,65 +145,65 @@ export default function StaffManagementPage() {
       {showAddForm && (
         <form
           onSubmit={handleAddStaff}
-          className="my-6 p-5 rounded-2xl bg-white border border-[#ebebeb] shadow-xs space-y-4"
+          className="my-6 p-5 rounded-2xl bg-card border border-border shadow-xs space-y-4"
         >
-          <h2 className="text-base font-bold text-[#222222]">New Team Member</h2>
+          <h2 className="text-base font-bold text-foreground">New Team Member</h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
             <div>
-              <label className="block font-semibold text-[#222222] mb-1">Full Name *</label>
+              <label className="block font-semibold text-foreground mb-1">Full Name *</label>
               <input
                 type="text"
                 required
                 placeholder="e.g. Kwame Mensah"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl border border-[#dddddd] focus:outline-none focus:border-[#ff385c]"
+                className="w-full px-3 py-2 rounded-xl border border-input focus:outline-none focus:border-primary"
               />
             </div>
 
             <div>
-              <label className="block font-semibold text-[#222222] mb-1">Role / Title *</label>
+              <label className="block font-semibold text-foreground mb-1">Role / Title *</label>
               <input
                 type="text"
                 required
                 placeholder="e.g. Senior Barber & Stylist"
                 value={role}
                 onChange={(e) => setRole(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl border border-[#dddddd] focus:outline-none focus:border-[#ff385c]"
+                className="w-full px-3 py-2 rounded-xl border border-input focus:outline-none focus:border-primary"
               />
             </div>
 
             <div>
-              <label className="block font-semibold text-[#222222] mb-1">Phone Number</label>
+              <label className="block font-semibold text-foreground mb-1">Phone Number</label>
               <input
                 type="tel"
                 placeholder="+233 24 000 0000"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl border border-[#dddddd] focus:outline-none focus:border-[#ff385c]"
+                className="w-full px-3 py-2 rounded-xl border border-input focus:outline-none focus:border-primary"
               />
             </div>
 
             <div>
-              <label className="block font-semibold text-[#222222] mb-1">Email (for staff login)</label>
+              <label className="block font-semibold text-foreground mb-1">Email (for staff login)</label>
               <input
                 type="email"
                 placeholder="barber@gentlemenscut.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl border border-[#dddddd] focus:outline-none focus:border-[#ff385c]"
+                className="w-full px-3 py-2 rounded-xl border border-input focus:outline-none focus:border-primary"
               />
             </div>
 
             <div className="sm:col-span-2">
-              <label className="block font-semibold text-[#222222] mb-1">Bio / Specialties</label>
+              <label className="block font-semibold text-foreground mb-1">Bio / Specialties</label>
               <input
                 type="text"
                 placeholder="Specialist in sharp tapers, razor art, and hot towel beard conditioning."
                 value={bio}
                 onChange={(e) => setBio(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl border border-[#dddddd] focus:outline-none focus:border-[#ff385c]"
+                className="w-full px-3 py-2 rounded-xl border border-input focus:outline-none focus:border-primary"
               />
             </div>
           </div>
@@ -212,14 +212,14 @@ export default function StaffManagementPage() {
             <button
               type="button"
               onClick={() => setShowAddForm(false)}
-              className="py-2 px-3 text-xs font-semibold text-[#717171] hover:text-[#222222]"
+              className="py-2 px-3 text-xs font-semibold text-muted-foreground hover:text-foreground"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={saving}
-              className="py-2 px-4 rounded-xl bg-[#ff385c] hover:bg-[#e00b41] text-white text-xs font-bold transition-all disabled:opacity-50"
+              className="py-2 px-4 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground text-xs font-bold transition-all disabled:opacity-50"
             >
               {saving ? "Saving..." : "Add Barber"}
             </button>
@@ -232,7 +232,7 @@ export default function StaffManagementPage() {
         {staffList.map((member) => (
           <div
             key={member.id}
-            className="p-5 rounded-2xl border border-[#ebebeb] bg-white shadow-2xs flex flex-col justify-between space-y-4"
+            className="p-5 rounded-2xl border border-border bg-card shadow-2xs flex flex-col justify-between space-y-4"
           >
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">
@@ -240,8 +240,8 @@ export default function StaffManagementPage() {
                   {member.name.charAt(0)}
                 </div>
                 <div>
-                  <h3 className="font-bold text-base text-[#222222]">{member.name}</h3>
-                  <span className="text-xs text-[#ff385c] font-medium">{member.role}</span>
+                  <h3 className="font-bold text-base text-foreground">{member.name}</h3>
+                  <span className="text-xs text-primary font-medium">{member.role}</span>
                 </div>
               </div>
 
@@ -255,10 +255,10 @@ export default function StaffManagementPage() {
             </div>
 
             {member.bio && (
-              <p className="text-xs text-[#717171] leading-relaxed">{member.bio}</p>
+              <p className="text-xs text-muted-foreground leading-relaxed">{member.bio}</p>
             )}
 
-            <div className="pt-2 border-t border-[#f0f0f0] flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs text-[#717171]">
+            <div className="pt-2 border-t border-border flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs text-muted-foreground">
               <div className="flex items-center gap-1">
                 <Clock className="w-3.5 h-3.5 shrink-0" />
                 <span>Mon-Sat: 8:30 AM - 6:30 PM</span>
@@ -267,7 +267,7 @@ export default function StaffManagementPage() {
               <button
                 type="button"
                 onClick={() => handleToggleActive(member)}
-                className="px-2.5 py-1.5 rounded-lg border border-[#dddddd] font-medium hover:border-[#222222] transition-colors self-start sm:self-auto"
+                className="px-2.5 py-1.5 rounded-lg border border-input font-medium hover:border-[#222222] transition-colors self-start sm:self-auto"
               >
                 {member.is_active ? "Set Off Duty" : "Activate Chair"}
               </button>

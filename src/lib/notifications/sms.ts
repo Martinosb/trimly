@@ -2,17 +2,17 @@ import { SmsProvider } from "./types";
 import { createAdminClient } from "@/lib/supabase/admin";
 
 export class MockSmsProvider implements SmsProvider {
-  name: "mock" = "mock";
+  name = "mock" as const;
 
   async send(params: { to: string; message: string; senderId?: string }): Promise<{ success: boolean; id: string }> {
     const id = `MOCK_SMS_${Date.now()}`;
-    console.log(`[SMS MOCK] To: ${params.to} | From: ${params.senderId || "GxStyl"} | Msg: "${params.message}"`);
+    // Do not log customer phone numbers, messages, or booking codes.
     return { success: true, id };
   }
 }
 
 export class ArkeselSmsProvider implements SmsProvider {
-  name: "arkesel" = "arkesel";
+  name = "arkesel" as const;
   private apiKey: string;
   private defaultSender: string;
 
@@ -62,7 +62,8 @@ export function getSmsProvider(): SmsProvider {
     return new ArkeselSmsProvider(apiKey, process.env.ARKESEL_SENDER_ID || "GxStyl");
   }
 
-  return new MockSmsProvider();
+  if (process.env.NODE_ENV !== "production" && isMock) return new MockSmsProvider();
+  return { name: "disabled", async send() { return { success: false }; } };
 }
 
 /**

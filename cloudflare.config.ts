@@ -4,7 +4,7 @@ export default defineConfig({
   accountId: "45546e235b52054c97f2a1463bf9bcae",
   worker: defineWorker({
     name: "gxstyl",
-    entrypoint: "vinext/server/fetch-handler",
+    entrypoint: "./src/worker.ts",
     compatibilityDate: "2026-11-07",
     domains: ["gxstyl.com", "www.gxstyl.com"],
     observability: {
@@ -20,6 +20,7 @@ export default defineConfig({
     },
     env: {
       ASSETS: bindings.assets(),
+      BOOKING_LIMITER: bindings.rateLimit({ namespace: "6720261107", simple: { limit: 12, period: 60 } }),
       NEXT_PUBLIC_APP_URL: bindings.text("https://gxstyl.com"),
       NEXT_PUBLIC_SUPABASE_URL: bindings.secret(),
       NEXT_PUBLIC_SUPABASE_ANON_KEY: bindings.secret(),

@@ -106,12 +106,12 @@ export default function ServicesManagementPage() {
 
   return (
     <div className="flex-1 p-4 sm:p-6 lg:p-8 max-w-5xl mx-auto w-full">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-6 border-b border-[#ebebeb]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-6 border-b border-border">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#222222]">
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
             Services & Pricing
           </h1>
-          <p className="text-xs text-[#717171] mt-0.5">
+          <p className="text-xs text-muted-foreground mt-0.5">
             Configure treatments, durations, and pricing in GHS
           </p>
         </div>
@@ -119,7 +119,7 @@ export default function ServicesManagementPage() {
         <button
           type="button"
           onClick={() => setShowAddForm(!showAddForm)}
-          className="py-2.5 px-4 rounded-xl bg-[#ff385c] hover:bg-[#e00b41] text-white text-xs font-bold flex items-center gap-1.5 shadow-sm transition-all self-start sm:self-auto"
+          className="py-2.5 px-4 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground text-xs font-bold flex items-center gap-1.5 shadow-sm transition-all self-start sm:self-auto"
         >
           <Plus className="w-4 h-4" />
           <span>Add Service</span>
@@ -130,30 +130,30 @@ export default function ServicesManagementPage() {
       {showAddForm && (
         <form
           onSubmit={handleAddService}
-          className="my-6 p-5 rounded-2xl bg-white border border-[#ebebeb] shadow-xs space-y-4"
+          className="my-6 p-5 rounded-2xl bg-card border border-border shadow-xs space-y-4"
         >
-          <h2 className="text-base font-bold text-[#222222]">New Service</h2>
+          <h2 className="text-base font-bold text-foreground">New Service</h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
             <div>
-              <label className="block font-semibold text-[#222222] mb-1">Service Title *</label>
+              <label className="block font-semibold text-foreground mb-1">Service Title *</label>
               <input
                 type="text"
                 required
                 placeholder="e.g. Skin Fade & Beard Trim"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl border border-[#dddddd] focus:outline-none focus:border-[#ff385c]"
+                className="w-full px-3 py-2 rounded-xl border border-input focus:outline-none focus:border-primary"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-2">
               <div>
-                <label className="block font-semibold text-[#222222] mb-1">Duration (Mins) *</label>
+                <label className="block font-semibold text-foreground mb-1">Duration (Mins) *</label>
                 <select
                   value={durationMin}
                   onChange={(e) => setDurationMin(Number(e.target.value))}
-                  className="w-full px-2 py-2 rounded-xl border border-[#dddddd] bg-white focus:outline-none focus:border-[#ff385c]"
+                  className="w-full px-2 py-2 rounded-xl border border-input bg-card focus:outline-none focus:border-primary"
                 >
                   <option value={15}>15 mins</option>
                   <option value={30}>30 mins</option>
@@ -165,25 +165,25 @@ export default function ServicesManagementPage() {
               </div>
 
               <div>
-                <label className="block font-semibold text-[#222222] mb-1">Price (GHS) *</label>
+                <label className="block font-semibold text-foreground mb-1">Price (GHS) *</label>
                 <input
                   type="number"
                   required
                   value={price}
                   onChange={(e) => setPrice(Number(e.target.value))}
-                  className="w-full px-3 py-2 rounded-xl border border-[#dddddd] focus:outline-none focus:border-[#ff385c]"
+                  className="w-full px-3 py-2 rounded-xl border border-input focus:outline-none focus:border-primary"
                 />
               </div>
             </div>
 
             <div className="sm:col-span-2">
-              <label className="block font-semibold text-[#222222] mb-1">Description</label>
+              <label className="block font-semibold text-foreground mb-1">Description</label>
               <input
                 type="text"
                 placeholder="Includes hot towel razor finish and clarifying shampoo."
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl border border-[#dddddd] focus:outline-none focus:border-[#ff385c]"
+                className="w-full px-3 py-2 rounded-xl border border-input focus:outline-none focus:border-primary"
               />
             </div>
 
@@ -193,9 +193,9 @@ export default function ServicesManagementPage() {
                 id="popular"
                 checked={isPopular}
                 onChange={(e) => setIsPopular(e.target.checked)}
-                className="w-4 h-4 rounded text-[#ff385c] focus:ring-[#ff385c]"
+                className="w-4 h-4 rounded text-primary focus:ring-primary"
               />
-              <label htmlFor="popular" className="font-semibold text-xs text-[#222222] cursor-pointer">
+              <label htmlFor="popular" className="font-semibold text-xs text-foreground cursor-pointer">
                 Mark as &apos;Popular&apos; badge
               </label>
             </div>
@@ -205,14 +205,14 @@ export default function ServicesManagementPage() {
             <button
               type="button"
               onClick={() => setShowAddForm(false)}
-              className="py-2 px-3 text-xs font-semibold text-[#717171] hover:text-[#222222]"
+              className="py-2 px-3 text-xs font-semibold text-muted-foreground hover:text-foreground"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={saving}
-              className="py-2 px-4 rounded-xl bg-[#ff385c] hover:bg-[#e00b41] text-white text-xs font-bold transition-all disabled:opacity-50"
+              className="py-2 px-4 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground text-xs font-bold transition-all disabled:opacity-50"
             >
               {saving ? "Saving..." : "Save Service"}
             </button>
@@ -225,26 +225,26 @@ export default function ServicesManagementPage() {
         {loading ? (
           <div className="space-y-3">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-20 bg-white border border-[#ebebeb] rounded-2xl animate-pulse" />
+              <div key={i} className="h-20 bg-card border border-border rounded-2xl animate-pulse" />
             ))}
           </div>
         ) : services.length === 0 ? (
-          <div className="text-center py-12 bg-white rounded-2xl border border-dashed border-[#dddddd]">
-            <p className="text-sm font-semibold text-[#222222]">No services created yet.</p>
+          <div className="text-center py-12 bg-card rounded-2xl border border-dashed border-input">
+            <p className="text-sm font-semibold text-foreground">No services created yet.</p>
           </div>
         ) : (
           services.map((svc) => (
             <div
               key={svc.id}
-              className={`p-4 rounded-2xl border bg-white flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-all ${
-                svc.is_active ? "border-[#ebebeb]" : "border-[#ebebeb] opacity-50"
+              className={`p-4 rounded-2xl border bg-card flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-all ${
+                svc.is_active ? "border-border" : "border-border opacity-50"
               }`}
             >
               <div className="space-y-1 min-w-0 flex-1">
                 <div className="flex items-center gap-2 flex-wrap">
-                  <h3 className="font-bold text-sm text-[#222222] truncate">{svc.name}</h3>
+                  <h3 className="font-bold text-sm text-foreground truncate">{svc.name}</h3>
                   {svc.is_popular && (
-                    <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 bg-[#ff385c]/10 text-[#ff385c] rounded-full flex items-center gap-1 shrink-0">
+                    <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 bg-primary/10 text-primary rounded-full flex items-center gap-1 shrink-0">
                       <Sparkles className="w-2.5 h-2.5" /> Popular
                     </span>
                   )}
@@ -255,26 +255,26 @@ export default function ServicesManagementPage() {
                   )}
                 </div>
                 {svc.description && (
-                  <p className="text-xs text-[#717171]">{svc.description}</p>
+                  <p className="text-xs text-muted-foreground">{svc.description}</p>
                 )}
-                <div className="text-xs text-[#717171] flex items-center gap-3">
+                <div className="text-xs text-muted-foreground flex items-center gap-3">
                   <span className="flex items-center gap-1">
                     <Clock className="w-3.5 h-3.5" /> {svc.duration_min} mins
                   </span>
                   <span>•</span>
-                  <span className="font-bold text-[#222222]">GHS {svc.price}</span>
+                  <span className="font-bold text-foreground">GHS {svc.price}</span>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-[#f0f0f0] justify-end">
+              <div className="flex items-center gap-2 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-border justify-end">
                 <button
                   type="button"
                   onClick={() => handleTogglePopular(svc)}
                   title="Toggle Popular Badge"
                   className={`p-2 rounded-xl text-xs font-semibold border transition-colors ${
                     svc.is_popular
-                      ? "border-[#ff385c] text-[#ff385c] bg-[#ff385c]/5"
-                      : "border-[#dddddd] text-[#717171] hover:text-[#222222]"
+                      ? "border-primary text-primary bg-primary/5"
+                      : "border-input text-muted-foreground hover:text-foreground"
                   }`}
                 >
                   <Sparkles className="w-3.5 h-3.5" />
@@ -283,7 +283,7 @@ export default function ServicesManagementPage() {
                 <button
                   type="button"
                   onClick={() => handleToggleActive(svc)}
-                  className="px-2.5 py-1.5 rounded-xl border border-[#dddddd] text-xs font-medium text-[#717171] hover:text-[#222222]"
+                  className="px-2.5 py-1.5 rounded-xl border border-input text-xs font-medium text-muted-foreground hover:text-foreground"
                 >
                   {svc.is_active ? "Archive" : "Activate"}
                 </button>
@@ -291,7 +291,7 @@ export default function ServicesManagementPage() {
                 <button
                   type="button"
                   onClick={() => handleDelete(svc.id)}
-                  className="p-2 text-[#717171] hover:text-red-600 transition-colors"
+                  className="p-2 text-muted-foreground hover:text-red-600 transition-colors"
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>

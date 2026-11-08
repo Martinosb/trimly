@@ -74,7 +74,7 @@ export async function sendWebPushNotification(params: {
     } catch (err: unknown) {
       failed++;
       // If endpoint is 410 Gone / expired, remove it
-      const status = (err as any)?.statusCode;
+      const status = err && typeof err === "object" && "statusCode" in err ? err.statusCode : undefined;
       if (status === 410 || status === 404) {
         await supabase.from("push_subscriptions").delete().eq("id", sub.id);
       }

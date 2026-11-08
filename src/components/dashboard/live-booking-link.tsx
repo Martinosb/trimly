@@ -24,7 +24,7 @@ export function LiveBookingLink() {
     <Link
       href={href}
       target={slug ? "_blank" : undefined}
-      className="flex items-center justify-between px-3.5 py-2 rounded-xl text-xs font-semibold text-[#717171] hover:text-[#222222] hover:bg-[#f7f7f7] transition-colors"
+      className="flex items-center justify-between px-3.5 py-2 rounded-xl text-xs font-semibold text-muted-foreground hover:text-foreground hover:bg-background transition-colors"
     >
       <span>Live Booking Link</span>
       <ExternalLink className="w-3.5 h-3.5" />

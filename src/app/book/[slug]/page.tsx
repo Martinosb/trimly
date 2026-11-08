@@ -106,7 +106,7 @@ export default function BookingPortalPage({
   const [clientPhone, setClientPhone] = useState("+233 ");
   const [clientEmail, setClientEmail] = useState("");
   const [clientNotes, setClientNotes] = useState("");
-  const [paymentChoice, setPaymentChoice] = useState<"pay_at_shop" | "deposit_momo" | "full_momo">("deposit_momo");
+  const [paymentChoice, setPaymentChoice] = useState<"pay_at_shop" | "deposit_momo" | "full_momo">("pay_at_shop");
   const [momoProvider, setMomoProvider] = useState<"momo_mtn" | "momo_voda" | "momo_airteltigo">("momo_mtn");
 
   // Booking Execution
@@ -146,12 +146,7 @@ export default function BookingPortalPage({
 
       setShop(shopData as Shop);
 
-      // Default payment choice based on shop policy
-      if (!shopData.allow_pay_at_shop && shopData.deposit_type !== "none") {
-        setPaymentChoice("deposit_momo");
-      } else if (shopData.deposit_type === "none") {
-        setPaymentChoice("pay_at_shop");
-      }
+      setPaymentChoice("pay_at_shop");
 
       // Fetch active services
       const { data: servData } = await supabase
@@ -237,6 +232,7 @@ export default function BookingPortalPage({
       return;
     }
 
+    if (!shop.allow_pay_at_shop) { setErrorMessage("Please contact this shop to book."); return; }
     setSubmitting(true);
     setErrorMessage(null);
 
@@ -265,28 +261,16 @@ export default function BookingPortalPage({
       }
 
       const booking = holdData.booking;
-      const depositDue = calculateDeposit(selectedService.price);
-
-      // 2. Confirm Booking
-      const paymentStatus =
-        paymentChoice === "full_momo"
-          ? "paid"
-          : paymentChoice === "deposit_momo"
-          ? "deposit_paid"
-          : "unpaid";
-
-      const paidAmount =
-        paymentChoice === "full_momo"
-          ? selectedService.price
-          : paymentChoice === "deposit_momo"
-          ? depositDue
-          : 0;
+      // No client-reported payment success. Payment is collected by the shop.
+      const paymentStatus = "unpaid";
+      const paidAmount = 0;
 
       const confirmRes = await fetch("/api/bookings/confirm", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           bookingId: booking.id,
+          cancellationCode: booking.cancellationCode,
           paymentMethod: paymentChoice === "pay_at_shop" ? "pay_at_shop" : momoProvider,
           paymentStatus,
           paidAmount,
@@ -295,7 +279,7 @@ export default function BookingPortalPage({
 
       const confirmData = await confirmRes.json();
       if (!confirmRes.ok || !confirmData.success) {
-        throw new Error("Slot reserved, but failed to confirm booking.");
+        throw new Error(confirmData.error || "Unable to confirm your booking. Please try again.");
       }
 
       // Generate high-resolution QR Code pass
@@ -369,15 +353,15 @@ export default function BookingPortalPage({
   // Loading Skeleton
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#f7f7f7] flex items-center justify-center p-4">
-        <div className="w-full max-w-md bg-white rounded-2xl p-6 space-y-4 shadow-sm border border-[#ebebeb]">
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <div className="w-full max-w-md bg-card rounded-2xl p-6 space-y-4 shadow-sm border border-border">
           <div className="w-16 h-16 rounded-full bg-[#f0f0f0] animate-pulse mx-auto" />
           <div className="h-6 w-3/4 bg-[#f0f0f0] rounded animate-pulse mx-auto" />
           <div className="h-4 w-1/2 bg-[#f0f0f0] rounded animate-pulse mx-auto" />
           <div className="space-y-3 pt-4">
-            <div className="h-20 bg-[#f7f7f7] rounded-xl animate-pulse" />
-            <div className="h-20 bg-[#f7f7f7] rounded-xl animate-pulse" />
-            <div className="h-20 bg-[#f7f7f7] rounded-xl animate-pulse" />
+            <div className="h-20 bg-background rounded-xl animate-pulse" />
+            <div className="h-20 bg-background rounded-xl animate-pulse" />
+            <div className="h-20 bg-background rounded-xl animate-pulse" />
           </div>
         </div>
       </div>
@@ -387,11 +371,11 @@ export default function BookingPortalPage({
   // Not Found
   if (!shop) {
     return (
-      <div className="min-h-screen bg-[#f7f7f7] flex items-center justify-center p-4 text-center">
-        <div className="bg-white p-8 rounded-2xl shadow-sm border border-[#ebebeb] max-w-sm">
-          <Scissors className="w-12 h-12 text-[#ff385c] mx-auto mb-3" />
-          <h1 className="text-xl font-bold text-[#222222]">Barber Shop Not Found</h1>
-          <p className="text-sm text-[#595959] mt-1 mb-6">
+      <div className="min-h-screen bg-background flex items-center justify-center p-4 text-center">
+        <div className="bg-card p-8 rounded-2xl shadow-sm border border-border max-w-sm">
+          <Scissors className="w-12 h-12 text-primary mx-auto mb-3" />
+          <h1 className="text-xl font-bold text-foreground">Barber Shop Not Found</h1>
+          <p className="text-sm text-muted-foreground mt-1 mb-6">
             The shop you are looking for does not exist or has moved.
           </p>
           <Link
@@ -408,18 +392,18 @@ export default function BookingPortalPage({
   // Suspended Shop (Matches PRD requirement for admin suspension)
   if (shop.is_suspended) {
     return (
-      <div className="min-h-screen bg-[#f7f7f7] flex items-center justify-center p-4 text-center">
-        <div className="bg-white p-8 rounded-2xl shadow-sm border border-[#ebebeb] max-w-md">
+      <div className="min-h-screen bg-background flex items-center justify-center p-4 text-center">
+        <div className="bg-card p-8 rounded-2xl shadow-sm border border-border max-w-md">
           <div className="w-14 h-14 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center mx-auto mb-4 border border-amber-200">
             <Clock className="w-7 h-7" />
           </div>
-          <h1 className="text-2xl font-bold text-[#222222]">{shop.name} is Temporarily Unavailable</h1>
-          <p className="text-sm text-[#595959] mt-2 mb-6">
+          <h1 className="text-2xl font-bold text-foreground">{shop.name} is Temporarily Unavailable</h1>
+          <p className="text-sm text-muted-foreground mt-2 mb-6">
             This barber shop is currently not taking new online bookings. Please check back later or contact the shop directly at {shop.phone}.
           </p>
           <Link
             href="/"
-            className="px-5 py-2.5 rounded-xl bg-[#ff385c] text-white text-sm font-semibold shadow-sm"
+            className="px-5 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-semibold shadow-sm"
           >
             Explore Other Barbers on GxStyl
           </Link>
@@ -432,17 +416,17 @@ export default function BookingPortalPage({
   const balanceAtShop = selectedService ? selectedService.price - depositRequired : 0;
 
   return (
-    <div className="min-h-screen bg-[#f7f7f7] flex items-center justify-center p-0 sm:p-4 font-sans text-[#222222]">
+    <div className="min-h-screen bg-background flex items-center justify-center p-0 sm:p-4 font-sans text-foreground">
       {/* Mobile-first App Shell matching Stitch 06-10 */}
-      <div className="w-full max-w-md bg-white min-h-screen sm:min-h-0 sm:rounded-2xl shadow-xl flex flex-col justify-between overflow-hidden border border-[#ebebeb] relative">
+      <div className="w-full max-w-md bg-card min-h-screen sm:min-h-0 sm:rounded-2xl shadow-xl flex flex-col justify-between overflow-hidden border border-border relative">
         {/* Top Header */}
-        <header className="px-5 pt-4 pb-3 border-b border-[#f0f0f0] flex items-center justify-between sticky top-0 bg-white/95 backdrop-blur z-20">
+        <header className="px-5 pt-4 pb-3 border-b border-border flex items-center justify-between sticky top-0 bg-card/95 backdrop-blur z-20">
           {bookingStep > 1 && bookingStep < 5 ? (
             <button
               type="button"
               aria-label="Previous step"
               onClick={() => setBookingStep((bookingStep - 1) as 1 | 2 | 3 | 4)}
-              className="w-8 h-8 rounded-full flex items-center justify-center text-[#222222] hover:bg-[#f7f7f7] transition-colors"
+              className="w-8 h-8 rounded-full flex items-center justify-center text-foreground hover:bg-background transition-colors"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
@@ -450,24 +434,24 @@ export default function BookingPortalPage({
             <Link
               href="/"
               aria-label="GxStyl Home"
-              className="w-8 h-8 rounded-full flex items-center justify-center text-[#222222] hover:bg-[#f7f7f7] transition-colors"
+              className="w-8 h-8 rounded-full flex items-center justify-center text-foreground hover:bg-background transition-colors"
             >
-              <Scissors className="w-4 h-4 text-[#ff385c] rotate-45" />
+              <Scissors className="w-4 h-4 text-primary rotate-45" />
             </Link>
           )}
 
           <div className="text-center">
-            <span className="font-bold text-sm tracking-tight text-[#222222] block truncate max-w-[200px]">
+            <span className="font-bold text-sm tracking-tight text-foreground block truncate max-w-[200px]">
               {shop.name}
             </span>
-            <span className="text-[11px] text-[#595959] flex items-center justify-center gap-1">
-              <MapPin className="w-3 h-3 text-[#ff385c]" /> {[shop.city, shop.region, "Ghana"].filter(Boolean).join(", ")}
+            <span className="text-[11px] text-muted-foreground flex items-center justify-center gap-1">
+              <MapPin className="w-3 h-3 text-primary" /> {[shop.city, shop.region, "Ghana"].filter(Boolean).join(", ")}
             </span>
             <a href={directionsUrl(shop)} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center text-xs font-semibold underline">Get directions<span className="sr-only"> (opens in a new tab)</span></a>
           </div>
 
           <div className="w-8 flex justify-end">
-            <span className="inline-flex items-center gap-0.5 text-xs font-bold text-[#222222] bg-[#f7f7f7] px-2 py-0.5 rounded-full border border-[#ebebeb]">
+            <span className="inline-flex items-center gap-0.5 text-xs font-bold text-foreground bg-background px-2 py-0.5 rounded-full border border-border">
               <Star className="w-3 h-3 fill-current text-amber-500" /> 4.9
             </span>
           </div>
@@ -475,7 +459,7 @@ export default function BookingPortalPage({
 
         {/* Step Indicator */}
         {bookingStep < 5 && (
-          <div className="flex border-b border-[#f0f0f0] bg-[#fafafa] text-[11px] sm:text-xs font-semibold">
+          <div className="flex border-b border-border bg-muted text-[11px] sm:text-xs font-semibold">
             {[
               { step: 1, label: "Service" },
               { step: 2, label: "Barber" },
@@ -486,10 +470,10 @@ export default function BookingPortalPage({
                 key={item.step}
                 className={`flex-1 text-center py-2 border-b-2 transition-colors ${
                   bookingStep === item.step
-                    ? "border-[#ff385c] text-[#b00020] font-bold"
+                    ? "border-primary text-[#b00020] font-bold"
                     : bookingStep > item.step
                     ? "border-emerald-600 text-emerald-700 font-medium"
-                    : "border-transparent text-[#595959]"
+                    : "border-transparent text-muted-foreground"
                 }`}
               >
                 {item.label}
@@ -504,10 +488,10 @@ export default function BookingPortalPage({
           {bookingStep === 1 && (
             <div className="space-y-4">
               <div>
-                <h1 className="text-xl font-bold tracking-tight text-[#222222]">
+                <h1 className="text-xl font-bold tracking-tight text-foreground">
                   Select a Service
                 </h1>
-                <p className="text-xs text-[#595959] mt-0.5">
+                <p className="text-xs text-muted-foreground mt-0.5">
                   Pick your treatment or styling package
                 </p>
               </div>
@@ -524,14 +508,14 @@ export default function BookingPortalPage({
                       }}
                       className={`p-4 rounded-2xl border transition-all cursor-pointer relative ${
                         isSelected
-                          ? "border-[#ff385c] bg-[#ff385c]/5 shadow-sm ring-1 ring-[#ff385c]"
-                          : "border-[#ebebeb] bg-white hover:border-[#dddddd]"
+                          ? "border-primary bg-primary/5 shadow-sm ring-1 ring-primary"
+                          : "border-border bg-card hover:border-input"
                       }`}
                     >
                       <div className="flex items-start justify-between">
                         <div>
                           <div className="flex items-center gap-2">
-                            <span className="font-bold text-sm text-[#222222]">{svc.name}</span>
+                            <span className="font-bold text-sm text-foreground">{svc.name}</span>
                             {svc.is_popular && (
                               <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 bg-rose-100 text-[#9f1239] rounded-full border border-rose-200">
                                 Popular
@@ -539,11 +523,11 @@ export default function BookingPortalPage({
                             )}
                           </div>
                           {svc.description && (
-                            <p className="text-xs text-[#595959] mt-1 line-clamp-2">
+                            <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
                               {svc.description}
                             </p>
                           )}
-                          <div className="flex items-center gap-3 text-xs text-[#595959] mt-2 font-medium">
+                          <div className="flex items-center gap-3 text-xs text-muted-foreground mt-2 font-medium">
                             <span className="flex items-center gap-1">
                               <Clock className="w-3.5 h-3.5" /> {svc.duration_min} mins
                             </span>
@@ -551,7 +535,7 @@ export default function BookingPortalPage({
                         </div>
 
                         <div className="text-right shrink-0">
-                          <span className="text-base font-black text-[#222222]">
+                          <span className="text-base font-black text-foreground">
                             GHS {svc.price}
                           </span>
                         </div>
@@ -567,10 +551,10 @@ export default function BookingPortalPage({
           {bookingStep === 2 && (
             <div className="space-y-4">
               <div>
-                <h1 className="text-xl font-bold tracking-tight text-[#222222]">
+                <h1 className="text-xl font-bold tracking-tight text-foreground">
                   Choose your Barber
                 </h1>
-                <p className="text-xs text-[#595959] mt-0.5">
+                <p className="text-xs text-muted-foreground mt-0.5">
                   Book with your favourite specialist or pick fastest available
                 </p>
               </div>
@@ -583,27 +567,27 @@ export default function BookingPortalPage({
                 }}
                 className={`p-4 rounded-2xl border transition-all cursor-pointer ${
                   selectedStaff === "any"
-                    ? "border-[#ff385c] bg-[#ff385c]/5 shadow-sm ring-1 ring-[#ff385c]"
-                    : "border-[#ebebeb] bg-white hover:border-[#dddddd]"
+                    ? "border-primary bg-primary/5 shadow-sm ring-1 ring-primary"
+                    : "border-border bg-card hover:border-input"
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-[#ff385c]/10 text-[#ff385c] flex items-center justify-center font-bold shrink-0">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold shrink-0">
                     <Sparkles className="w-6 h-6" />
                   </div>
                   <div className="flex-1">
-                    <div className="font-bold text-sm text-[#222222] flex items-center gap-1.5">
+                    <div className="font-bold text-sm text-foreground flex items-center gap-1.5">
                       <span>Any Available Barber</span>
                       <span className="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-bold">
                         Fastest
                       </span>
                     </div>
-                    <p className="text-xs text-[#595959] mt-0.5">
+                    <p className="text-xs text-muted-foreground mt-0.5">
                       Assigns the first qualified barber with an open chair
                     </p>
                   </div>
                   {selectedStaff === "any" && (
-                    <div className="w-6 h-6 rounded-full bg-[#ff385c] text-white flex items-center justify-center shrink-0">
+                    <div className="w-6 h-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center shrink-0">
                       <Check className="w-3.5 h-3.5 stroke-[3]" />
                     </div>
                   )}
@@ -623,8 +607,8 @@ export default function BookingPortalPage({
                       }}
                       className={`p-4 rounded-2xl border transition-all cursor-pointer ${
                         isSelected
-                          ? "border-[#ff385c] bg-[#ff385c]/5 shadow-sm ring-1 ring-[#ff385c]"
-                          : "border-[#ebebeb] bg-white hover:border-[#dddddd]"
+                          ? "border-primary bg-primary/5 shadow-sm ring-1 ring-primary"
+                          : "border-border bg-card hover:border-input"
                       }`}
                     >
                       <div className="flex items-center gap-3">
@@ -632,12 +616,12 @@ export default function BookingPortalPage({
                           {st.name.charAt(0)}
                         </div>
                         <div className="flex-1">
-                          <div className="font-bold text-sm text-[#222222]">{st.name}</div>
-                          <div className="text-xs text-[#ff385c] font-medium">{st.role}</div>
-                          {st.bio && <p className="text-[11px] text-[#595959] mt-0.5 line-clamp-1">{st.bio}</p>}
+                          <div className="font-bold text-sm text-foreground">{st.name}</div>
+                          <div className="text-xs text-primary font-medium">{st.role}</div>
+                          {st.bio && <p className="text-[11px] text-muted-foreground mt-0.5 line-clamp-1">{st.bio}</p>}
                         </div>
                         {isSelected && (
-                          <div className="w-6 h-6 rounded-full bg-[#ff385c] text-white flex items-center justify-center shrink-0">
+                          <div className="w-6 h-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center shrink-0">
                             <Check className="w-3.5 h-3.5 stroke-[3]" />
                           </div>
                         )}
@@ -653,10 +637,10 @@ export default function BookingPortalPage({
           {bookingStep === 3 && (
             <div className="space-y-4">
               <div>
-                <h1 className="text-xl font-bold tracking-tight text-[#222222]">
+                <h1 className="text-xl font-bold tracking-tight text-foreground">
                   Pick Date & Time
                 </h1>
-                <p className="text-xs text-[#595959] mt-0.5">
+                <p className="text-xs text-muted-foreground mt-0.5">
                   Live availability for {selectedStaff === "any" ? "Any Barber" : selectedStaff.name}
                 </p>
               </div>
@@ -675,15 +659,15 @@ export default function BookingPortalPage({
                       }}
                       className={`flex flex-col items-center py-2.5 px-3.5 rounded-xl border shrink-0 transition-all ${
                         isSelected
-                          ? "border-[#ff385c] bg-[#ff385c] text-white shadow-sm"
-                          : "border-[#ebebeb] bg-white text-[#222222] hover:border-[#dddddd]"
+                          ? "border-primary bg-primary text-primary-foreground shadow-sm"
+                          : "border-border bg-card text-foreground hover:border-input"
                       }`}
                     >
-                      <span className={`text-[10px] font-semibold uppercase ${isSelected ? "text-white/80" : "text-[#595959]"}`}>
+                      <span className={`text-[10px] font-semibold uppercase ${isSelected ? "text-white/80" : "text-muted-foreground"}`}>
                         {opt.dayName}
                       </span>
                       <span className="text-base font-black my-0.5">{opt.dayNum}</span>
-                      <span className={`text-[10px] ${isSelected ? "text-white/80" : "text-[#595959]"}`}>
+                      <span className={`text-[10px] ${isSelected ? "text-white/80" : "text-muted-foreground"}`}>
                         {opt.monthName}
                       </span>
                     </button>
@@ -693,7 +677,7 @@ export default function BookingPortalPage({
 
               {/* Slot Grid */}
               <div className="pt-2">
-                <span className="text-xs font-semibold text-[#222222] uppercase tracking-wider block mb-2.5">
+                <span className="text-xs font-semibold text-foreground uppercase tracking-wider block mb-2.5">
                   Available Slots
                 </span>
 
@@ -704,10 +688,10 @@ export default function BookingPortalPage({
                     ))}
                   </div>
                 ) : availableSlots.length === 0 ? (
-                  <div className="text-center py-8 bg-[#fafafa] rounded-2xl border border-dashed border-[#dddddd]">
+                  <div className="text-center py-8 bg-muted rounded-2xl border border-dashed border-input">
                     <Clock className="w-8 h-8 text-[#929292] mx-auto mb-2" />
-                    <p className="text-sm font-semibold text-[#222222]">No available slots on this date</p>
-                    <p className="text-xs text-[#595959] mt-0.5">Please pick another date above or select another barber.</p>
+                    <p className="text-sm font-semibold text-foreground">No available slots on this date</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">Please pick another date above or select another barber.</p>
                   </div>
                 ) : (
                   <div className="grid grid-cols-3 gap-2 max-h-72 overflow-y-auto pr-1">
@@ -720,12 +704,12 @@ export default function BookingPortalPage({
                           onClick={() => setSelectedSlot(slot)}
                           className={`py-2.5 px-2 rounded-xl border text-center transition-all ${
                             isSelected
-                              ? "border-[#ff385c] bg-[#ff385c] text-white font-bold shadow-sm"
-                              : "border-[#ebebeb] bg-white text-[#222222] hover:border-[#222222] font-medium"
+                              ? "border-primary bg-primary text-primary-foreground font-bold shadow-sm"
+                              : "border-border bg-card text-foreground hover:border-[#222222] font-medium"
                           }`}
                         >
                           <span className="text-xs block">{slot.formattedTime}</span>
-                          <span className={`text-[9px] block mt-0.5 ${isSelected ? "text-white/80" : "text-[#595959]"}`}>
+                          <span className={`text-[9px] block mt-0.5 ${isSelected ? "text-white/80" : "text-muted-foreground"}`}>
                             {slot.availableBarbers.length} chair{slot.availableBarbers.length > 1 ? "s" : ""}
                           </span>
                         </button>
@@ -741,10 +725,10 @@ export default function BookingPortalPage({
           {bookingStep === 4 && (
             <div className="space-y-4">
               <div>
-                <h1 className="text-xl font-bold tracking-tight text-[#222222]">
+                <h1 className="text-xl font-bold tracking-tight text-foreground">
                   Client Details & Payment
                 </h1>
-                <p className="text-xs text-[#595959] mt-0.5">
+                <p className="text-xs text-muted-foreground mt-0.5">
                   Confirm your contact and choose payment method
                 </p>
               </div>
@@ -757,14 +741,14 @@ export default function BookingPortalPage({
               )}
 
               {/* Booking Summary Pill */}
-              <div className="p-3.5 bg-[#fafafa] border border-[#ebebeb] rounded-xl flex items-center justify-between">
+              <div className="p-3.5 bg-muted border border-border rounded-xl flex items-center justify-between">
                 <div>
-                  <div className="font-bold text-sm text-[#222222]">{selectedService?.name}</div>
-                  <div className="text-xs text-[#595959] mt-0.5">
+                  <div className="font-bold text-sm text-foreground">{selectedService?.name}</div>
+                  <div className="text-xs text-muted-foreground mt-0.5">
                     {selectedSlot?.formattedTime} • {selectedStaff === "any" ? "Any Barber" : selectedStaff.name}
                   </div>
                 </div>
-                <div className="text-right font-black text-sm text-[#222222]">
+                <div className="text-right font-black text-sm text-foreground">
                   GHS {selectedService?.price}
                 </div>
               </div>
@@ -772,7 +756,7 @@ export default function BookingPortalPage({
               {/* Form Inputs */}
               <div className="space-y-3">
                 <div>
-                  <label className="block text-xs font-semibold text-[#222222] uppercase tracking-wider mb-1">
+                  <label className="block text-xs font-semibold text-foreground uppercase tracking-wider mb-1">
                     Your Full Name *
                   </label>
                   <input
@@ -781,12 +765,12 @@ export default function BookingPortalPage({
                     placeholder="e.g. Kwesi Arthur"
                     value={clientName}
                     onChange={(e) => setClientName(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#dddddd] text-sm focus:outline-none focus:border-[#ff385c]"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-input text-sm focus:outline-none focus:border-primary"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-[#222222] uppercase tracking-wider mb-1">
+                  <label className="block text-xs font-semibold text-foreground uppercase tracking-wider mb-1">
                     Phone / MoMo Number *
                   </label>
                   <input
@@ -795,12 +779,12 @@ export default function BookingPortalPage({
                     placeholder="+233 24 000 0000"
                     value={clientPhone}
                     onChange={(e) => setClientPhone(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#dddddd] text-sm focus:outline-none focus:border-[#ff385c]"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-input text-sm focus:outline-none focus:border-primary"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-[#222222] uppercase tracking-wider mb-1">
+                  <label className="block text-xs font-semibold text-foreground uppercase tracking-wider mb-1">
                     Email (for booking pass & calendar invite)
                   </label>
                   <input
@@ -808,12 +792,12 @@ export default function BookingPortalPage({
                     placeholder="name@example.com"
                     value={clientEmail}
                     onChange={(e) => setClientEmail(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#dddddd] text-sm focus:outline-none focus:border-[#ff385c]"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-input text-sm focus:outline-none focus:border-primary"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-[#222222] uppercase tracking-wider mb-1">
+                  <label className="block text-xs font-semibold text-foreground uppercase tracking-wider mb-1">
                     Notes for Barber (optional)
                   </label>
                   <input
@@ -821,135 +805,14 @@ export default function BookingPortalPage({
                     placeholder="e.g. Low skin fade, sensitive skin on neck"
                     value={clientNotes}
                     onChange={(e) => setClientNotes(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#dddddd] text-sm focus:outline-none focus:border-[#ff385c]"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-input text-sm focus:outline-none focus:border-primary"
                   />
                 </div>
               </div>
 
-              {/* Payment Method Selector */}
-              <div className="pt-2">
-                <label className="block text-xs font-semibold text-[#222222] uppercase tracking-wider mb-2">
-                  Payment Choice
-                </label>
-
-                <div className="space-y-2">
-                  {depositRequired > 0 && (
-                    <label
-                      onClick={() => setPaymentChoice("deposit_momo")}
-                      className={`p-3 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${
-                        paymentChoice === "deposit_momo"
-                          ? "border-[#ff385c] bg-[#ff385c]/5"
-                          : "border-[#ebebeb] bg-white"
-                      }`}
-                    >
-                      <div className="flex items-center gap-2.5">
-                        <Smartphone className="w-5 h-5 text-[#ff385c]" />
-                        <div>
-                          <span className="text-xs font-bold text-[#222222] block">
-                            Pay GHS {depositRequired} Deposit via MoMo
-                          </span>
-                          <span className="text-[11px] text-[#595959]">
-                            Remaining GHS {balanceAtShop} due at the shop
-                          </span>
-                        </div>
-                      </div>
-                      <input
-                        type="radio"
-                        name="payChoice"
-                        checked={paymentChoice === "deposit_momo"}
-                        onChange={() => setPaymentChoice("deposit_momo")}
-                        className="text-[#ff385c] focus:ring-[#ff385c]"
-                      />
-                    </label>
-                  )}
-
-                  <label
-                    onClick={() => setPaymentChoice("full_momo")}
-                    className={`p-3 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${
-                      paymentChoice === "full_momo"
-                        ? "border-[#ff385c] bg-[#ff385c]/5"
-                        : "border-[#ebebeb] bg-white"
-                    }`}
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <CreditCard className="w-5 h-5 text-[#222222]" />
-                      <div>
-                        <span className="text-xs font-bold text-[#222222] block">
-                          Pay Full GHS {selectedService?.price} Now
-                        </span>
-                        <span className="text-[11px] text-[#595959]">
-                          Mobile Money or Debit Card
-                        </span>
-                      </div>
-                    </div>
-                    <input
-                      type="radio"
-                      name="payChoice"
-                      checked={paymentChoice === "full_momo"}
-                      onChange={() => setPaymentChoice("full_momo")}
-                      className="text-[#ff385c] focus:ring-[#ff385c]"
-                    />
-                  </label>
-
-                  {shop.allow_pay_at_shop && (
-                    <label
-                      onClick={() => setPaymentChoice("pay_at_shop")}
-                      className={`p-3 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${
-                        paymentChoice === "pay_at_shop"
-                          ? "border-[#ff385c] bg-[#ff385c]/5"
-                          : "border-[#ebebeb] bg-white"
-                      }`}
-                    >
-                      <div className="flex items-center gap-2.5">
-                        <MapPin className="w-5 h-5 text-emerald-600" />
-                        <div>
-                          <span className="text-xs font-bold text-[#222222] block">
-                            Reserve & Pay at Shop
-                          </span>
-                          <span className="text-[11px] text-[#595959]">
-                            Pay full amount in cash/MoMo upon arrival
-                          </span>
-                        </div>
-                      </div>
-                      <input
-                        type="radio"
-                        name="payChoice"
-                        checked={paymentChoice === "pay_at_shop"}
-                        onChange={() => setPaymentChoice("pay_at_shop")}
-                        className="text-[#ff385c] focus:ring-[#ff385c]"
-                      />
-                    </label>
-                  )}
-                </div>
-
-                {/* MoMo Provider Picker if MoMo selected */}
-                {paymentChoice !== "pay_at_shop" && (
-                  <div className="mt-3 p-3 bg-[#fafafa] rounded-xl border border-[#ebebeb]">
-                    <span className="text-[11px] font-semibold text-[#595959] uppercase tracking-wider block mb-2">
-                      Select MoMo Network
-                    </span>
-                    <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
-                      {[
-                        { id: "momo_mtn", name: "MTN MoMo" },
-                        { id: "momo_voda", name: "Telecel Cash" },
-                        { id: "momo_airteltigo", name: "AT Money" },
-                      ].map((net) => (
-                        <button
-                          key={net.id}
-                          type="button"
-                          onClick={() => setMomoProvider(net.id as any)}
-                          className={`py-2 px-1 text-center rounded-lg border text-[11px] sm:text-xs font-semibold truncate leading-tight transition-all ${
-                            momoProvider === net.id
-                              ? "border-[#ff385c] bg-white text-[#ff385c] shadow-xs"
-                              : "border-[#dddddd] bg-white text-[#595959]"
-                          }`}
-                        >
-                          {net.name}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
+              <div className="rounded-xl border border-border p-4 bg-muted">
+                <h3 className="font-semibold text-sm">{shop.allow_pay_at_shop ? "Reserve now. Pay at the shop." : "Please contact this shop to book."}</h3>
+                <p className="text-sm text-muted-foreground mt-2">{shop.allow_pay_at_shop ? "No online payment is taken. You’ll pay your barber or stylist directly when you arrive." : "This shop requires an online deposit. Online payments are not available on GxStyl yet."}</p>
               </div>
             </div>
           )}
@@ -962,10 +825,10 @@ export default function BookingPortalPage({
               </div>
 
               <div>
-                <h1 className="text-2xl font-black tracking-tight text-[#222222]">
+                <h1 className="text-2xl font-black tracking-tight text-foreground">
                   Booking Confirmed!
                 </h1>
-                <p className="text-xs text-[#595959] mt-1">
+                <p className="text-xs text-muted-foreground mt-1">
                   We&apos;ve reserved your seat at {shop.name}.
                 </p>
               </div>
@@ -1008,13 +871,13 @@ export default function BookingPortalPage({
               )}
 
               {/* Boarding Pass Card */}
-              <div className="bg-[#fafafa] border border-[#ebebeb] rounded-2xl p-4 text-left shadow-sm space-y-3 relative overflow-hidden">
-                <div className="flex items-center justify-between border-b border-[#ebebeb] pb-3">
+              <div className="bg-muted border border-border rounded-2xl p-4 text-left shadow-sm space-y-3 relative overflow-hidden">
+                <div className="flex items-center justify-between border-b border-border pb-3">
                   <div>
-                    <span className="text-[10px] uppercase font-bold text-[#595959] tracking-wider block">
+                    <span className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider block">
                       Booking Pass
                     </span>
-                    <span className="font-mono text-sm font-black text-[#ff385c]">
+                    <span className="font-mono text-sm font-black text-primary">
                       #{confirmedBooking.cancellationCode}
                     </span>
                   </div>
@@ -1029,16 +892,16 @@ export default function BookingPortalPage({
 
                 <div className="grid grid-cols-2 gap-2 text-xs">
                   <div>
-                    <span className="text-[#595959] block">Service</span>
-                    <span className="font-bold text-[#222222]">{confirmedBooking.serviceName}</span>
+                    <span className="text-muted-foreground block">Service</span>
+                    <span className="font-bold text-foreground">{confirmedBooking.serviceName}</span>
                   </div>
                   <div>
-                    <span className="text-[#595959] block">Barber</span>
-                    <span className="font-bold text-[#222222]">{confirmedBooking.staffName}</span>
+                    <span className="text-muted-foreground block">Barber</span>
+                    <span className="font-bold text-foreground">{confirmedBooking.staffName}</span>
                   </div>
                   <div>
-                    <span className="text-[#595959] block">Date & Time</span>
-                    <span className="font-bold text-[#222222]">
+                    <span className="text-muted-foreground block">Date & Time</span>
+                    <span className="font-bold text-foreground">
                       {new Date(confirmedBooking.startAt).toLocaleDateString("en-US", {
                         weekday: "short",
                         month: "short",
@@ -1048,20 +911,20 @@ export default function BookingPortalPage({
                     </span>
                   </div>
                   <div>
-                    <span className="text-[#595959] block">Location</span>
-                    <span className="font-bold text-[#222222] truncate block">{shop.address}</span>
+                    <span className="text-muted-foreground block">Location</span>
+                    <span className="font-bold text-foreground truncate block">{shop.address}</span>
                   </div>
                 </div>
 
                 {/* QR Code Container */}
                 {qrDataUrl && (
-                  <div className="pt-2 border-t border-dashed border-[#dddddd] text-center">
+                  <div className="pt-2 border-t border-dashed border-input text-center">
                     <img
                       src={qrDataUrl}
                       alt="Booking QR Code"
-                      className="w-36 h-36 mx-auto rounded-lg border border-[#ebebeb] p-1 bg-white"
+                      className="w-36 h-36 mx-auto rounded-lg border border-border p-1 bg-card"
                     />
-                    <span className="text-[10px] text-[#595959] block mt-1">
+                    <span className="text-[10px] text-muted-foreground block mt-1">
                       Show this pass to your barber upon arrival
                     </span>
                   </div>
@@ -1076,7 +939,7 @@ export default function BookingPortalPage({
                     type="button"
                     onClick={handleSavePass}
                     disabled={savingPass}
-                    className="w-full py-3.5 px-4 rounded-xl bg-[#ff385c] hover:bg-[#e00b41] active:scale-[0.99] text-white font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2 group ring-2 ring-[#ff385c]/30 hover:ring-[#ff385c]/60 cursor-pointer"
+                    className="w-full py-3.5 px-4 rounded-xl bg-primary hover:bg-primary/90 active:scale-[0.99] text-white font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2 group ring-2 ring-primary/30 hover:ring-primary/60 cursor-pointer"
                   >
                     {savingPass ? (
                       <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -1119,7 +982,7 @@ export default function BookingPortalPage({
                 ) : (
                   <Link
                     href={`/book/${slug}/manage?code=${confirmedBooking.cancellationCode}`}
-                    className="w-full py-3 px-4 rounded-xl border border-[#222222] text-[#222222] hover:bg-[#f7f7f7] font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors"
+                    className="w-full py-3 px-4 rounded-xl border border-[#222222] text-foreground hover:bg-background font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors"
                   >
                     <Unlock className="w-3.5 h-3.5 text-emerald-600" />
                     <span>Manage or Cancel Appointment</span>
@@ -1143,13 +1006,13 @@ export default function BookingPortalPage({
               {/* Mandate Warning Modal */}
               {showMandateWarning && !hasSavedPass && (
                 <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-xs">
-                  <div className="bg-white rounded-2xl p-5 max-w-sm w-full space-y-4 shadow-2xl text-left border border-amber-200">
+                  <div className="bg-card rounded-2xl p-5 max-w-sm w-full space-y-4 shadow-2xl text-left border border-amber-200">
                     <div className="w-12 h-12 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center mx-auto">
                       <AlertCircle className="w-6 h-6" />
                     </div>
                     <div className="text-center">
-                      <h3 className="text-base font-bold text-[#222222]">Save Pass Image First</h3>
-                      <p className="text-xs text-[#595959] mt-1.5 leading-relaxed">
+                      <h3 className="text-base font-bold text-foreground">Save Pass Image First</h3>
+                      <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">
                         Barbers require this QR pass for check-in upon arrival. Because cellular network at the barbershop can be unpredictable, saving your booking pass image to your device photos or files is required before proceeding.
                       </p>
                     </div>
@@ -1158,7 +1021,7 @@ export default function BookingPortalPage({
                         type="button"
                         onClick={handleSavePass}
                         disabled={savingPass}
-                        className="w-full py-3 px-4 rounded-xl bg-[#ff385c] hover:bg-[#e00b41] text-white font-bold text-xs flex items-center justify-center gap-2 shadow-sm transition-colors cursor-pointer"
+                        className="w-full py-3 px-4 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-xs flex items-center justify-center gap-2 shadow-sm transition-colors cursor-pointer"
                       >
                         {savingPass ? (
                           <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -1186,13 +1049,13 @@ export default function BookingPortalPage({
 
         {/* Sticky Bottom Summary & CTA Bar */}
         {bookingStep < 5 && (
-          <footer className="p-4 border-t border-[#f0f0f0] bg-white sticky bottom-0 z-20">
+          <footer className="p-4 border-t border-border bg-card sticky bottom-0 z-20">
             {bookingStep === 1 && (
               <button
                 type="button"
                 disabled={!selectedService}
                 onClick={() => setBookingStep(2)}
-                className="w-full py-3.5 px-4 rounded-xl bg-[#ff385c] hover:bg-[#e00b41] text-white font-semibold text-sm shadow-sm transition-all flex items-center justify-between disabled:opacity-40 disabled:pointer-events-none"
+                className="w-full py-3.5 px-4 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-sm shadow-sm transition-all flex items-center justify-between disabled:opacity-40 disabled:pointer-events-none"
               >
                 <span className="truncate pr-2">
                   {selectedService ? `Continue with ${selectedService.name}` : "Select a Service to Continue"}
@@ -1205,7 +1068,7 @@ export default function BookingPortalPage({
               <button
                 type="button"
                 onClick={() => setBookingStep(3)}
-                className="w-full py-3.5 px-4 rounded-xl bg-[#ff385c] hover:bg-[#e00b41] text-white font-semibold text-sm shadow-sm transition-all flex items-center justify-between"
+                className="w-full py-3.5 px-4 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-sm shadow-sm transition-all flex items-center justify-between"
               >
                 <span className="truncate pr-2">Continue to Date & Time</span>
                 <ChevronRight className="w-4 h-4 shrink-0" />
@@ -1217,7 +1080,7 @@ export default function BookingPortalPage({
                 type="button"
                 disabled={!selectedSlot}
                 onClick={() => setBookingStep(4)}
-                className="w-full py-3.5 px-4 rounded-xl bg-[#ff385c] hover:bg-[#e00b41] text-white font-semibold text-sm shadow-sm transition-all flex items-center justify-between disabled:opacity-40 disabled:pointer-events-none"
+                className="w-full py-3.5 px-4 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-sm shadow-sm transition-all flex items-center justify-between disabled:opacity-40 disabled:pointer-events-none"
               >
                 <span className="truncate pr-2">
                   {selectedSlot ? `Book for ${selectedSlot.formattedTime}` : "Select a Time Slot"}
@@ -1231,7 +1094,7 @@ export default function BookingPortalPage({
                 type="button"
                 disabled={submitting}
                 onClick={handleCompleteBooking}
-                className="w-full py-3.5 px-4 rounded-xl bg-[#ff385c] hover:bg-[#e00b41] text-white font-semibold text-sm shadow-sm transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                className="w-full py-3.5 px-4 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-sm shadow-sm transition-all flex items-center justify-center gap-2 disabled:opacity-50"
               >
                 {submitting ? (
                   <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />

@@ -42,7 +42,7 @@ export default function ShopSettingsPage() {
         setLocationConfirmed(true);
         setPhone(data.phone);
         setInstagram(data.instagram || "");
-        setDepositType(data.deposit_type as any);
+        setDepositType(data.deposit_type === "fixed" || data.deposit_type === "percentage" ? data.deposit_type : "none");
         setDepositValue(data.deposit_value);
         setAllowPayAtShop(data.allow_pay_at_shop);
         setCancellationHours(data.cancellation_hours);
@@ -97,22 +97,22 @@ export default function ShopSettingsPage() {
 
   return (
     <div className="flex-1 p-4 sm:p-6 lg:p-8 max-w-4xl mx-auto w-full">
-      <div className="pb-6 border-b border-[#ebebeb]">
-        <h1 className="text-2xl font-bold tracking-tight text-[#222222]">
+      <div className="pb-6 border-b border-border">
+        <h1 className="text-2xl font-bold tracking-tight text-foreground">
           Shop Settings & Policies
         </h1>
-        <p className="text-xs text-[#717171] mt-0.5">
+        <p className="text-xs text-muted-foreground mt-0.5">
           Configure deposits, cancellation rules, and your public shop link
         </p>
       </div>
 
       {/* Share Booking Link Box */}
-      <div className="my-6 p-4 rounded-2xl bg-white border border-[#ebebeb] shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div className="my-6 p-4 rounded-2xl bg-card border border-border shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="min-w-0 flex-1">
-          <span className="text-xs font-bold text-[#ff385c] uppercase tracking-wider block">
+          <span className="text-xs font-bold text-primary uppercase tracking-wider block">
             Public Booking Link
           </span>
-          <span className="text-xs sm:text-sm font-semibold text-[#222222] mt-0.5 block break-all">
+          <span className="text-xs sm:text-sm font-semibold text-foreground mt-0.5 block break-all">
             {slug
               ? (typeof window !== "undefined" ? `${window.location.origin}/book/${slug}` : `/book/${slug}`)
               : loading
@@ -126,7 +126,7 @@ export default function ShopSettingsPage() {
             type="button"
             onClick={copyBookingLink}
             disabled={!slug}
-            className="py-2 px-3 rounded-xl border border-[#dddddd] hover:border-[#222222] disabled:opacity-40 disabled:pointer-events-none text-xs font-semibold text-[#222222] flex items-center gap-1.5 transition-colors"
+            className="py-2 px-3 rounded-xl border border-input hover:border-[#222222] disabled:opacity-40 disabled:pointer-events-none text-xs font-semibold text-foreground flex items-center gap-1.5 transition-colors"
           >
             {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
             <span>{copied ? "Copied!" : "Copy Link"}</span>
@@ -156,14 +156,14 @@ export default function ShopSettingsPage() {
       {/* Form */}
       <form onSubmit={handleSave} className="space-y-6">
         {/* Deposit Policy */}
-        <div className="p-4 sm:p-5 rounded-2xl bg-white border border-[#ebebeb] shadow-2xs space-y-4">
-          <h2 className="text-base font-bold text-[#222222] flex items-center gap-2">
-            <Store className="w-4 h-4 text-[#ff385c]" />
+        <div className="p-4 sm:p-5 rounded-2xl bg-card border border-border shadow-2xs space-y-4">
+          <h2 className="text-base font-bold text-foreground flex items-center gap-2">
+            <Store className="w-4 h-4 text-primary" />
             <span>No-Show Protection & Deposits</span>
           </h2>
 
           <div className="space-y-2">
-            <label className="block text-xs font-semibold text-[#222222] uppercase tracking-wider">
+            <label className="block text-xs font-semibold text-foreground uppercase tracking-wider">
               Deposit Rule
             </label>
             <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
@@ -172,8 +172,8 @@ export default function ShopSettingsPage() {
                 onClick={() => setDepositType("none")}
                 className={`p-2.5 sm:p-3 rounded-xl border text-center transition-all ${
                   depositType === "none"
-                    ? "border-[#ff385c] bg-[#ff385c]/5 font-bold text-[#ff385c]"
-                    : "border-[#dddddd] text-[#717171]"
+                    ? "border-primary bg-primary/5 font-bold text-primary"
+                    : "border-input text-muted-foreground"
                 }`}
               >
                 <div className="text-xs truncate">No Deposit</div>
@@ -185,8 +185,8 @@ export default function ShopSettingsPage() {
                 onClick={() => setDepositType("fixed")}
                 className={`p-2.5 sm:p-3 rounded-xl border text-center transition-all ${
                   depositType === "fixed"
-                    ? "border-[#ff385c] bg-[#ff385c]/5 font-bold text-[#ff385c]"
-                    : "border-[#dddddd] text-[#717171]"
+                    ? "border-primary bg-primary/5 font-bold text-primary"
+                    : "border-input text-muted-foreground"
                 }`}
               >
                 <div className="text-xs truncate">Fixed</div>
@@ -198,8 +198,8 @@ export default function ShopSettingsPage() {
                 onClick={() => setDepositType("percentage")}
                 className={`p-2.5 sm:p-3 rounded-xl border text-center transition-all ${
                   depositType === "percentage"
-                    ? "border-[#ff385c] bg-[#ff385c]/5 font-bold text-[#ff385c]"
-                    : "border-[#dddddd] text-[#717171]"
+                    ? "border-primary bg-primary/5 font-bold text-primary"
+                    : "border-input text-muted-foreground"
                 }`}
               >
                 <div className="text-xs truncate">Percentage</div>
@@ -210,24 +210,24 @@ export default function ShopSettingsPage() {
 
           {depositType !== "none" && (
             <div>
-              <label className="block text-xs font-semibold text-[#222222] uppercase tracking-wider mb-1">
+              <label className="block text-xs font-semibold text-foreground uppercase tracking-wider mb-1">
                 {depositType === "fixed" ? "Deposit Value (GHS)" : "Deposit Percentage (%)"}
               </label>
               <input
                 type="number"
                 value={depositValue}
                 onChange={(e) => setDepositValue(Number(e.target.value))}
-                className="w-full max-w-xs px-3 py-2 rounded-xl border border-[#dddddd] text-sm focus:outline-none focus:border-[#ff385c]"
+                className="w-full max-w-xs px-3 py-2 rounded-xl border border-input text-sm focus:outline-none focus:border-primary"
               />
             </div>
           )}
 
-          <div className="flex items-center justify-between pt-2 border-t border-[#f0f0f0]">
+          <div className="flex items-center justify-between pt-2 border-t border-border">
             <div>
-              <span className="text-xs font-bold text-[#222222] block">
+              <span className="text-xs font-bold text-foreground block">
                 Allow &apos;Pay at Shop&apos;
               </span>
-              <span className="text-[11px] text-[#717171]">
+              <span className="text-[11px] text-muted-foreground">
                 Clients can choose to skip MoMo and pay directly at the chair
               </span>
             </div>
@@ -235,25 +235,25 @@ export default function ShopSettingsPage() {
               type="checkbox"
               checked={allowPayAtShop}
               onChange={(e) => setAllowPayAtShop(e.target.checked)}
-              className="w-5 h-5 rounded text-[#ff385c] focus:ring-[#ff385c]"
+              className="w-5 h-5 rounded text-primary focus:ring-primary"
             />
           </div>
         </div>
 
         {/* Cancellation Window */}
-        <div className="p-5 rounded-2xl bg-white border border-[#ebebeb] shadow-2xs space-y-3">
-          <h2 className="text-base font-bold text-[#222222] flex items-center gap-2">
-            <Clock className="w-4 h-4 text-[#ff385c]" />
+        <div className="p-5 rounded-2xl bg-card border border-border shadow-2xs space-y-3">
+          <h2 className="text-base font-bold text-foreground flex items-center gap-2">
+            <Clock className="w-4 h-4 text-primary" />
             <span>Cancellation Policy Window</span>
           </h2>
-          <p className="text-xs text-[#717171]">
+          <p className="text-xs text-muted-foreground">
             Clients can cancel their appointment online if it is at least this many hours before.
           </p>
 
           <select
             value={cancellationHours}
             onChange={(e) => setCancellationHours(Number(e.target.value))}
-            className="w-full max-w-xs px-3 py-2 rounded-xl border border-[#dddddd] text-xs bg-white focus:outline-none focus:border-[#ff385c]"
+            className="w-full max-w-xs px-3 py-2 rounded-xl border border-input text-xs bg-card focus:outline-none focus:border-primary"
           >
             <option value={1}>At least 1 hour before</option>
             <option value={2}>At least 2 hours before (Standard)</option>
@@ -264,52 +264,52 @@ export default function ShopSettingsPage() {
         </div>
 
         {/* Shop Information */}
-        <div className="p-5 rounded-2xl bg-white border border-[#ebebeb] shadow-2xs space-y-3 text-xs">
-          <h2 className="text-base font-bold text-[#222222]">Shop Details</h2>
+        <div className="p-5 rounded-2xl bg-card border border-border shadow-2xs space-y-3 text-xs">
+          <h2 className="text-base font-bold text-foreground">Shop Details</h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="block font-semibold text-[#222222] mb-1">Shop Name</label>
+              <label className="block font-semibold text-foreground mb-1">Shop Name</label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl border border-[#dddddd] focus:outline-none focus:border-[#ff385c]"
+                className="w-full px-3 py-2 rounded-xl border border-input focus:outline-none focus:border-primary"
               />
             </div>
 
 
 
             <div>
-              <label className="block font-semibold text-[#222222] mb-1">Phone Number</label>
+              <label className="block font-semibold text-foreground mb-1">Phone Number</label>
               <input
                 type="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl border border-[#dddddd] focus:outline-none focus:border-[#ff385c]"
+                className="w-full px-3 py-2 rounded-xl border border-input focus:outline-none focus:border-primary"
               />
             </div>
 
             <div>
-              <label className="block font-semibold text-[#222222] mb-1">Instagram Handle</label>
+              <label className="block font-semibold text-foreground mb-1">Instagram Handle</label>
               <input
                 type="text"
                 placeholder="@gentlemenscut_gh"
                 value={instagram}
                 onChange={(e) => setInstagram(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl border border-[#dddddd] focus:outline-none focus:border-[#ff385c]"
+                className="w-full px-3 py-2 rounded-xl border border-input focus:outline-none focus:border-primary"
               />
             </div>
 
             <LocationFields value={location} onChange={setLocation} confirmed={locationConfirmed} onConfirmedChange={setLocationConfirmed} />
 
             <div className="sm:col-span-2">
-              <label className="block font-semibold text-[#222222] mb-1">Tagline</label>
+              <label className="block font-semibold text-foreground mb-1">Tagline</label>
               <input
                 type="text"
                 value={tagline}
                 onChange={(e) => setTagline(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl border border-[#dddddd] focus:outline-none focus:border-[#ff385c]"
+                className="w-full px-3 py-2 rounded-xl border border-input focus:outline-none focus:border-primary"
               />
             </div>
           </div>
@@ -318,7 +318,7 @@ export default function ShopSettingsPage() {
         <button
           type="submit"
           disabled={saving}
-          className="py-3 px-6 rounded-xl bg-[#ff385c] hover:bg-[#e00b41] text-white font-bold text-sm shadow-sm transition-all flex items-center gap-2 disabled:opacity-50"
+          className="py-3 px-6 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-sm shadow-sm transition-all flex items-center gap-2 disabled:opacity-50"
         >
           <Save className="w-4 h-4" />
           <span>{saving ? "Saving Changes..." : "Save Shop Policies"}</span>

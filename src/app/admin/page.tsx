@@ -137,24 +137,24 @@ export default function PlatformAdminConsole() {
   const activeShopsCount = shops.filter((s) => !s.is_suspended).length;
 
   return (
-    <div className="min-h-screen bg-[#f7f7f7] font-sans text-[#222222] antialiased p-4 sm:p-8">
+    <div className="min-h-screen bg-background font-sans text-foreground antialiased p-4 sm:p-8">
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Top Header */}
-        <header className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-[#ebebeb] gap-4">
+        <header className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-border gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-[#ff385c] text-white flex items-center justify-center shadow-xs">
+            <div className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-xs">
               <Shield className="w-5 h-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="text-2xl font-black tracking-tight text-[#222222]">
+                <h1 className="text-2xl font-black tracking-tight text-foreground">
                   GxStyl Platform Admin
                 </h1>
                 <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-neutral-900 text-white uppercase tracking-wider">
                   Dev Console
                 </span>
               </div>
-              <p className="text-xs text-[#717171] mt-0.5">
+              <p className="text-xs text-muted-foreground mt-0.5">
                 Developer portal for Martin (moseiboakye@st.knust.edu.gh)
               </p>
             </div>
@@ -163,7 +163,7 @@ export default function PlatformAdminConsole() {
           <div className="flex items-center gap-2">
             <Link
               href="/"
-              className="py-2 px-3.5 rounded-xl border border-[#dddddd] hover:border-[#222222] bg-white text-xs font-semibold text-[#222222] transition-colors"
+              className="py-2 px-3.5 rounded-xl border border-input hover:border-[#222222] bg-card text-xs font-semibold text-foreground transition-colors"
             >
               Public App Home
             </Link>
@@ -178,25 +178,25 @@ export default function PlatformAdminConsole() {
 
         {/* Global Platform KPIs */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="p-5 rounded-2xl bg-white border border-[#ebebeb] shadow-2xs">
-            <div className="flex items-center justify-between text-[#717171]">
+          <div className="p-5 rounded-2xl bg-card border border-border shadow-2xs">
+            <div className="flex items-center justify-between text-muted-foreground">
               <span className="text-xs font-semibold uppercase tracking-wider">Active Shops</span>
-              <Store className="w-4 h-4 text-[#ff385c]" />
+              <Store className="w-4 h-4 text-primary" />
             </div>
-            <span className="text-3xl font-black text-[#222222] mt-2 block">
+            <span className="text-3xl font-black text-foreground mt-2 block">
               {activeShopsCount}
             </span>
-            <span className="text-[11px] text-[#717171] mt-1 block">
+            <span className="text-[11px] text-muted-foreground mt-1 block">
               Across Ghana
             </span>
           </div>
 
-          <div className="p-5 rounded-2xl bg-white border border-[#ebebeb] shadow-2xs">
-            <div className="flex items-center justify-between text-[#717171]">
+          <div className="p-5 rounded-2xl bg-card border border-border shadow-2xs">
+            <div className="flex items-center justify-between text-muted-foreground">
               <span className="text-xs font-semibold uppercase tracking-wider">Total Bookings</span>
-              <Calendar className="w-4 h-4 text-[#ff385c]" />
+              <Calendar className="w-4 h-4 text-primary" />
             </div>
-            <span className="text-3xl font-black text-[#222222] mt-2 block">
+            <span className="text-3xl font-black text-foreground mt-2 block">
               {totalBookings}
             </span>
             <span className="text-[11px] text-emerald-600 font-semibold mt-1 block">
@@ -204,49 +204,49 @@ export default function PlatformAdminConsole() {
             </span>
           </div>
 
-          <div className="p-5 rounded-2xl bg-white border border-[#ebebeb] shadow-2xs">
-            <div className="flex items-center justify-between text-[#717171]">
+          <div className="p-5 rounded-2xl bg-card border border-border shadow-2xs">
+            <div className="flex items-center justify-between text-muted-foreground">
               <span className="text-xs font-semibold uppercase tracking-wider">Gross Revenue</span>
               <DollarSign className="w-4 h-4 text-emerald-600" />
             </div>
-            <span className="text-3xl font-black text-[#222222] mt-2 block">
+            <span className="text-3xl font-black text-foreground mt-2 block">
               GHS {totalRevenue.toFixed(0)}
             </span>
-            <span className="text-[11px] text-[#717171] mt-1 block">
+            <span className="text-[11px] text-muted-foreground mt-1 block">
               Service GMV processed
             </span>
           </div>
 
-          <div className="p-5 rounded-2xl bg-white border border-[#ebebeb] shadow-2xs">
-            <div className="flex items-center justify-between text-[#717171]">
+          <div className="p-5 rounded-2xl bg-card border border-border shadow-2xs">
+            <div className="flex items-center justify-between text-muted-foreground">
               <span className="text-xs font-semibold uppercase tracking-wider">No-Show Rate</span>
               <Clock className="w-4 h-4 text-amber-500" />
             </div>
             <span className="text-3xl font-black text-amber-600 mt-2 block">
               2.4%
             </span>
-            <span className="text-[11px] text-[#717171] mt-1 block">
+            <span className="text-[11px] text-muted-foreground mt-1 block">
               Protected by MoMo deposits
             </span>
           </div>
         </div>
 
         {/* Search & Shops Directory */}
-        <div className="p-4 sm:p-5 rounded-2xl bg-white border border-[#ebebeb] shadow-2xs space-y-4">
+        <div className="p-4 sm:p-5 rounded-2xl bg-card border border-border shadow-2xs space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-              <h2 className="text-lg font-bold text-[#222222]">Shops Directory</h2>
-              <p className="text-xs text-[#717171]">Manage shop statuses and drill down into chairs</p>
+              <h2 className="text-lg font-bold text-foreground">Shops Directory</h2>
+              <p className="text-xs text-muted-foreground">Manage shop statuses and drill down into chairs</p>
             </div>
 
             <div className="relative w-full sm:w-64">
-              <Search className="w-4 h-4 text-[#717171] absolute left-3 top-2.5" />
+              <Search className="w-4 h-4 text-muted-foreground absolute left-3 top-2.5" />
               <input
                 type="text"
                 placeholder="Search shops or city..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-[#dddddd] focus:outline-none focus:border-[#ff385c]"
+                className="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-input focus:outline-none focus:border-primary"
               />
             </div>
           </div>
@@ -254,7 +254,7 @@ export default function PlatformAdminConsole() {
           {/* Table */}
           <div className="overflow-x-auto w-full">
             <table className="w-full min-w-[620px] text-left text-xs">
-              <thead className="border-b border-[#f0f0f0] text-[#717171] uppercase tracking-wider font-semibold">
+              <thead className="border-b border-border text-muted-foreground uppercase tracking-wider font-semibold">
                 <tr>
                   <th className="pb-3 px-3">Shop</th>
                   <th className="pb-3 px-3">City</th>
@@ -267,15 +267,15 @@ export default function PlatformAdminConsole() {
               </thead>
               <tbody className="divide-y divide-[#f7f7f7]">
                 {filteredShops.map((s) => (
-                  <tr key={s.id} className="hover:bg-[#fafafa] transition-colors">
+                  <tr key={s.id} className="hover:bg-muted transition-colors">
                     <td className="py-3.5 px-3">
-                      <div className="font-bold text-sm text-[#222222]">{s.name}</div>
-                      <div className="text-[11px] text-[#717171] font-mono">/book/{s.slug}</div>
+                      <div className="font-bold text-sm text-foreground">{s.name}</div>
+                      <div className="text-[11px] text-muted-foreground font-mono">/book/{s.slug}</div>
                     </td>
-                    <td className="py-3.5 px-3 font-medium text-[#222222]">{s.city}</td>
-                    <td className="py-3.5 px-3 font-medium text-[#222222]">{s.staff_count} Barbers</td>
-                    <td className="py-3.5 px-3 font-medium text-[#222222]">{s.bookings_count}</td>
-                    <td className="py-3.5 px-3 font-bold text-[#222222]">GHS {s.revenue}</td>
+                    <td className="py-3.5 px-3 font-medium text-foreground">{s.city}</td>
+                    <td className="py-3.5 px-3 font-medium text-foreground">{s.staff_count} Barbers</td>
+                    <td className="py-3.5 px-3 font-medium text-foreground">{s.bookings_count}</td>
+                    <td className="py-3.5 px-3 font-bold text-foreground">GHS {s.revenue}</td>
                     <td className="py-3.5 px-3">
                       <span
                         className={`inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${
@@ -291,7 +291,7 @@ export default function PlatformAdminConsole() {
                       <button
                         type="button"
                         onClick={() => setSelectedShop(s)}
-                        className="py-1.5 px-2.5 rounded-lg border border-[#dddddd] hover:border-[#222222] font-semibold text-xs transition-colors"
+                        className="py-1.5 px-2.5 rounded-lg border border-input hover:border-[#222222] font-semibold text-xs transition-colors"
                       >
                         Drilldown
                       </button>
@@ -312,7 +312,7 @@ export default function PlatformAdminConsole() {
                       <Link
                         href={`/book/${s.slug}`}
                         target="_blank"
-                        className="inline-block p-1.5 text-[#717171] hover:text-[#222222]"
+                        className="inline-block p-1.5 text-muted-foreground hover:text-foreground"
                         title="Open Live Booking Link"
                       >
                         <ExternalLink className="w-4 h-4" />
@@ -328,46 +328,46 @@ export default function PlatformAdminConsole() {
         {/* Drilldown Drawer Modal (Stitch 20) */}
         {selectedShop && (
           <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
-            <div className="w-full max-w-lg bg-white rounded-2xl p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
-              <div className="flex items-center justify-between pb-3 border-b border-[#f0f0f0]">
+            <div className="w-full max-w-lg bg-card rounded-2xl p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
+              <div className="flex items-center justify-between pb-3 border-b border-border">
                 <div>
-                  <span className="text-[10px] font-bold text-[#717171] uppercase tracking-wider block">
+                  <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block">
                     Shop Analytics Drilldown
                   </span>
-                  <h3 className="text-xl font-bold text-[#222222]">{selectedShop.name}</h3>
+                  <h3 className="text-xl font-bold text-foreground">{selectedShop.name}</h3>
                 </div>
                 <button
                   type="button"
                   onClick={() => setSelectedShop(null)}
-                  className="w-8 h-8 rounded-full flex items-center justify-center text-[#717171] hover:bg-[#f7f7f7]"
+                  className="w-8 h-8 rounded-full flex items-center justify-center text-muted-foreground hover:bg-background"
                 >
                   ✕
                 </button>
               </div>
 
-              <div className="grid grid-cols-2 gap-3 text-xs bg-[#fafafa] p-4 rounded-xl border border-[#ebebeb]">
+              <div className="grid grid-cols-2 gap-3 text-xs bg-muted p-4 rounded-xl border border-border">
                 <div>
-                  <span className="text-[#717171] block">Slug URL</span>
-                  <span className="font-mono font-bold text-[#222222] break-all">/book/{selectedShop.slug}</span>
+                  <span className="text-muted-foreground block">Slug URL</span>
+                  <span className="font-mono font-bold text-foreground break-all">/book/{selectedShop.slug}</span>
                 </div>
                 <div>
-                  <span className="text-[#717171] block">Location</span>
-                  <span className="font-bold text-[#222222]">{selectedShop.city}, Ghana</span>
+                  <span className="text-muted-foreground block">Location</span>
+                  <span className="font-bold text-foreground">{selectedShop.city}, Ghana</span>
                 </div>
                 <div>
-                  <span className="text-[#717171] block">Total Bookings</span>
-                  <span className="font-bold text-[#222222]">{selectedShop.bookings_count} cuts</span>
+                  <span className="text-muted-foreground block">Total Bookings</span>
+                  <span className="font-bold text-foreground">{selectedShop.bookings_count} cuts</span>
                 </div>
                 <div>
-                  <span className="text-[#717171] block">Gross Revenue</span>
-                  <span className="font-bold text-[#222222]">GHS {selectedShop.revenue}</span>
+                  <span className="text-muted-foreground block">Gross Revenue</span>
+                  <span className="font-bold text-foreground">GHS {selectedShop.revenue}</span>
                 </div>
                 <div>
-                  <span className="text-[#717171] block">No-Show Rate</span>
+                  <span className="text-muted-foreground block">No-Show Rate</span>
                   <span className="font-bold text-amber-600">{selectedShop.no_show_rate}%</span>
                 </div>
                 <div>
-                  <span className="text-[#717171] block">Status</span>
+                  <span className="text-muted-foreground block">Status</span>
                   <span className={`font-bold ${selectedShop.is_suspended ? "text-red-600" : "text-emerald-600"}`}>
                     {selectedShop.is_suspended ? "Suspended (Hidden)" : "Active (Live)"}
                   </span>
@@ -390,7 +390,7 @@ export default function PlatformAdminConsole() {
                 <Link
                   href={`/book/${selectedShop.slug}`}
                   target="_blank"
-                  className="py-2.5 px-4 rounded-xl border border-[#222222] font-semibold text-xs text-[#222222] hover:bg-[#f7f7f7] flex items-center gap-1.5"
+                  className="py-2.5 px-4 rounded-xl border border-[#222222] font-semibold text-xs text-foreground hover:bg-background flex items-center gap-1.5"
                 >
                   <ExternalLink className="w-3.5 h-3.5" />
                   <span>Visit Shop</span>

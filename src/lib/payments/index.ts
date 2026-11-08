@@ -33,7 +33,8 @@ export function getPaymentProvider(): PaymentProvider {
     );
   }
 
-  return new MockPaymentProvider();
+  if (process.env.NODE_ENV !== "production" && process.env.MOCK_PAYMENT_MODE === "true") return new MockPaymentProvider();
+  throw new Error("Online payments are not available. Please pay at the shop.");
 }
 
 export * from "./types";

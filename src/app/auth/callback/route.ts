@@ -5,7 +5,8 @@ import { checkIsPlatformAdmin, getOwnerShop, getStaffProfile } from "@/lib/auth/
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
-  const next = searchParams.get("next");
+  const requestedNext = searchParams.get("next");
+  const next = requestedNext && /^\/(?!\/)[a-zA-Z0-9/_?=&%-]*$/.test(requestedNext) ? requestedNext : null;
   const errorParam = searchParams.get("error_description") || searchParams.get("error");
 
   if (errorParam) {
@@ -30,7 +31,7 @@ export async function GET(request: Request) {
 
           // Check if platform admin
           const isAdmin = await checkIsPlatformAdmin(user.id, user.email);
-          if (isAdmin || user.email?.toLowerCase().includes("moseiboakye@st.knust.edu.gh")) {
+          if (isAdmin) {
             return NextResponse.redirect(`${origin}/admin`);
           }
 

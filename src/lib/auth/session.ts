@@ -32,12 +32,12 @@ export async function getStaffProfile(userId: string) {
   return staff;
 }
 
-export async function checkIsPlatformAdmin(userId: string, email?: string | null) {
+export async function checkIsPlatformAdmin(userId: string, _email?: string | null) {
   const supabase = createAdminClient();
   const { data } = await supabase
     .from("platform_admins")
     .select("id")
-    .or(`user_id.eq.${userId},email.ilike.${email || "none"}`)
+    .eq("user_id", userId)
     .maybeSingle();
 
   return !!data;

@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "incremental": false
+  },
+  "include": [
+    "src/worker.ts",
+    "cloudflare.config.ts",
+    ".cloudflare/types/**/*.d.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

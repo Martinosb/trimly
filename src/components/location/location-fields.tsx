@@ -4,7 +4,7 @@ import { useState, useId } from "react";
 import dynamic from "next/dynamic";
 import { GHANA_REGIONS, getDeviceLocation, hasCoordinates, type ShopLocation } from "@/lib/location";
 const PinMap = dynamic(() => import("./pin-map"), { ssr: false, loading: () => <p role="status">Loading map…</p> });
-const field = "w-full min-h-11 px-3 py-2.5 rounded-xl border border-border bg-white text-sm text-foreground focus-visible:outline-2 focus-visible:outline-primary";
+const field = "w-full min-h-11 px-3 py-2.5 rounded-xl border border-border bg-card text-sm text-foreground focus-visible:outline-2 focus-visible:outline-primary";
 
 export function LocationFields({ value, onChange, confirmed, onConfirmedChange }: {
   value: ShopLocation; onChange: (value: ShopLocation) => void;

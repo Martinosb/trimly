@@ -22,7 +22,7 @@ export default defineConfig({
     globals: true,
     environment: "node",
     testTimeout: 20000,
-    exclude: ["**/node_modules/**", "**/dist/**", "**/tests/e2e/**"],
+    exclude: ["**/node_modules/**", "**/dist/**", "**/tests/e2e/**", ...(process.env.GXSTYL_DB_TESTS === "true" ? [] : ["**/concurrency.test.ts"])],
   },
   resolve: {
     alias: {

@@ -5,16 +5,7 @@ export type Shop = Database["public"]["Tables"]["shops"]["Row"];
 
 const CURRENT_SHOP_KEY = "gxstyl_current_shop_slug";
 
-/**
- * Resolves the shop that belongs to the currently active user or session.
- * 
- * Order of resolution:
- * 1. Authenticated user's owned shop (`owner_id === user.id`)
- * 2. Authenticated user's staff shop (`staff.user_id === user.id`)
- * 3. Remembered shop slug from localStorage (e.g. freshly onboarded)
- * 4. Fallback: try default demo shop if exists
- * 5. Fallback: latest shop created in the database
- */
+/** Resolve only shops owned by, or actively assigned to, the authenticated user. */
 export async function getCurrentShop(
   supabase: SupabaseClient<Database>
 ): Promise<Shop | null> {
@@ -63,44 +54,6 @@ export async function getCurrentShop(
           return staffShop;
         }
       }
-    }
-
-    // 2. Check localStorage for remembered shop slug (e.g. freshly onboarded)
-    if (typeof window !== "undefined") {
-      const storedSlug = localStorage.getItem(CURRENT_SHOP_KEY);
-      if (storedSlug) {
-        const { data: storedShop } = await supabase
-          .from("shops")
-          .select("*")
-          .eq("slug", storedSlug)
-          .maybeSingle();
-
-        if (storedShop) return storedShop;
-      }
-    }
-
-    // 3. Fallback: try default demo shop if exists
-    const { data: demoShop } = await supabase
-      .from("shops")
-      .select("*")
-      .eq("slug", "gentlemens-cut")
-      .maybeSingle();
-
-    if (demoShop) return demoShop;
-
-    // 4. Fallback: retrieve the most recent shop in database
-    const { data: latestShop } = await supabase
-      .from("shops")
-      .select("*")
-      .order("created_at", { ascending: false })
-      .limit(1)
-      .maybeSingle();
-
-    if (latestShop) {
-      if (typeof window !== "undefined") {
-        localStorage.setItem(CURRENT_SHOP_KEY, latestShop.slug);
-      }
-      return latestShop;
     }
 
     return null;

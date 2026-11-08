@@ -1,209 +1,52 @@
-import React from "react";
 import Link from "next/link";
-import {
-  Scissors,
-  ShieldCheck,
-  Smartphone,
-  ChevronRight,
-  CalendarCheck,
-} from "lucide-react";
+import { ArrowDown, ArrowRight, CalendarDays, Check, Clock3, MapPin, Scissors, ShieldCheck, Sparkles } from "lucide-react";
 import { ShopDiscovery } from "@/components/location/shop-discovery";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-background text-foreground font-sans antialiased selection:bg-primary/20 selection:text-primary">
-      {/* Accessible Skip Link */}
-      <a
-        href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-full focus:shadow-lg focus:outline-hidden focus:ring-2 focus:ring-primary focus:ring-offset-2"
-      >
-        Skip to main content
-      </a>
-
-      {/* Top Navigation */}
-      <header className="sticky top-0 z-30 bg-background/85 backdrop-blur-md border-b border-border px-4 sm:px-8 py-3 sm:py-3.5">
-        <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
-          {/* Logo */}
-          <Link
-            href="/"
-            aria-label="GxStyl Home"
-            className="flex items-center gap-2 group shrink-0 rounded-full focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-          >
-            <div className="w-9 h-9 rounded-full bg-primary flex items-center justify-center text-primary-foreground shadow-xs transition-transform motion-reduce:transform-none group-hover:scale-105">
-              <Scissors aria-hidden="true" className="w-4 h-4 fill-current rotate-45" />
-            </div>
-            <span className="font-extrabold text-xl sm:text-2xl tracking-tight text-foreground">
-              GxStyl
-            </span>
-          </Link>
-
-          {/* Right Action Buttons */}
-          <nav aria-label="Main Navigation" className="flex items-center gap-2 sm:gap-3 shrink-0">
-            <Link
-              href="/login"
-              className="min-h-[44px] inline-flex items-center justify-center text-sm font-semibold px-3.5 sm:px-4 py-2 rounded-full hover:bg-muted text-foreground transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-            >
-              Shop Login
-            </Link>
-            <Link
-              href="/onboard"
-              className="min-h-[44px] inline-flex items-center justify-center text-sm font-semibold px-4 sm:px-5 py-2 rounded-full bg-foreground text-background hover:opacity-90 transition-all shadow-xs whitespace-nowrap focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-            >
-              List Shop
-            </Link>
-          </nav>
+    <main className="landing">
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 z-50 bg-background p-4 rounded-xl">Skip to content</a>
+      <section className="hero" aria-labelledby="hero-title">
+        <picture className="hero-picture">
+          <source media="(max-width: 640px)" srcSet="/images/hero-mobile.webp" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/images/hero-desktop.webp" alt="A welcoming Ghanaian barber and his customer sharing a relaxed moment in a warmly lit shop" fetchPriority="high" width="1536" height="1024" />
+        </picture>
+        <div className="hero-shade" />
+        <header className="landing-header">
+          <Link href="/" className="brand" aria-label="GxStyl home"><span className="brand-icon"><Scissors size={21} strokeWidth={1.7} /></span>GxStyl<span className="brand-dot">.</span></Link>
+          <nav aria-label="Main navigation" className="desktop-navigation"><a href="#shops">Find a shop</a><a href="#how-it-works">How it works</a><a href="#for-business">For businesses</a></nav>
+          <Link href="/login" className="header-login">Sign in <ArrowRight size={16} /></Link>
+        </header>
+        <div className="hero-content" id="main-content">
+          <p className="eyebrow"><span /> GOOD GROOMING. YOUR TIME.</p>
+          <h1 id="hero-title">Your next look.<br /><em>Without the wait.</em></h1>
+          <p className="hero-description">Find a barber or salon in Ghana. Choose your service, book an available time, and make room for the rest of your day.</p>
+          <div className="hero-actions"><a href="#shops" className="landing-button">Find an appointment <ArrowRight size={19} /></a><a href="#how-it-works" className="hero-secondary">See how it works <ArrowDown size={16} /></a></div>
+          <div className="hero-assurances"><span><Check size={15} /> No account needed to book</span><span><Check size={15} /> Your time, reserved</span></div>
         </div>
-      </header>
+        <div className="hero-bottom"><span>LOOK GOOD. FEEL LIKE YOURSELF.</span><a href="#shops" aria-label="Scroll to find a shop"><ArrowDown size={18} /></a><span>MADE FOR GHANA <span aria-label="Ghana">🇬🇭</span></span></div>
+      </section>
 
-      {/* Main Content Landmark */}
-      <main id="main-content">
-        {/* Hero Section */}
-        <section className="px-4 sm:px-8 pt-10 sm:pt-20 pb-12 sm:pb-24 max-w-4xl mx-auto text-center">
-          <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-foreground leading-[1.14]">
-            The new way to get a{" "}
-            <span className="text-primary underline decoration-wavy decoration-primary/30">
-              beautiful cut
-            </span>
-            .
-          </h1>
+      <section className="how-section landing-section" id="how-it-works">
+        <div className="section-intro"><p className="eyebrow">LESS WAITING. MORE LIVING.</p><h2>A little planning.<br /><span>A better kind of day.</span></h2><p>Your next haircut or salon visit, sorted in a few simple steps.</p></div>
+        <div className="steps-grid">{[
+          { number: "01", icon: MapPin, title: "Find your place", copy: "Explore shops by town, region, or what’s near you. Find a place that fits your day." },
+          { number: "02", icon: CalendarDays, title: "Make time for you", copy: "Choose a service and a time that’s available. See the price before you book." },
+          { number: "03", icon: Scissors, title: "Show up. Feel good.", copy: "Keep your booking pass handy, head to the shop, and let your barber or stylist take it from there." },
+        ].map(({number,icon: Icon,title,copy}) => <article className="step-card" key={number}><div className="step-top"><Icon size={25} strokeWidth={1.4} /><span>{number}</span></div><h3>{title}</h3><p>{copy}</p></article>)}</div>
+      </section>
 
-          <p className="mt-5 text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto font-normal leading-relaxed">
-            Find barbers and grooming shops across Ghana. Live open chairs, zero waiting in line, and instant MoMo deposits.
-          </p>
+      <section className="discovery-section landing-section" aria-labelledby="discover-title">
+        <div className="discovery-heading"><div><p className="eyebrow">YOUR NEIGHBOURHOOD. YOUR NEXT LOOK.</p><h2 id="discover-title">Find your kind of <em>good.</em></h2></div><p>From your regular spot to a new favourite.<br />Your next appointment starts here.</p></div>
+        <ShopDiscovery />
+      </section>
 
-          {/* Quick Search & Explore CTA */}
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3.5">
-            <Link
-              href="#shops"
-              className="w-full sm:w-auto min-h-[48px] px-7 sm:px-8 py-3.5 rounded-full bg-primary hover:bg-rausch-active active:scale-[0.98] motion-reduce:transform-none text-primary-foreground font-bold text-sm sm:text-base shadow-lg shadow-primary/25 transition-all flex items-center justify-center gap-2 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-            >
-              <span>Find a shop</span>
-              <ChevronRight aria-hidden="true" className="w-5 h-5 stroke-[2.5]" />
-            </Link>
-
-            <Link
-              href="/onboard"
-              className="w-full sm:w-auto min-h-[48px] px-6 sm:px-7 py-3.5 rounded-full border border-border hover:border-foreground text-foreground font-semibold text-sm sm:text-base transition-colors flex items-center justify-center focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-            >
-              I&apos;m a Barber / Shop Owner
-            </Link>
-          </div>
-        </section>
-
-        {/* Featured Shops Grid */}
-        <section aria-labelledby="featured-shops-heading" className="px-4 sm:px-8 py-12 sm:py-16 bg-muted/40 border-t border-b border-border">
-          <div className="max-w-6xl mx-auto">
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-2">
-              <div>
-                <h2 id="featured-shops-heading" className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-                  Find your next grooming spot
-                </h2>
-                <p className="text-sm text-muted-foreground mt-1">
-                  Search cities, towns, and villages across Ghana.
-                </p>
-              </div>
-
-              <div className="flex items-center gap-2 text-xs font-semibold text-muted-foreground">
-                <span className="relative flex h-2.5 w-2.5" aria-hidden="true">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 motion-reduce:animate-none"></span>
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-                </span>
-                <span>Live Real-Time Chairs</span>
-              </div>
-            </div>
-
-            <ShopDiscovery />
-          </div>
-        </section>
-
-        {/* Feature Highlights Section */}
-        <section aria-labelledby="features-heading" className="px-4 sm:px-8 py-16 sm:py-20 max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 id="features-heading" className="text-2xl sm:text-3xl font-black text-foreground tracking-tight">
-              Designed for Modern Ghanaian Grooming
-            </h2>
-            <p className="text-sm sm:text-base text-muted-foreground mt-2 max-w-xl mx-auto">
-              Say goodbye to crowded waiting benches and awkward phone calls.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="p-6 rounded-2xl border border-border bg-card space-y-3">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
-                <CalendarCheck aria-hidden="true" className="w-6 h-6" />
-              </div>
-              <h3 className="font-bold text-base text-foreground">Live Concurrency Locking</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Our Postgres exclusion engine guarantees that when you select a time slot, no one else can book over your chair.
-              </p>
-            </div>
-
-            <div className="p-6 rounded-2xl border border-border bg-card space-y-3">
-              <div className="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
-                <Smartphone aria-hidden="true" className="w-6 h-6" />
-              </div>
-              <h3 className="font-bold text-base text-foreground">MTN & Telecel MoMo</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Pay deposits or full amounts directly via Mobile Money or choose to pay cash at the salon chair upon arrival.
-              </p>
-            </div>
-
-            <div className="p-6 rounded-2xl border border-border bg-card space-y-3">
-              <div className="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center">
-                <ShieldCheck aria-hidden="true" className="w-6 h-6" />
-              </div>
-              <h3 className="font-bold text-base text-foreground">Instant Digital Pass</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Receive a boarding pass with a QR code and reference number. Easily reschedule or cancel with 1-click self-service.
-              </p>
-            </div>
-          </div>
-        </section>
-      </main>
-
-      {/* Footer */}
-      <footer className="border-t border-border py-12 px-4 sm:px-8 bg-muted/30 text-sm text-muted-foreground">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
-          <div className="flex items-center gap-2 flex-wrap justify-center md:justify-start">
-            <Scissors aria-hidden="true" className="w-4 h-4 text-primary" />
-            <span className="font-bold text-foreground">GxStyl</span>
-            <span>— The new way to get a beautiful cut.</span>
-          </div>
-
-          <nav aria-label="Footer Navigation" className="flex items-center gap-1 sm:gap-2 flex-wrap justify-center md:justify-end">
-            <Link
-              href="/login"
-              className="min-h-[44px] min-w-[44px] inline-flex items-center px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-            >
-              Shop Login
-            </Link>
-            <Link
-              href="/onboard"
-              className="min-h-[44px] min-w-[44px] inline-flex items-center px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-            >
-              Onboarding
-            </Link>
-            <Link
-              href="/admin"
-              className="min-h-[44px] min-w-[44px] inline-flex items-center px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-            >
-              Platform Admin
-            </Link>
-            <Link
-              href="/privacy"
-              className="min-h-[44px] min-w-[44px] inline-flex items-center px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-            >
-              Privacy Policy
-            </Link>
-            <Link
-              href="/terms"
-              className="min-h-[44px] min-w-[44px] inline-flex items-center px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-            >
-              Terms
-            </Link>
-          </nav>
-        </div>
-      </footer>
-    </div>
+      <section className="business-section landing-section" id="for-business">
+        <div className="business-panel"><div className="business-copy"><p className="eyebrow"><Sparkles size={15} /> FOR BARBERS & SALON OWNERS</p><h2>You bring the craft.<br /><em>We’ll help with the diary.</em></h2><p>Give customers a simple way to book you. Manage appointments, services, and your team in one place—so you can focus on the person in your chair.</p><Link href="/login?mode=signup" className="landing-button">List your business <ArrowRight size={18} /></Link><span className="business-note">Set up your shop. Share your booking link. Welcome your next customer.</span></div><div className="business-details"><div><CalendarDays /><h3>Your appointments, together.</h3><p>See what’s coming up and keep your day organised.</p></div><div><Clock3 /><h3>Time that works for your team.</h3><p>Set your services, prices, working hours, and availability.</p></div><div><ShieldCheck /><h3>A booking link that’s yours.</h3><p>Share it on WhatsApp or Instagram so customers know where to book.</p></div></div></div>
+      </section>
+      <section className="closing-section"><p className="eyebrow">A FRESH LOOK. A LITTLE MORE YOU.</p><h2>Make time to <em>feel good.</em></h2><a href="#shops" className="landing-button">Explore shops <ArrowRight size={18} /></a></section>
+      <footer className="landing-footer"><Link href="/" className="brand"><Scissors size={22} /> GxStyl<span className="brand-dot">.</span></Link><p>Good grooming. Less waiting.</p><nav aria-label="Footer navigation"><Link href="/privacy">Privacy</Link><Link href="/terms">Terms</Link><Link href="/login?mode=signup">For businesses</Link></nav><span>© {new Date().getFullYear()} GxStyl</span></footer>
+    </main>
   );
 }

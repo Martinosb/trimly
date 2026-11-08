@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Scissors, Lock, Mail, ArrowRight, CheckCircle2, AlertCircle } from "lucide-react";
@@ -40,17 +40,9 @@ function LoginForm() {
   const [fullName, setFullName] = useState("");
   const [loading, setLoading] = useState(false);
   const [oauthLoading, setOauthLoading] = useState(false);
-  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(() => searchParams.get("error") ? { type: "error", text: searchParams.get("error")! } : null);
 
   const supabase = createClient();
-
-  // Sync error query param if redirected back with error
-  useEffect(() => {
-    const errorParam = searchParams.get("error");
-    if (errorParam) {
-      setMessage({ type: "error", text: decodeURIComponent(errorParam) });
-    }
-  }, [searchParams]);
 
   const handleGoogleSignIn = async () => {
     setOauthLoading(true);
@@ -127,32 +119,25 @@ function LoginForm() {
     }
   };
 
-  // Quick autofill helper for seamless testing
-  const handleQuickLogin = (demoEmail: string, demoPass: string = "Password123!") => {
-    setEmail(demoEmail);
-    setPassword(demoPass);
-    setMode("login");
-  };
-
   return (
-    <div className="min-h-screen bg-[#f7f7f7] flex items-center justify-center p-0 sm:p-4 font-sans text-[#222222]">
+    <div className="min-h-screen bg-background flex items-center justify-center p-0 sm:p-4 font-sans text-foreground">
       {/* Container / Airbnb Sheet Modal */}
-      <div className="w-full max-w-md bg-white min-h-screen sm:min-h-0 sm:rounded-2xl shadow-xl flex flex-col justify-between overflow-hidden relative border border-[#ebebeb]">
+      <div className="w-full max-w-md bg-card min-h-screen sm:min-h-0 sm:rounded-2xl shadow-xl flex flex-col justify-between overflow-hidden relative border border-border">
         {/* Header */}
-        <header className="px-6 pt-5 pb-4 flex items-center justify-between border-b border-[#f0f0f0] relative">
+        <header className="px-6 pt-5 pb-4 flex items-center justify-between border-b border-border relative">
           <Link
             href="/"
-            className="w-9 h-9 rounded-full flex items-center justify-center text-[#222222] hover:bg-[#f7f7f7] transition-colors"
+            className="w-9 h-9 rounded-full flex items-center justify-center text-foreground hover:bg-background transition-colors"
           >
             <span className="text-xl">✕</span>
           </Link>
 
           {/* GxStyl Logo */}
           <div className="flex items-center gap-2 absolute left-1/2 -translate-x-1/2">
-            <div className="w-8 h-8 rounded-full bg-[#ff385c]/10 flex items-center justify-center text-[#ff385c]">
+            <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
               <Scissors className="w-4 h-4 fill-current rotate-45" />
             </div>
-            <span className="font-bold text-xl tracking-tight text-[#222222]">GxStyl</span>
+            <span className="font-bold text-xl tracking-tight text-foreground">GxStyl</span>
           </div>
 
           <div className="w-9" />
@@ -161,7 +146,7 @@ function LoginForm() {
         {/* Content Body */}
         <main className="px-6 py-6 flex-1 flex flex-col justify-start">
           {/* Tabs */}
-          <div className="flex border-b border-[#ebebeb] mb-6">
+          <div className="flex border-b border-border mb-6">
             <button
               type="button"
               onClick={() => {
@@ -170,8 +155,8 @@ function LoginForm() {
               }}
               className={`pb-3 font-semibold text-base transition-colors relative flex-1 text-center ${
                 mode === "login"
-                  ? "text-[#222222] border-b-2 border-[#ff385c]"
-                  : "text-[#717171] hover:text-[#222222]"
+                  ? "text-foreground border-b-2 border-primary"
+                  : "text-muted-foreground hover:text-foreground"
               }`}
             >
               Log in
@@ -184,8 +169,8 @@ function LoginForm() {
               }}
               className={`pb-3 font-semibold text-base transition-colors relative flex-1 text-center ${
                 mode === "signup"
-                  ? "text-[#222222] border-b-2 border-[#ff385c]"
-                  : "text-[#717171] hover:text-[#222222]"
+                  ? "text-foreground border-b-2 border-primary"
+                  : "text-muted-foreground hover:text-foreground"
               }`}
             >
               Sign up
@@ -193,10 +178,10 @@ function LoginForm() {
           </div>
 
           <div className="mb-6">
-            <h1 className="text-2xl font-bold tracking-tight text-[#222222]">
+            <h1 className="text-2xl font-bold tracking-tight text-foreground">
               {mode === "login" ? "Welcome back" : "Create your shop account"}
             </h1>
-            <p className="text-sm text-[#717171] mt-1">
+            <p className="text-sm text-muted-foreground mt-1">
               {mode === "login"
                 ? "Manage appointments, staff chairs, and revenue."
                 : "Join Ghana's top barbers and salons on GxStyl."}
@@ -225,7 +210,7 @@ function LoginForm() {
             type="button"
             onClick={handleGoogleSignIn}
             disabled={loading || oauthLoading}
-            className="w-full py-3.5 px-4 rounded-xl border border-[#dddddd] hover:border-[#222222] hover:bg-[#fafafa] active:scale-[0.98] text-[#222222] font-semibold text-sm shadow-xs transition-all duration-150 flex items-center justify-center gap-3 disabled:opacity-50 disabled:pointer-events-none mb-5"
+            className="w-full py-3.5 px-4 rounded-xl border border-input hover:border-[#222222] hover:bg-muted active:scale-[0.98] text-foreground font-semibold text-sm shadow-xs transition-all duration-150 flex items-center justify-center gap-3 disabled:opacity-50 disabled:pointer-events-none mb-5"
           >
             {oauthLoading ? (
               <div className="w-5 h-5 border-2 border-[#222222]/30 border-t-[#222222] rounded-full animate-spin" />
@@ -240,10 +225,10 @@ function LoginForm() {
           {/* Divider */}
           <div className="relative mb-5">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-[#ebebeb]" />
+              <div className="w-full border-t border-border" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-white px-3 text-[#717171] font-semibold tracking-wider">
+              <span className="bg-card px-3 text-muted-foreground font-semibold tracking-wider">
                 or with email
               </span>
             </div>
@@ -252,7 +237,7 @@ function LoginForm() {
           <form onSubmit={handleAuth} className="space-y-4">
             {mode === "signup" && (
               <div>
-                <label className="block text-xs font-semibold text-[#222222] uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-semibold text-foreground uppercase tracking-wider mb-1.5">
                   Full Name
                 </label>
                 <div className="relative">
@@ -262,14 +247,14 @@ function LoginForm() {
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     placeholder="e.g. Kojo Mensah"
-                    className="w-full px-4 py-3 rounded-xl border border-[#dddddd] text-sm focus:outline-none focus:border-[#ff385c] focus:ring-1 focus:ring-[#ff385c] transition-all"
+                    className="w-full px-4 py-3 rounded-xl border border-input text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
                   />
                 </div>
               </div>
             )}
 
             <div>
-              <label className="block text-xs font-semibold text-[#222222] uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-semibold text-foreground uppercase tracking-wider mb-1.5">
                 Email Address
               </label>
               <div className="relative">
@@ -279,13 +264,13 @@ function LoginForm() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="name@example.com"
-                  className="w-full px-4 py-3 rounded-xl border border-[#dddddd] text-sm focus:outline-none focus:border-[#ff385c] focus:ring-1 focus:ring-[#ff385c] transition-all"
+                  className="w-full px-4 py-3 rounded-xl border border-input text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-[#222222] uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-semibold text-foreground uppercase tracking-wider mb-1.5">
                 Password
               </label>
               <div className="relative">
@@ -296,7 +281,7 @@ function LoginForm() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full px-4 py-3 rounded-xl border border-[#dddddd] text-sm focus:outline-none focus:border-[#ff385c] focus:ring-1 focus:ring-[#ff385c] transition-all"
+                  className="w-full px-4 py-3 rounded-xl border border-input text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
                 />
               </div>
             </div>
@@ -304,7 +289,7 @@ function LoginForm() {
             <button
               type="submit"
               disabled={loading || oauthLoading}
-              className="w-full py-3.5 px-4 rounded-xl bg-[#ff385c] hover:bg-[#e00b41] active:scale-[0.98] text-white font-semibold text-sm shadow-sm transition-all duration-150 flex items-center justify-center gap-2 disabled:opacity-50 disabled:pointer-events-none mt-2"
+              className="w-full py-3.5 px-4 rounded-xl bg-primary hover:bg-primary/90 active:scale-[0.98] text-white font-semibold text-sm shadow-sm transition-all duration-150 flex items-center justify-center gap-2 disabled:opacity-50 disabled:pointer-events-none mt-2"
             >
               {loading ? (
                 <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -317,40 +302,16 @@ function LoginForm() {
             </button>
           </form>
 
-          {/* Quick Demo Credentials helper (Only in local development) */}
-          {process.env.NODE_ENV !== "production" && (
-            <div className="mt-8 pt-5 border-t border-[#f0f0f0]">
-              <p className="text-xs font-medium text-[#717171] mb-2 text-center">
-                Development demo shortcuts:
-              </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                <button
-                  type="button"
-                  onClick={() => handleQuickLogin("info@gentlemenscut.com")}
-                  className="text-xs py-2 px-2.5 rounded-lg border border-[#dddddd] hover:border-[#222222] bg-white font-medium text-[#222222] transition-colors text-left truncate"
-                >
-                  ✂ Demo Shop Owner
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleQuickLogin("moseiboakye@st.knust.edu.gh")}
-                  className="text-xs py-2 px-2.5 rounded-lg border border-[#dddddd] hover:border-[#222222] bg-white font-medium text-[#222222] transition-colors text-left truncate"
-                >
-                  ⚡ Platform Admin
-                </button>
-              </div>
-            </div>
-          )}
         </main>
 
         {/* Footer */}
-        <footer className="px-6 py-4 bg-[#fafafa] border-t border-[#f0f0f0] text-center text-xs text-[#717171]">
+        <footer className="px-6 py-4 bg-muted border-t border-border text-center text-xs text-muted-foreground">
           By continuing, you agree to GxStyl&apos;s{" "}
-          <Link href="/terms" className="underline hover:text-[#222222] transition-colors">
+          <Link href="/terms" className="underline hover:text-foreground transition-colors">
             Terms of Service
           </Link>{" "}
           and{" "}
-          <Link href="/privacy" className="underline hover:text-[#222222] transition-colors">
+          <Link href="/privacy" className="underline hover:text-foreground transition-colors">
             Privacy Policy
           </Link>.
         </footer>
@@ -363,8 +324,8 @@ export default function LoginPage() {
   return (
     <React.Suspense
       fallback={
-        <div className="min-h-screen bg-[#f7f7f7] flex items-center justify-center p-4">
-          <div className="w-8 h-8 border-2 border-[#ff385c] border-t-transparent rounded-full animate-spin" />
+        <div className="min-h-screen bg-background flex items-center justify-center p-4">
+          <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
         </div>
       }
     >
