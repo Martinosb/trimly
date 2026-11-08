@@ -7,7 +7,7 @@ import {
 import { createAdminClient } from "@/lib/supabase/admin";
 
 export class PaystackPaymentProvider implements PaymentProvider {
-  name: "paystack" = "paystack";
+  name = "paystack" as const;
   private secretKey: string;
 
   constructor(secretKey: string) {

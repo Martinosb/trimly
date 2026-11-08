@@ -4,6 +4,9 @@ import { sendWebPushNotification } from "@/lib/notifications/web-push";
 import { getSmsProvider } from "@/lib/notifications/sms";
 
 export async function GET(request: NextRequest) {
+  if (!process.env.CRON_SECRET || request.headers.get("authorization") !== `Bearer ${process.env.CRON_SECRET}`) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
   const supabase = createAdminClient();
 
   const now = new Date();
@@ -13,7 +16,7 @@ export async function GET(request: NextRequest) {
   // Find confirmed bookings in the 1-hour window
   const { data: upcomingBookings, error } = await supabase
     .from("bookings")
-    .select("*, shops(name, address), staff(name)")
+    .select("*, shops(name, address, slug), staff(name)")
     .eq("status", "confirmed")
     .gte("start_at", windowStart)
     .lte("start_at", windowEnd);
@@ -26,8 +29,8 @@ export async function GET(request: NextRequest) {
   let remindedCount = 0;
 
   for (const b of upcomingBookings) {
-    const shopName = (b.shops as any)?.name || "your barber";
-    const barberName = (b.staff as any)?.name || "your barber";
+    const shopName = b.shops?.name || "your barber";
+    const barberName = b.staff?.name || "your barber";
     const timeFormatted = new Date(b.start_at).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
 
     // 1. Send Web Push to client & barber
@@ -37,7 +40,7 @@ export async function GET(request: NextRequest) {
       role: "client",
       title: "Haircut in 1 Hour! ✂",
       body: `Reminder: Your cut at ${shopName} with ${barberName} starts at ${timeFormatted}.`,
-      url: `/book/${(b.shops as any)?.slug || ""}/manage?code=${b.cancellation_code}`,
+      url: `/book/${b.shops?.slug || ""}/manage?code=${b.cancellation_code}`,
     });
 
     // 2. Send SMS reminder

@@ -17,7 +17,6 @@ import {
   Download,
 } from "lucide-react";
 import QRCode from "qrcode";
-import { createClient } from "@/lib/supabase/client";
 import { renderPassCardToCanvas, savePassImageToDevice } from "@/lib/pass-card-renderer";
 
 interface BookingDetail {
@@ -61,7 +60,6 @@ function ManageBookingContent({
   const [cancelReason, setCancelReason] = useState("");
   const [downloadingPass, setDownloadingPass] = useState(false);
 
-  const supabase = createClient();
 
   const handleDownloadPass = async () => {
     if (!booking) return;
@@ -96,11 +94,14 @@ function ManageBookingContent({
     setLoading(true);
     setError(null);
 
-    const { data, error: err } = await supabase
-      .from("bookings")
-      .select("*, staff(name, role, phone), services(name, duration_min), shops(name, slug, phone, address, city, cancellation_hours)")
-      .eq("cancellation_code", searchCode.trim().toUpperCase())
-      .maybeSingle();
+    let data: BookingDetail | null = null;
+    let err = false;
+    try {
+      const response = await fetch("/api/bookings/lookup", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ code: searchCode, slug }) });
+      const result = await response.json();
+      if (!response.ok) err = true;
+      else data = result.booking;
+    } catch { err = true; }
 
     if (err || !data) {
       setError("No booking found with this reference code. Please verify and try again.");
@@ -113,7 +114,8 @@ function ManageBookingContent({
 
   useEffect(() => {
     if (initialCode) {
-      fetchBooking(initialCode);
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- initiates the initial capability-checked network lookup
+      void fetchBooking(initialCode);
     }
   }, [initialCode]);
 
@@ -153,24 +155,24 @@ function ManageBookingContent({
   };
 
   return (
-    <div className="min-h-screen bg-[#f7f7f7] flex items-center justify-center p-0 sm:p-4 font-sans text-[#222222]">
-      <div className="w-full max-w-md bg-white min-h-screen sm:min-h-0 sm:rounded-2xl shadow-xl flex flex-col justify-between overflow-hidden border border-[#ebebeb] relative">
+    <div className="min-h-screen bg-background flex items-center justify-center p-0 sm:p-4 font-sans text-foreground">
+      <div className="w-full max-w-md bg-card min-h-screen sm:min-h-0 sm:rounded-2xl shadow-xl flex flex-col justify-between overflow-hidden border border-border relative">
         {/* Header */}
-        <header className="px-5 pt-4 pb-3 border-b border-[#f0f0f0] flex items-center justify-between sticky top-0 bg-white z-10">
+        <header className="px-5 pt-4 pb-3 border-b border-border flex items-center justify-between sticky top-0 bg-card z-10">
           <Link
             href={`/book/${slug}`}
-            className="w-8 h-8 rounded-full flex items-center justify-center text-[#222222] hover:bg-[#f7f7f7] transition-colors"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-foreground hover:bg-background transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
           </Link>
-          <span className="font-bold text-sm text-[#222222]">Manage Booking</span>
+          <span className="font-bold text-sm text-foreground">Manage Booking</span>
           <div className="w-8" />
         </header>
 
         <main className="p-5 flex-1 space-y-4">
           {/* Search by code if not preloaded */}
           <div className="space-y-2">
-            <label className="block text-xs font-semibold text-[#222222] uppercase tracking-wider">
+            <label className="block text-xs font-semibold text-foreground uppercase tracking-wider">
               Booking Reference Code
             </label>
             <div className="flex gap-2">
@@ -179,7 +181,7 @@ function ManageBookingContent({
                 value={code}
                 onChange={(e) => setCode(e.target.value.toUpperCase())}
                 placeholder="e.g. YAW789"
-                className="flex-1 px-3.5 py-2.5 rounded-xl border border-[#dddddd] text-sm uppercase font-mono font-bold tracking-wider focus:outline-none focus:border-[#ff385c]"
+                className="flex-1 px-3.5 py-2.5 rounded-xl border border-input text-sm uppercase font-mono font-bold tracking-wider focus:outline-none focus:border-primary"
               />
               <button
                 type="button"
@@ -244,28 +246,28 @@ function ManageBookingContent({
               </div>
 
               {/* Appointment Card */}
-              <div className="bg-[#fafafa] border border-[#ebebeb] rounded-2xl p-4 space-y-3">
+              <div className="bg-muted border border-border rounded-2xl p-4 space-y-3">
                 <div>
-                  <span className="text-[10px] text-[#717171] uppercase font-bold tracking-wider block">
+                  <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider block">
                     Service
                   </span>
-                  <span className="font-bold text-sm text-[#222222]">
+                  <span className="font-bold text-sm text-foreground">
                     {booking.services?.name} ({booking.services?.duration_min} mins)
                   </span>
                 </div>
 
                 <div className="grid grid-cols-2 gap-2 text-xs">
                   <div>
-                    <span className="text-[#717171] block">Barber</span>
-                    <span className="font-semibold text-[#222222]">{booking.staff?.name}</span>
+                    <span className="text-muted-foreground block">Barber</span>
+                    <span className="font-semibold text-foreground">{booking.staff?.name}</span>
                   </div>
                   <div>
-                    <span className="text-[#717171] block">Total Price</span>
-                    <span className="font-semibold text-[#222222]">GHS {booking.price}</span>
+                    <span className="text-muted-foreground block">Total Price</span>
+                    <span className="font-semibold text-foreground">GHS {booking.price}</span>
                   </div>
                   <div className="col-span-2">
-                    <span className="text-[#717171] block">Date & Time</span>
-                    <span className="font-semibold text-[#222222]">
+                    <span className="text-muted-foreground block">Date & Time</span>
+                    <span className="font-semibold text-foreground">
                       {new Date(booking.start_at).toLocaleDateString("en-US", {
                         weekday: "long",
                         month: "short",
@@ -276,8 +278,8 @@ function ManageBookingContent({
                     </span>
                   </div>
                   <div className="col-span-2">
-                    <span className="text-[#717171] block">Shop Location</span>
-                    <span className="font-semibold text-[#222222]">{booking.shops?.address}, {booking.shops?.city}</span>
+                    <span className="text-muted-foreground block">Shop Location</span>
+                    <span className="font-semibold text-foreground">{booking.shops?.address}, {booking.shops?.city}</span>
                   </div>
                 </div>
               </div>
@@ -288,13 +290,13 @@ function ManageBookingContent({
                   type="button"
                   onClick={handleDownloadPass}
                   disabled={downloadingPass}
-                  className="w-full py-2.5 px-3 rounded-xl border border-[#222222] bg-white hover:bg-[#f7f7f7] text-[#222222] text-xs font-bold transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs"
+                  className="w-full py-2.5 px-3 rounded-xl border border-[#222222] bg-card hover:bg-background text-foreground text-xs font-bold transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs"
                 >
                   {downloadingPass ? (
                     <div className="w-4 h-4 border-2 border-[#222222]/30 border-t-[#222222] rounded-full animate-spin" />
                   ) : (
                     <>
-                      <Download className="w-3.5 h-3.5 text-[#ff385c]" />
+                      <Download className="w-3.5 h-3.5 text-primary" />
                       <span>Download Booking Pass Image</span>
                     </>
                   )}
@@ -303,12 +305,12 @@ function ManageBookingContent({
 
               {/* Cancellation Policy Box & Button */}
               {booking.status !== "cancelled" && booking.status !== "completed" && (
-                <div className="border border-[#ebebeb] rounded-2xl p-4 space-y-3">
-                  <div className="flex items-start gap-2 text-xs text-[#717171]">
-                    <Clock className="w-4 h-4 text-[#ff385c] shrink-0 mt-0.5" />
+                <div className="border border-border rounded-2xl p-4 space-y-3">
+                  <div className="flex items-start gap-2 text-xs text-muted-foreground">
+                    <Clock className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                     <span>
                       Free cancellation policy: Cancellations must be made at least{" "}
-                      <strong className="text-[#222222]">
+                      <strong className="text-foreground">
                         {booking.shops?.cancellation_hours ?? 2} hour(s)
                       </strong>{" "}
                       before your scheduled time.
@@ -316,7 +318,7 @@ function ManageBookingContent({
                   </div>
 
                   <div>
-                    <label className="block text-xs font-medium text-[#717171] mb-1">
+                    <label className="block text-xs font-medium text-muted-foreground mb-1">
                       Reason for cancelling (optional)
                     </label>
                     <input
@@ -324,7 +326,7 @@ function ManageBookingContent({
                       placeholder="e.g. Schedule conflict"
                       value={cancelReason}
                       onChange={(e) => setCancelReason(e.target.value)}
-                      className="w-full px-3 py-2 text-xs rounded-xl border border-[#dddddd] focus:outline-none focus:border-[#ff385c]"
+                      className="w-full px-3 py-2 text-xs rounded-xl border border-input focus:outline-none focus:border-primary"
                     />
                   </div>
 
@@ -340,11 +342,11 @@ function ManageBookingContent({
               )}
 
               {/* Shop Contact */}
-              <div className="p-3 bg-[#fafafa] rounded-xl border border-[#ebebeb] flex items-center justify-between text-xs">
-                <span className="text-[#717171]">Need to talk to the shop?</span>
+              <div className="p-3 bg-muted rounded-xl border border-border flex items-center justify-between text-xs">
+                <span className="text-muted-foreground">Need to talk to the shop?</span>
                 <a
                   href={`tel:${booking.shops?.phone}`}
-                  className="font-bold text-[#ff385c] flex items-center gap-1 hover:underline"
+                  className="font-bold text-primary flex items-center gap-1 hover:underline"
                 >
                   <Phone className="w-3.5 h-3.5" /> Call Shop
                 </a>
@@ -361,8 +363,8 @@ export default function ManageBookingPage(props: { params: Promise<{ slug: strin
   return (
     <React.Suspense
       fallback={
-        <div className="min-h-screen bg-[#f7f7f7] flex items-center justify-center p-4">
-          <div className="w-8 h-8 border-2 border-[#ff385c] border-t-transparent rounded-full animate-spin" />
+        <div className="min-h-screen bg-background flex items-center justify-center p-4">
+          <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
         </div>
       }
     >

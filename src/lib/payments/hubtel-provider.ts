@@ -7,7 +7,7 @@ import {
 import { createAdminClient } from "@/lib/supabase/admin";
 
 export class HubtelPaymentProvider implements PaymentProvider {
-  name: "hubtel" = "hubtel";
+  name = "hubtel" as const;
   private clientId: string;
   private clientSecret: string;
   private merchantAccountNumber: string;
@@ -117,7 +117,7 @@ export class HubtelPaymentProvider implements PaymentProvider {
       success: payment.status === "successful",
       reference: payment.provider_reference || reference,
       amount: Number(payment.amount),
-      status: payment.status as any,
+      status: payment.status === "successful" ? "successful" : payment.status === "pending" ? "pending" : "failed",
       paidAt: payment.created_at,
     };
   }

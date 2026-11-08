@@ -2,10 +2,10 @@ import React from "react";
 
 export default function BookingLoadingSkeleton() {
   return (
-    <div className="min-h-screen bg-[#f7f7f7] flex items-center justify-center p-0 sm:p-4 font-sans">
-      <div className="w-full max-w-md bg-white min-h-screen sm:min-h-0 sm:rounded-2xl shadow-xl flex flex-col justify-between overflow-hidden border border-[#ebebeb] relative">
+    <div className="min-h-screen bg-background flex items-center justify-center p-0 sm:p-4 font-sans">
+      <div className="w-full max-w-md bg-card min-h-screen sm:min-h-0 sm:rounded-2xl shadow-xl flex flex-col justify-between overflow-hidden border border-border relative">
         {/* Top Header Skeleton */}
-        <header className="px-5 pt-4 pb-3 border-b border-[#f0f0f0] flex items-center justify-between">
+        <header className="px-5 pt-4 pb-3 border-b border-border flex items-center justify-between">
           <div className="w-8 h-8 rounded-full bg-[#f0f0f0] animate-pulse" />
           <div className="space-y-1.5 text-center">
             <div className="h-4 w-32 bg-[#f0f0f0] rounded animate-pulse mx-auto" />
@@ -15,7 +15,7 @@ export default function BookingLoadingSkeleton() {
         </header>
 
         {/* Step Indicator Skeleton */}
-        <div className="flex border-b border-[#f0f0f0] bg-[#fafafa]">
+        <div className="flex border-b border-border bg-muted">
           {[1, 2, 3, 4].map((i) => (
             <div key={i} className="flex-1 py-3 px-2">
               <div className="h-3 bg-[#e8e8e8] rounded animate-pulse mx-auto w-12" />
@@ -34,7 +34,7 @@ export default function BookingLoadingSkeleton() {
             {[1, 2, 3, 4].map((i) => (
               <div
                 key={i}
-                className="p-4 rounded-2xl border border-[#ebebeb] bg-white space-y-2.5 animate-pulse"
+                className="p-4 rounded-2xl border border-border bg-card space-y-2.5 animate-pulse"
               >
                 <div className="flex justify-between items-start">
                   <div className="space-y-2">
@@ -50,7 +50,7 @@ export default function BookingLoadingSkeleton() {
         </main>
 
         {/* Sticky Bottom Bar Skeleton */}
-        <footer className="p-4 border-t border-[#f0f0f0] bg-white">
+        <footer className="p-4 border-t border-border bg-card">
           <div className="w-full h-12 bg-[#f0f0f0] rounded-xl animate-pulse" />
         </footer>
       </div>

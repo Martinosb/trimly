@@ -13,6 +13,6 @@ export interface SendNotificationParams {
 }
 
 export interface SmsProvider {
-  name: "mock" | "arkesel";
+  name: "mock" | "arkesel" | "disabled";
   send(params: { to: string; message: string; senderId?: string }): Promise<{ success: boolean; id?: string }>;
 }

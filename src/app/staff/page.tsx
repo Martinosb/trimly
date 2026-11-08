@@ -52,17 +52,21 @@ export default function StaffChairSchedulePage() {
       const shop = await getCurrentShop(supabase);
 
       if (shop) {
-        const { data: staffData } = await supabase
+        const { data: { user } } = await supabase.auth.getUser();
+        let staffQuery = supabase
           .from("staff")
           .select("id, name, role")
           .eq("shop_id", shop.id)
           .eq("is_active", true);
+        if (user && shop.owner_id !== user.id) staffQuery = staffQuery.eq("user_id", user.id);
+        const { data: staffData } = await staffQuery;
 
         if (staffData && staffData.length > 0) {
           setStaffList(staffData);
           setSelectedStaffId(staffData[0].id);
         }
       }
+      setLoading(false);
     }
     loadBarbers();
   }, [supabase]);
@@ -103,13 +107,13 @@ export default function StaffChairSchedulePage() {
   const upcomingBookings = bookings.filter((b) => b.status === "confirmed");
 
   return (
-    <div className="min-h-screen bg-[#f7f7f7] flex items-center justify-center p-0 sm:p-4 font-sans text-[#222222]">
-      <div className="w-full max-w-md bg-white min-h-screen sm:min-h-0 sm:rounded-2xl shadow-xl flex flex-col justify-between overflow-hidden border border-[#ebebeb] relative">
+    <div className="min-h-screen bg-background flex items-center justify-center p-0 sm:p-4 font-sans text-foreground">
+      <div className="w-full max-w-md bg-card min-h-screen sm:min-h-0 sm:rounded-2xl shadow-xl flex flex-col justify-between overflow-hidden border border-border relative">
         {/* Header */}
-        <header className="px-5 pt-4 pb-3 border-b border-[#f0f0f0] flex items-center justify-between sticky top-0 bg-white z-10">
+        <header className="px-5 pt-4 pb-3 border-b border-border flex items-center justify-between sticky top-0 bg-card z-10">
           <Link
             href="/dashboard"
-            className="w-8 h-8 rounded-full flex items-center justify-center text-[#717171] hover:bg-[#f7f7f7] transition-colors"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-muted-foreground hover:bg-background transition-colors"
           >
             <ChevronLeft className="w-5 h-5" />
           </Link>
@@ -119,7 +123,7 @@ export default function StaffChairSchedulePage() {
             <select
               value={selectedStaffId}
               onChange={(e) => setSelectedStaffId(e.target.value)}
-              className="font-bold text-sm bg-transparent border-0 focus:outline-none cursor-pointer text-center text-[#222222] max-w-[160px] sm:max-w-xs truncate"
+              className="font-bold text-sm bg-transparent border-0 focus:outline-none cursor-pointer text-center text-foreground max-w-[160px] sm:max-w-xs truncate"
             >
               {staffList.map((st) => (
                 <option key={st.id} value={st.id}>
@@ -135,7 +139,7 @@ export default function StaffChairSchedulePage() {
 
           <Link
             href="/dashboard"
-            className="text-xs font-semibold text-[#ff385c] hover:underline shrink-0"
+            className="text-xs font-semibold text-primary hover:underline shrink-0"
           >
             Manager
           </Link>
@@ -145,8 +149,8 @@ export default function StaffChairSchedulePage() {
         <main className="p-4 sm:p-5 flex-1 space-y-4 overflow-y-auto">
           {/* Quick Metrics Bar */}
           <div className="grid grid-cols-2 gap-2 text-center">
-            <div className="p-3 bg-[#fafafa] border border-[#ebebeb] rounded-xl">
-              <span className="text-[10px] uppercase font-bold text-[#717171] tracking-wider block">
+            <div className="p-3 bg-muted border border-border rounded-xl">
+              <span className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider block">
                 Cuts Completed
               </span>
               <span className="text-xl font-black text-emerald-600 mt-0.5 block">
@@ -154,11 +158,11 @@ export default function StaffChairSchedulePage() {
               </span>
             </div>
 
-            <div className="p-3 bg-[#fafafa] border border-[#ebebeb] rounded-xl">
-              <span className="text-[10px] uppercase font-bold text-[#717171] tracking-wider block">
+            <div className="p-3 bg-muted border border-border rounded-xl">
+              <span className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider block">
                 Remaining Today
               </span>
-              <span className="text-xl font-black text-[#222222] mt-0.5 block">
+              <span className="text-xl font-black text-foreground mt-0.5 block">
                 {upcomingBookings.length}
               </span>
             </div>
@@ -166,12 +170,12 @@ export default function StaffChairSchedulePage() {
 
           {/* Upcoming Next Client Banner if exists */}
           {upcomingBookings.length > 0 && (
-            <div className="p-4 rounded-2xl bg-[#ff385c]/5 border border-[#ff385c]/20 space-y-2">
+            <div className="p-4 rounded-2xl bg-primary/5 border border-primary/20 space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-[#ff385c] flex items-center gap-1">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-primary flex items-center gap-1">
                   <Sparkles className="w-3 h-3" /> Next In Chair
                 </span>
-                <span className="text-xs font-bold text-[#222222]">
+                <span className="text-xs font-bold text-foreground">
                   {new Date(upcomingBookings[0].start_at).toLocaleTimeString("en-US", {
                     hour: "numeric",
                     minute: "2-digit",
@@ -180,10 +184,10 @@ export default function StaffChairSchedulePage() {
               </div>
 
               <div>
-                <h4 className="font-bold text-base text-[#222222]">
+                <h4 className="font-bold text-base text-foreground">
                   {upcomingBookings[0].client_name}
                 </h4>
-                <p className="text-xs text-[#717171]">
+                <p className="text-xs text-muted-foreground">
                   {upcomingBookings[0].services?.name} • {upcomingBookings[0].services?.duration_min} mins
                 </p>
               </div>
@@ -192,7 +196,7 @@ export default function StaffChairSchedulePage() {
                 <button
                   type="button"
                   onClick={() => handleUpdateStatus(upcomingBookings[0].id, "completed")}
-                  className="flex-1 py-2 px-3 rounded-xl bg-[#ff385c] hover:bg-[#e00b41] text-white text-xs font-bold flex items-center justify-center gap-1"
+                  className="flex-1 py-2 px-3 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground text-xs font-bold flex items-center justify-center gap-1"
                 >
                   <CheckCircle2 className="w-3.5 h-3.5" />
                   <span>Mark Cut Done</span>
@@ -200,7 +204,7 @@ export default function StaffChairSchedulePage() {
 
                 <a
                   href={`tel:${upcomingBookings[0].client_phone}`}
-                  className="p-2 rounded-xl border border-[#dddddd] hover:border-[#222222] text-[#222222] flex items-center justify-center"
+                  className="p-2 rounded-xl border border-input hover:border-[#222222] text-foreground flex items-center justify-center"
                 >
                   <Phone className="w-4 h-4" />
                 </a>
@@ -210,7 +214,7 @@ export default function StaffChairSchedulePage() {
 
           {/* Full Schedule List */}
           <div className="space-y-3 pt-2">
-            <span className="text-xs font-bold text-[#717171] uppercase tracking-wider block">
+            <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider block">
               Today&apos;s Appointments
             </span>
 
@@ -221,10 +225,10 @@ export default function StaffChairSchedulePage() {
                 ))}
               </div>
             ) : bookings.length === 0 ? (
-              <div className="text-center py-10 bg-[#fafafa] rounded-2xl border border-dashed border-[#dddddd]">
+              <div className="text-center py-10 bg-muted rounded-2xl border border-dashed border-input">
                 <Clock className="w-8 h-8 text-[#929292] mx-auto mb-2" />
-                <p className="text-sm font-semibold text-[#222222]">No appointments scheduled</p>
-                <p className="text-xs text-[#717171] mt-0.5">Your chair is ready for walk-ins!</p>
+                <p className="text-sm font-semibold text-foreground">No appointments scheduled</p>
+                <p className="text-xs text-muted-foreground mt-0.5">Your chair is ready for walk-ins!</p>
               </div>
             ) : (
               bookings.map((b) => {
@@ -239,19 +243,19 @@ export default function StaffChairSchedulePage() {
                     key={b.id}
                     className={`p-3.5 rounded-xl border transition-all ${
                       isCompleted
-                        ? "bg-[#fafafa] border-[#ebebeb] opacity-60"
-                        : "bg-white border-[#ebebeb]"
+                        ? "bg-muted border-border opacity-60"
+                        : "bg-card border-border"
                     }`}
                   >
                     <div className="flex items-start justify-between">
                       <div>
-                        <span className="text-xs font-bold text-[#ff385c] block">
+                        <span className="text-xs font-bold text-primary block">
                           {startTime}
                         </span>
-                        <h4 className="font-bold text-sm text-[#222222] mt-0.5">
+                        <h4 className="font-bold text-sm text-foreground mt-0.5">
                           {b.client_name}
                         </h4>
-                        <span className="text-xs text-[#717171]">
+                        <span className="text-xs text-muted-foreground">
                           {b.services?.name} • GHS {b.price}
                         </span>
                       </div>

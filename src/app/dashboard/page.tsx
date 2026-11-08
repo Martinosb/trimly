@@ -20,6 +20,7 @@ import {
   Filter,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import type { Shop } from "@/lib/auth/client-shop";
 import { getCurrentShop } from "@/lib/auth/client-shop";
 
 interface Booking {
@@ -61,7 +62,7 @@ export default function OwnerTimelineDashboard() {
 
   const [date, setDate] = useState<string>(() => new Date().toISOString().split("T")[0]);
   const [loading, setLoading] = useState(true);
-  const [shop, setShop] = useState<any>(null);
+  const [shop, setShop] = useState<Shop | null>(null);
   const [staffList, setStaffList] = useState<Staff[]>([]);
   const [services, setServices] = useState<Service[]>([]);
   const [bookings, setBookings] = useState<Booking[]>([]);
@@ -118,6 +119,7 @@ export default function OwnerTimelineDashboard() {
   // 2. Fetch bookings for selected date & setup Realtime subscription
   useEffect(() => {
     if (!shop) return;
+    const currentShopId = shop.id;
 
     async function loadBookings() {
       setLoading(true);
@@ -127,7 +129,7 @@ export default function OwnerTimelineDashboard() {
       const { data } = await supabase
         .from("bookings")
         .select("*, staff(name, role), services(name, duration_min)")
-        .eq("shop_id", shop.id)
+        .eq("shop_id", currentShopId)
         .gte("start_at", dayStart)
         .lte("start_at", dayEnd)
         .order("start_at", { ascending: true });
@@ -177,7 +179,7 @@ export default function OwnerTimelineDashboard() {
       .from("bookings")
       .update({
         status: newStatus,
-        payment_status: newStatus === "completed" ? "paid" : selectedBooking.payment_status,
+        payment_status: selectedBooking.payment_status,
         updated_at: new Date().toISOString(),
       })
       .eq("id", selectedBooking.id);
@@ -186,13 +188,13 @@ export default function OwnerTimelineDashboard() {
       setSelectedBooking({
         ...selectedBooking,
         status: newStatus,
-        payment_status: newStatus === "completed" ? "paid" : selectedBooking.payment_status,
+        payment_status: selectedBooking.payment_status,
       });
 
       setBookings(
         bookings.map((b) =>
           b.id === selectedBooking.id
-            ? { ...b, status: newStatus, payment_status: newStatus === "completed" ? "paid" : b.payment_status }
+            ? { ...b, status: newStatus, payment_status: b.payment_status }
             : b
         )
       );
@@ -222,11 +224,11 @@ export default function OwnerTimelineDashboard() {
         staff_id: walkInStaffId,
         service_id: walkInServiceId,
         client_name: walkInClientName,
-        client_phone: walkInClientPhone || "+233 24 000 0000",
+        client_phone: walkInClientPhone.trim(),
         start_at: startAt,
         end_at: endAt,
         status: "confirmed",
-        payment_status: "paid",
+        payment_status: "unpaid",
         payment_method: "pay_at_shop",
         price: service.price,
       })
@@ -254,10 +256,10 @@ export default function OwnerTimelineDashboard() {
   return (
     <div className="flex-1 flex flex-col p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full">
       {/* Header bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#ebebeb]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-border">
         <div>
           <div className="flex items-center gap-2 flex-wrap">
-            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#222222]">
+            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
               {shop?.name || "Shop Timeline"}
             </h1>
             <span className="text-xs font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-full flex items-center gap-1 shrink-0">
@@ -265,22 +267,22 @@ export default function OwnerTimelineDashboard() {
               Live Chairs
             </span>
           </div>
-          <p className="text-xs text-[#717171] mt-0.5">
+          <p className="text-xs text-muted-foreground mt-0.5">
             Realtime schedule overview for all barber stations
           </p>
         </div>
 
         {/* Date Switcher & Walk-In Button */}
         <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
-          <div className="flex items-center bg-white border border-[#dddddd] rounded-xl px-2 py-1 shadow-2xs">
+          <div className="flex items-center bg-card border border-input rounded-xl px-2 py-1 shadow-2xs">
             <button
               type="button"
               onClick={() => handleDateChange(-1)}
-              className="p-1.5 rounded-lg hover:bg-[#f7f7f7] text-[#222222] transition-colors"
+              className="p-1.5 rounded-lg hover:bg-background text-foreground transition-colors"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
-            <span className="text-xs font-bold px-2 text-[#222222] whitespace-nowrap">
+            <span className="text-xs font-bold px-2 text-foreground whitespace-nowrap">
               {new Date(date).toLocaleDateString("en-US", {
                 weekday: "short",
                 month: "short",
@@ -290,7 +292,7 @@ export default function OwnerTimelineDashboard() {
             <button
               type="button"
               onClick={() => handleDateChange(1)}
-              className="p-1.5 rounded-lg hover:bg-[#f7f7f7] text-[#222222] transition-colors"
+              className="p-1.5 rounded-lg hover:bg-background text-foreground transition-colors"
             >
               <ChevronRight className="w-4 h-4" />
             </button>
@@ -299,7 +301,7 @@ export default function OwnerTimelineDashboard() {
           <button
             type="button"
             onClick={() => setShowWalkInModal(true)}
-            className="py-2 px-3.5 sm:px-4 rounded-xl bg-[#ff385c] hover:bg-[#e00b41] text-white text-xs font-bold flex items-center gap-1.5 shadow-sm transition-all whitespace-nowrap"
+            className="py-2 px-3.5 sm:px-4 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground text-xs font-bold flex items-center gap-1.5 shadow-sm transition-all whitespace-nowrap"
           >
             <Plus className="w-4 h-4 stroke-[3]" />
             <span>Walk-In</span>
@@ -309,26 +311,26 @@ export default function OwnerTimelineDashboard() {
 
       {/* Metrics Banner */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 my-6">
-        <div className="p-3.5 sm:p-4 rounded-2xl bg-white border border-[#ebebeb] shadow-2xs">
-          <span className="text-[11px] font-semibold text-[#717171] uppercase tracking-wider block">
+        <div className="p-3.5 sm:p-4 rounded-2xl bg-card border border-border shadow-2xs">
+          <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider block">
             Today&apos;s Revenue
           </span>
-          <span className="text-xl sm:text-2xl font-black text-[#222222] mt-0.5 block">
+          <span className="text-xl sm:text-2xl font-black text-foreground mt-0.5 block">
             GHS {totalRevenue.toFixed(0)}
           </span>
         </div>
 
-        <div className="p-3.5 sm:p-4 rounded-2xl bg-white border border-[#ebebeb] shadow-2xs">
-          <span className="text-[11px] font-semibold text-[#717171] uppercase tracking-wider block">
+        <div className="p-3.5 sm:p-4 rounded-2xl bg-card border border-border shadow-2xs">
+          <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider block">
             Appointments
           </span>
-          <span className="text-xl sm:text-2xl font-black text-[#222222] mt-0.5 block">
+          <span className="text-xl sm:text-2xl font-black text-foreground mt-0.5 block">
             {activeBookings.length}
           </span>
         </div>
 
-        <div className="p-3.5 sm:p-4 rounded-2xl bg-white border border-[#ebebeb] shadow-2xs">
-          <span className="text-[11px] font-semibold text-[#717171] uppercase tracking-wider block">
+        <div className="p-3.5 sm:p-4 rounded-2xl bg-card border border-border shadow-2xs">
+          <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider block">
             Active Chairs
           </span>
           <span className="text-xl sm:text-2xl font-black text-emerald-600 mt-0.5 block">
@@ -346,20 +348,20 @@ export default function OwnerTimelineDashboard() {
             return (
               <div
                 key={st.id}
-                className="bg-white rounded-2xl border border-[#ebebeb] p-4 flex flex-col shadow-xs min-w-0"
+                className="bg-card rounded-2xl border border-border p-4 flex flex-col shadow-xs min-w-0"
               >
                 {/* Staff Column Header */}
-                <div className="flex items-center justify-between pb-3 border-b border-[#f0f0f0] mb-3">
+                <div className="flex items-center justify-between pb-3 border-b border-border mb-3">
                   <div className="flex items-center gap-2">
                     <div className="w-8 h-8 rounded-full bg-[#222222] text-white flex items-center justify-center font-bold text-xs">
                       {st.name.charAt(0)}
                     </div>
                     <div>
-                      <h3 className="font-bold text-sm text-[#222222]">{st.name}</h3>
-                      <span className="text-[11px] text-[#717171] block">{st.role}</span>
+                      <h3 className="font-bold text-sm text-foreground">{st.name}</h3>
+                      <span className="text-[11px] text-muted-foreground block">{st.role}</span>
                     </div>
                   </div>
-                  <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#f7f7f7] border border-[#ebebeb] text-[#717171]">
+                  <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-background border border-border text-muted-foreground">
                     {staffBookings.length} booked
                   </span>
                 </div>
@@ -394,12 +396,12 @@ export default function OwnerTimelineDashboard() {
                             isCancelled
                               ? "bg-red-50/50 border-red-100 opacity-60"
                               : isCompleted
-                              ? "bg-neutral-50 border-[#ebebeb]"
-                              : "bg-white border-[#ebebeb] hover:border-[#ff385c]"
+                              ? "bg-neutral-50 border-border"
+                              : "bg-card border-border hover:border-primary"
                           }`}
                         >
                           <div className="flex items-center justify-between">
-                            <span className="font-bold text-xs text-[#ff385c]">
+                            <span className="font-bold text-xs text-primary">
                               {startTime} - {endTime}
                             </span>
                             <span
@@ -417,10 +419,10 @@ export default function OwnerTimelineDashboard() {
                             </span>
                           </div>
 
-                          <div className="font-bold text-sm text-[#222222] mt-1">
+                          <div className="font-bold text-sm text-foreground mt-1">
                             {b.client_name}
                           </div>
-                          <div className="text-xs text-[#717171] mt-0.5">
+                          <div className="text-xs text-muted-foreground mt-0.5">
                             {b.services?.name} • GHS {b.price}
                           </div>
                         </div>
@@ -437,35 +439,35 @@ export default function OwnerTimelineDashboard() {
       {/* Booking Detail Drawer / Modal (Stitch 14) */}
       {selectedBooking && (
         <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-end sm:items-center justify-center p-0 sm:p-4">
-          <div className="w-full max-w-lg bg-white rounded-t-3xl sm:rounded-2xl p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between pb-3 border-b border-[#f0f0f0]">
+          <div className="w-full max-w-lg bg-card rounded-t-3xl sm:rounded-2xl p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between pb-3 border-b border-border">
               <div>
-                <span className="text-[10px] font-bold text-[#717171] uppercase tracking-wider block">
+                <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block">
                   Booking Detail
                 </span>
-                <h3 className="text-lg font-bold text-[#222222]">{selectedBooking.client_name}</h3>
+                <h3 className="text-lg font-bold text-foreground">{selectedBooking.client_name}</h3>
               </div>
               <button
                 type="button"
                 onClick={() => setSelectedBooking(null)}
-                className="w-8 h-8 rounded-full flex items-center justify-center text-[#717171] hover:bg-[#f7f7f7]"
+                className="w-8 h-8 rounded-full flex items-center justify-center text-muted-foreground hover:bg-background"
               >
                 ✕
               </button>
             </div>
 
-            <div className="grid grid-cols-2 gap-3 text-xs bg-[#fafafa] p-3.5 rounded-xl border border-[#ebebeb]">
+            <div className="grid grid-cols-2 gap-3 text-xs bg-muted p-3.5 rounded-xl border border-border">
               <div>
-                <span className="text-[#717171] block">Service</span>
-                <span className="font-bold text-[#222222]">{selectedBooking.services?.name}</span>
+                <span className="text-muted-foreground block">Service</span>
+                <span className="font-bold text-foreground">{selectedBooking.services?.name}</span>
               </div>
               <div>
-                <span className="text-[#717171] block">Barber Chair</span>
-                <span className="font-bold text-[#222222]">{selectedBooking.staff?.name}</span>
+                <span className="text-muted-foreground block">Barber Chair</span>
+                <span className="font-bold text-foreground">{selectedBooking.staff?.name}</span>
               </div>
               <div>
-                <span className="text-[#717171] block">Appointment Time</span>
-                <span className="font-bold text-[#222222]">
+                <span className="text-muted-foreground block">Appointment Time</span>
+                <span className="font-bold text-foreground">
                   {new Date(selectedBooking.start_at).toLocaleTimeString("en-US", {
                     hour: "numeric",
                     minute: "2-digit",
@@ -473,8 +475,8 @@ export default function OwnerTimelineDashboard() {
                 </span>
               </div>
               <div>
-                <span className="text-[#717171] block">Amount</span>
-                <span className="font-bold text-[#222222]">
+                <span className="text-muted-foreground block">Amount</span>
+                <span className="font-bold text-foreground">
                   GHS {selectedBooking.price} ({selectedBooking.payment_status})
                 </span>
               </div>
@@ -490,9 +492,9 @@ export default function OwnerTimelineDashboard() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
               <a
                 href={`tel:${selectedBooking.client_phone}`}
-                className="py-2.5 px-3 rounded-xl border border-[#dddddd] hover:border-[#222222] text-xs font-semibold text-[#222222] flex items-center justify-center gap-1.5 transition-colors"
+                className="py-2.5 px-3 rounded-xl border border-input hover:border-[#222222] text-xs font-semibold text-foreground flex items-center justify-center gap-1.5 transition-colors"
               >
-                <Phone className="w-3.5 h-3.5 text-[#ff385c]" />
+                <Phone className="w-3.5 h-3.5 text-primary" />
                 <span>Call Client</span>
               </a>
 
@@ -508,8 +510,8 @@ export default function OwnerTimelineDashboard() {
             </div>
 
             {/* Status Change Buttons */}
-            <div className="pt-2 border-t border-[#f0f0f0] space-y-2">
-              <span className="text-[11px] font-bold text-[#717171] uppercase tracking-wider block">
+            <div className="pt-2 border-t border-border space-y-2">
+              <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider block">
                 Update Appointment Status
               </span>
               <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
@@ -551,13 +553,13 @@ export default function OwnerTimelineDashboard() {
       {/* Walk-in Booking Modal */}
       {showWalkInModal && (
         <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="w-full max-w-md bg-white rounded-2xl p-5 sm:p-6 shadow-2xl space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-[#f0f0f0]">
-              <h3 className="text-lg font-bold text-[#222222]">Add Walk-In Client</h3>
+          <div className="w-full max-w-md bg-card rounded-2xl p-5 sm:p-6 shadow-2xl space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-border">
+              <h3 className="text-lg font-bold text-foreground">Add Walk-In Client</h3>
               <button
                 type="button"
                 onClick={() => setShowWalkInModal(false)}
-                className="w-8 h-8 rounded-full flex items-center justify-center text-[#717171] hover:bg-[#f7f7f7]"
+                className="w-8 h-8 rounded-full flex items-center justify-center text-muted-foreground hover:bg-background"
               >
                 ✕
               </button>
@@ -565,35 +567,35 @@ export default function OwnerTimelineDashboard() {
 
             <form onSubmit={handleCreateWalkIn} className="space-y-3 text-xs">
               <div>
-                <label className="block font-semibold text-[#222222] mb-1">Client Name *</label>
+                <label className="block font-semibold text-foreground mb-1">Client Name *</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. Yaw Osei"
                   value={walkInClientName}
                   onChange={(e) => setWalkInClientName(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border border-[#dddddd] focus:outline-none focus:border-[#ff385c]"
+                  className="w-full px-3 py-2 rounded-xl border border-input focus:outline-none focus:border-primary"
                 />
               </div>
 
               <div>
-                <label className="block font-semibold text-[#222222] mb-1">Phone Number</label>
+                <label className="block font-semibold text-foreground mb-1">Phone Number</label>
                 <input
                   type="tel"
                   placeholder="+233 24 000 0000"
                   value={walkInClientPhone}
                   onChange={(e) => setWalkInClientPhone(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border border-[#dddddd] focus:outline-none focus:border-[#ff385c]"
+                  className="w-full px-3 py-2 rounded-xl border border-input focus:outline-none focus:border-primary"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <div>
-                  <label className="block font-semibold text-[#222222] mb-1">Barber Chair *</label>
+                  <label className="block font-semibold text-foreground mb-1">Barber Chair *</label>
                   <select
                     value={walkInStaffId}
                     onChange={(e) => setWalkInStaffId(e.target.value)}
-                    className="w-full px-2 py-2 rounded-xl border border-[#dddddd] bg-white focus:outline-none focus:border-[#ff385c]"
+                    className="w-full px-2 py-2 rounded-xl border border-input bg-card focus:outline-none focus:border-primary"
                   >
                     {staffList.map((st) => (
                       <option key={st.id} value={st.id}>
@@ -604,11 +606,11 @@ export default function OwnerTimelineDashboard() {
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-[#222222] mb-1">Service *</label>
+                  <label className="block font-semibold text-foreground mb-1">Service *</label>
                   <select
                     value={walkInServiceId}
                     onChange={(e) => setWalkInServiceId(e.target.value)}
-                    className="w-full px-2 py-2 rounded-xl border border-[#dddddd] bg-white focus:outline-none focus:border-[#ff385c]"
+                    className="w-full px-2 py-2 rounded-xl border border-input bg-card focus:outline-none focus:border-primary"
                   >
                     {services.map((sv) => (
                       <option key={sv.id} value={sv.id}>
@@ -620,20 +622,20 @@ export default function OwnerTimelineDashboard() {
               </div>
 
               <div>
-                <label className="block font-semibold text-[#222222] mb-1">Start Time *</label>
+                <label className="block font-semibold text-foreground mb-1">Start Time *</label>
                 <input
                   type="time"
                   required
                   value={walkInTime}
                   onChange={(e) => setWalkInTime(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border border-[#dddddd] focus:outline-none focus:border-[#ff385c]"
+                  className="w-full px-3 py-2 rounded-xl border border-input focus:outline-none focus:border-primary"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={walkInSubmitting}
-                className="w-full py-3 rounded-xl bg-[#ff385c] hover:bg-[#e00b41] text-white font-bold text-sm shadow-sm transition-all mt-4 disabled:opacity-50"
+                className="w-full py-3 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-sm shadow-sm transition-all mt-4 disabled:opacity-50"
               >
                 {walkInSubmitting ? "Adding..." : "Confirm Walk-In Seat"}
               </button>

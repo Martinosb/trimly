@@ -633,15 +633,15 @@ export type Database = {
       }
       create_booking_hold: {
         Args: {
-          p_client_email: string
+          p_client_email: string | null
           p_client_name: string
-          p_client_notes: string
+          p_client_notes: string | null
           p_client_phone: string
           p_hold_minutes?: number
           p_payment_method?: string
           p_service_id: string
           p_shop_id: string
-          p_staff_id: string
+          p_staff_id: string | null
           p_start_at: string
         }
         Returns: {

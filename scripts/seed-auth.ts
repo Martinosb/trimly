@@ -6,6 +6,10 @@ dotenv.config({ path: ".env.local" });
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "http://127.0.0.1:54321";
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
 
+if (!["127.0.0.1", "localhost", "[::1]"].includes(new URL(supabaseUrl).hostname)) {
+  throw new Error("Demo seeds are restricted to a local Supabase stack.");
+}
+
 if (!serviceRoleKey) {
   console.error("Missing SUPABASE_SERVICE_ROLE_KEY");
   process.exit(1);

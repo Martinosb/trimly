@@ -1,7 +1,7 @@
 // GxStyl Service Worker: Offline Caching + Web Push
 
-const CACHE_NAME = "gxstyl-cache-v2";
-const STATIC_ASSETS = ["/", "/login", "/favicon.ico", "/manifest.json"];
+const CACHE_NAME = "gxstyl-static-v3";
+const STATIC_ASSETS = ["/favicon.ico", "/manifest.json"];
 
 // Install Event
 self.addEventListener("install", (event) => {
@@ -25,30 +25,17 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
-// Fetch Event: Network first with Cache fallback
+// Cache only versioned static assets. Never cache private pages or API responses.
 self.addEventListener("fetch", (event) => {
-  if (event.request.method !== "GET") return;
-
-  // Nearby search URLs contain customer coordinates and must never be cached.
   const url = new URL(event.request.url);
-  if (url.origin === self.location.origin && url.pathname === "/api/shops") return;
-
-  event.respondWith(
-    fetch(event.request)
-      .then((networkResponse) => {
-        // Cache dynamic routes for offline resilience
-        if (networkResponse && networkResponse.status === 200 && networkResponse.type === "basic") {
-          const responseToCache = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, responseToCache);
-          });
-        }
-        return networkResponse;
-      })
-      .catch(() => {
-        return caches.match(event.request);
-      })
-  );
+  if (event.request.method !== "GET" || url.origin !== self.location.origin || !url.pathname.startsWith("/_next/static/")) return;
+  event.respondWith(caches.open(CACHE_NAME).then(async cache => {
+    const cached = await cache.match(event.request);
+    if (cached) return cached;
+    const response = await fetch(event.request);
+    if (response.ok) await cache.put(event.request, response.clone());
+    return response;
+  }));
 });
 
 // Push Event: Handle incoming Web Push notifications

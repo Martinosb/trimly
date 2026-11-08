@@ -9,9 +9,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "GxStyl — The new way to get a beautiful cut",
+  title: "GxStyl — Book a barber or salon in Ghana",
   description:
-    "Multi-tenant barber and salon booking in Ghana. Instant appointments, live real-time chairs, zero queues.",
+    "Find barbers and salons in Ghana. Choose your service, book an available time, and skip the wait. Manage your shop and team with GxStyl.",
   manifest: "/manifest.json",
   icons: {
     icon: "/favicon.ico",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#ff385c",
+  themeColor: "#111210",
   width: "device-width",
   initialScale: 1,
 };
@@ -36,7 +36,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} font-sans h-full antialiased`}>
+    <html lang="en" className={`dark ${inter.variable} font-sans h-full antialiased`}>
       <head>
         <script
           dangerouslySetInnerHTML={{

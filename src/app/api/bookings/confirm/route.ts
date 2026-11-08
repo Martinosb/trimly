@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { confirmSchema } from "@/lib/booking-validation";
 import { confirmBooking } from "@/lib/slot-engine/hold-manager";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { sendSmsNotification } from "@/lib/notifications/sms";
@@ -6,19 +7,16 @@ import { sendWebPushNotification } from "@/lib/notifications/web-push";
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const { bookingId, paymentMethod, paymentStatus, paidAmount } = body;
-
-    if (!bookingId) {
-      return NextResponse.json({ error: "bookingId is required" }, { status: 400 });
-    }
-
-    const booking = await confirmBooking(
-      bookingId,
-      paymentMethod || "pay_at_shop",
-      paymentStatus || "unpaid",
-      paidAmount ? Number(paidAmount) : undefined
-    );
+    const parsed = confirmSchema.safeParse(await request.json());
+    if (!parsed.success) return NextResponse.json({ error: "A valid reservation reference is required. Payments must be verified by the server." }, { status: 400 });
+    const { bookingId, cancellationCode } = parsed.data;
+    const supabase = createAdminClient();
+    const { data: hold } = await supabase.from("bookings").select("id, status, hold_expires_at, shops(is_suspended, allow_pay_at_shop)").eq("id", bookingId).eq("cancellation_code", cancellationCode).maybeSingle();
+    if (!hold) return NextResponse.json({ error: "Reservation not found." }, { status: 404 });
+    if (hold.status !== "pending" || !hold.hold_expires_at || Date.parse(hold.hold_expires_at) <= Date.now()) return NextResponse.json({ error: "This reservation has expired or was already confirmed. Please check your booking pass." }, { status: 409 });
+    const policy = hold.shops as unknown as { is_suspended: boolean; allow_pay_at_shop: boolean } | null;
+    if (!policy || policy.is_suspended || !policy.allow_pay_at_shop) return NextResponse.json({ error: "This shop cannot accept this booking." }, { status: 409 });
+    const booking = await confirmBooking(bookingId, "pay_at_shop", "unpaid", 0);
 
     // Asynchronously dispatch notifications (client SMS + owner/staff Web Push)
     try {
@@ -86,8 +84,8 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true, booking });
   } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : "Internal server error";
-    return NextResponse.json({ error: message }, { status: 500 });
+    console.error("Booking confirmation failed");
+    return NextResponse.json({ error: "Unable to confirm this reservation. Please try again." }, { status: err instanceof SyntaxError ? 400 : 500 });
   }
 }
 

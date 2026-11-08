@@ -7,7 +7,7 @@ import {
 import { createAdminClient } from "@/lib/supabase/admin";
 
 export class MockPaymentProvider implements PaymentProvider {
-  name: "mock" = "mock";
+  name = "mock" as const;
 
   async initialize(params: InitializePaymentParams): Promise<InitializePaymentResult> {
     const reference = `MOCK_TRX_${Date.now()}_${Math.random().toString(36).substring(2, 7).toUpperCase()}`;
@@ -59,7 +59,7 @@ export class MockPaymentProvider implements PaymentProvider {
       success: payment.status === "successful",
       reference: payment.provider_reference || reference,
       amount: Number(payment.amount),
-      status: payment.status as any,
+      status: payment.status === "successful" ? "successful" : payment.status === "pending" ? "pending" : "failed",
       paidAt: payment.created_at,
     };
   }
