@@ -16,7 +16,7 @@ export class ArkeselSmsProvider implements SmsProvider {
   private apiKey: string;
   private defaultSender: string;
 
-  constructor(apiKey: string, defaultSender: string = "GxStyl") {
+  constructor(apiKey: string, defaultSender: string = "Trimly") {
     this.apiKey = apiKey;
     this.defaultSender = defaultSender;
   }
@@ -59,7 +59,7 @@ export function getSmsProvider(): SmsProvider {
   const apiKey = process.env.ARKESEL_API_KEY;
 
   if (!isMock && apiKey && apiKey !== "mock_arkesel_api_key") {
-    return new ArkeselSmsProvider(apiKey, process.env.ARKESEL_SENDER_ID || "GxStyl");
+    return new ArkeselSmsProvider(apiKey, process.env.ARKESEL_SENDER_ID || "Trimly");
   }
 
   if (process.env.NODE_ENV !== "production" && isMock) return new MockSmsProvider();
@@ -82,7 +82,7 @@ export async function sendSmsNotification(params: {
   const res = await sms.send({
     to: params.to,
     message: params.message,
-    senderId: params.senderId || "GxStyl",
+    senderId: params.senderId || "Trimly",
   });
 
   const supabase = createAdminClient();

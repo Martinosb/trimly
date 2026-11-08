@@ -273,7 +273,7 @@ export default function OnboardingPage() {
               <Scissors className="w-4 h-4 fill-current rotate-45" />
             </div>
             <div>
-              <span className="font-bold text-base tracking-tight text-foreground">GxStyl</span>
+              <span className="font-bold text-base tracking-tight text-foreground">Trimly</span>
               <span className="text-xs text-muted-foreground block">Shop Setup Wizard</span>
             </div>
           </div>
@@ -650,7 +650,7 @@ export default function OnboardingPage() {
 
               <div>
                 <h2 className="text-2xl font-bold tracking-tight text-foreground">
-                  Your shop is live on GxStyl!
+                  Your shop is live on Trimly!
                 </h2>
                 <p className="text-sm text-muted-foreground mt-1.5 max-w-sm mx-auto">
                   Share your link on Instagram, WhatsApp, and Google Maps to start receiving instant bookings.

@@ -46,7 +46,7 @@ export async function GET(request: NextRequest) {
     // 2. Send SMS reminder
     await sms.send({
       to: b.client_phone,
-      message: `GxStyl Reminder: Your appointment at ${shopName} starts in 1 hour (${timeFormatted}). See pass: /book/manage?code=${b.cancellation_code}`,
+      message: `Trimly Reminder: Your appointment at ${shopName} starts in 1 hour (${timeFormatted}). See pass: /book/manage?code=${b.cancellation_code}`,
     });
 
     remindedCount++;

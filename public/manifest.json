@@ -1,11 +1,11 @@
 {
-  "name": "GxStyl \u2014 Book a barber or salon",
-  "short_name": "GxStyl",
+  "name": "Trimly \u2014 Book a barber or salon",
+  "short_name": "Trimly",
   "description": "Find barbers and salons across Ghana. Choose a service, book a time, and skip the wait.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#111210",
-  "theme_color": "#111210",
+  "background_color": "#faf9f6",
+  "theme_color": "#faf9f6",
   "orientation": "portrait-primary",
   "icons": [
     {

@@ -3,8 +3,8 @@ import Link from "next/link";
 import { Scissors, ArrowLeft, FileText } from "lucide-react";
 
 export const metadata = {
-  title: "Terms of Service — GxStyl",
-  description: "Terms and conditions of service for GxStyl platform.",
+  title: "Terms of Service — Trimly",
+  description: "Terms and conditions of service for Trimly platform.",
 };
 
 export default function TermsOfServicePage() {
@@ -17,7 +17,7 @@ export default function TermsOfServicePage() {
             <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white">
               <Scissors className="w-4 h-4 fill-current rotate-45" />
             </div>
-            <span className="font-extrabold text-xl tracking-tight text-foreground">GxStyl</span>
+            <span className="font-extrabold text-xl tracking-tight text-foreground">Trimly</span>
           </Link>
           <Link
             href="/login"
@@ -47,14 +47,14 @@ export default function TermsOfServicePage() {
           <section className="bg-card p-6 rounded-2xl border border-border shadow-xs">
             <h2 className="text-lg font-bold text-foreground mb-3">1. Agreement to Terms</h2>
             <p>
-              By accessing or using GxStyl (&quot;the Service&quot;), you agree to be bound by these Terms of Service. If you do not agree with any part of these terms, you may not access the Service.
+              By accessing or using Trimly (&quot;the Service&quot;), you agree to be bound by these Terms of Service. If you do not agree with any part of these terms, you may not access the Service.
             </p>
           </section>
 
           <section className="bg-card p-6 rounded-2xl border border-border shadow-xs">
             <h2 className="text-lg font-bold text-foreground mb-3">2. Description of Service</h2>
             <p>
-              GxStyl provides barbershop and salon management software, appointment scheduling tools, chair allocation timelines, and customer booking portals. Shop owners maintain complete autonomy over their working hours, pricing, staff rosters, and cancellation policies.
+              Trimly provides barbershop and salon management software, appointment scheduling tools, chair allocation timelines, and customer booking portals. Shop owners maintain complete autonomy over their working hours, pricing, staff rosters, and cancellation policies.
             </p>
           </section>
 
@@ -68,7 +68,7 @@ export default function TermsOfServicePage() {
           <section className="bg-card p-6 rounded-2xl border border-border shadow-xs">
             <h2 className="text-lg font-bold text-foreground mb-3">4. Appointments & Cancellation Policies</h2>
             <p>
-              Appointments booked through GxStyl are subject to the specific shop&apos;s cancellation notice window and deposit rules. Clients who fail to arrive for their scheduled session or cancel outside the permitted window may forfeit their deposits as dictated by the shop owner&apos;s published policies.
+              Appointments booked through Trimly are subject to the specific shop&apos;s cancellation notice window and deposit rules. Clients who fail to arrive for their scheduled session or cancel outside the permitted window may forfeit their deposits as dictated by the shop owner&apos;s published policies.
             </p>
           </section>
 

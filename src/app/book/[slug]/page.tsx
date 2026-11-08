@@ -21,8 +21,6 @@ import {
   Download,
   AlertCircle,
   Sparkles,
-  Lock,
-  Unlock,
 } from "lucide-react";
 import confetti from "canvas-confetti";
 import QRCode from "qrcode";
@@ -126,7 +124,6 @@ export default function BookingPortalPage({
   const [qrDataUrl, setQrDataUrl] = useState<string>("");
   const [hasSavedPass, setHasSavedPass] = useState(false);
   const [savingPass, setSavingPass] = useState(false);
-  const [showMandateWarning, setShowMandateWarning] = useState(false);
 
   // 1. Fetch initial shop data
   useEffect(() => {
@@ -337,7 +334,6 @@ export default function BookingPortalPage({
       const success = await savePassImageToDevice(canvas, confirmedBooking.cancellationCode);
       if (success) {
         setHasSavedPass(true);
-        setShowMandateWarning(false);
         if (typeof window !== "undefined") {
           localStorage.setItem(`gxstyl_pass_saved_${confirmedBooking.cancellationCode}`, "true");
         }
@@ -382,7 +378,7 @@ export default function BookingPortalPage({
             href="/"
             className="px-5 py-2.5 rounded-xl bg-[#222222] text-white text-sm font-semibold"
           >
-            Go to GxStyl Home
+            Go to Trimly Home
           </Link>
         </div>
       </div>
@@ -405,7 +401,7 @@ export default function BookingPortalPage({
             href="/"
             className="px-5 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-semibold shadow-sm"
           >
-            Explore Other Barbers on GxStyl
+            Explore Other Barbers on Trimly
           </Link>
         </div>
       </div>
@@ -433,7 +429,7 @@ export default function BookingPortalPage({
           ) : (
             <Link
               href="/"
-              aria-label="GxStyl Home"
+              aria-label="Trimly Home"
               className="w-8 h-8 rounded-full flex items-center justify-center text-foreground hover:bg-background transition-colors"
             >
               <Scissors className="w-4 h-4 text-primary rotate-45" />
@@ -812,7 +808,7 @@ export default function BookingPortalPage({
 
               <div className="rounded-xl border border-border p-4 bg-muted">
                 <h3 className="font-semibold text-sm">{shop.allow_pay_at_shop ? "Reserve now. Pay at the shop." : "Please contact this shop to book."}</h3>
-                <p className="text-sm text-muted-foreground mt-2">{shop.allow_pay_at_shop ? "No online payment is taken. You’ll pay your barber or stylist directly when you arrive." : "This shop requires an online deposit. Online payments are not available on GxStyl yet."}</p>
+                <p className="text-sm text-muted-foreground mt-2">{shop.allow_pay_at_shop ? "No online payment is taken. You’ll pay your barber or stylist directly when you arrive." : "This shop requires an online deposit. Online payments are not available on Trimly yet."}</p>
               </div>
             </div>
           )}
@@ -840,14 +836,14 @@ export default function BookingPortalPage({
                   <div className="space-y-1">
                     <div className="flex items-center gap-1.5 flex-wrap">
                       <span className="font-bold text-xs text-amber-950">
-                        Mandatory: Save Booking Pass Image
+                        Keep your booking pass handy
                       </span>
                       <span className="text-[10px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded bg-amber-200/80 text-amber-900">
-                        Required
+                        Recommended
                       </span>
                     </div>
                     <p className="text-[11px] text-amber-800 leading-relaxed">
-                      You must save this pass to your photos or downloads before leaving. Your barber scans this QR code upon arrival and shop cellular network can be spotty.
+                      Download your pass for easy check-in, even when you are offline. You can manage your appointment at any time.
                     </p>
                   </div>
                 </div>
@@ -946,7 +942,7 @@ export default function BookingPortalPage({
                     ) : (
                       <>
                         <Download className="w-4 h-4 stroke-[2.5] group-hover:-translate-y-0.5 transition-transform" />
-                        <span>Save Pass to Photos / Image (Required)</span>
+                        <span>Download booking pass</span>
                       </>
                     )}
                   </button>
@@ -968,26 +964,7 @@ export default function BookingPortalPage({
                   </button>
                 )}
 
-                {/* Hard-gated Manage Appointment Button */}
-                {!hasSavedPass ? (
-                  <button
-                    type="button"
-                    onClick={() => setShowMandateWarning(true)}
-                    className="w-full py-3 px-4 rounded-xl border border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 text-gray-500 font-semibold text-xs flex items-center justify-center gap-2 transition-colors cursor-pointer"
-                    title="Save your pass image above to unlock"
-                  >
-                    <Lock className="w-3.5 h-3.5 text-gray-400" />
-                    <span>Manage Appointment (Locked until pass is saved)</span>
-                  </button>
-                ) : (
-                  <Link
-                    href={`/book/${slug}/manage?code=${confirmedBooking.cancellationCode}`}
-                    className="w-full py-3 px-4 rounded-xl border border-[#222222] text-foreground hover:bg-background font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors"
-                  >
-                    <Unlock className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>Manage or Cancel Appointment</span>
-                  </Link>
-                )}
+                <Link href={`/book/${slug}/manage?code=${confirmedBooking.cancellationCode}`} className="w-full min-h-11 py-3 px-4 rounded-lg border border-input text-foreground font-semibold text-sm flex items-center justify-center">Manage or cancel appointment</Link>
 
                 {/* WhatsApp Share */}
                 <a
@@ -1003,46 +980,7 @@ export default function BookingPortalPage({
                 </a>
               </div>
 
-              {/* Mandate Warning Modal */}
-              {showMandateWarning && !hasSavedPass && (
-                <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-xs">
-                  <div className="bg-card rounded-2xl p-5 max-w-sm w-full space-y-4 shadow-2xl text-left border border-amber-200">
-                    <div className="w-12 h-12 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center mx-auto">
-                      <AlertCircle className="w-6 h-6" />
-                    </div>
-                    <div className="text-center">
-                      <h3 className="text-base font-bold text-foreground">Save Pass Image First</h3>
-                      <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">
-                        Barbers require this QR pass for check-in upon arrival. Because cellular network at the barbershop can be unpredictable, saving your booking pass image to your device photos or files is required before proceeding.
-                      </p>
-                    </div>
-                    <div className="space-y-2 pt-1">
-                      <button
-                        type="button"
-                        onClick={handleSavePass}
-                        disabled={savingPass}
-                        className="w-full py-3 px-4 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-xs flex items-center justify-center gap-2 shadow-sm transition-colors cursor-pointer"
-                      >
-                        {savingPass ? (
-                          <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                        ) : (
-                          <>
-                            <Download className="w-4 h-4" />
-                            <span>Save Pass to Phone Now</span>
-                          </>
-                        )}
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setShowMandateWarning(false)}
-                        className="w-full py-2 px-4 rounded-xl text-gray-500 hover:text-gray-800 text-xs font-medium text-center transition-colors cursor-pointer"
-                      >
-                        Dismiss
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )}
+
             </div>
           )}
         </main>
