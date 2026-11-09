@@ -3,7 +3,14 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Scissors, Lock, Mail, ArrowRight, CheckCircle2, AlertCircle } from "lucide-react";
+import {
+  Scissors,
+  Lock,
+  Mail,
+  ArrowRight,
+  CheckCircle2,
+  AlertCircle,
+} from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
 function GoogleIcon({ className = "w-5 h-5" }: { className?: string }) {
@@ -32,7 +39,8 @@ function GoogleIcon({ className = "w-5 h-5" }: { className?: string }) {
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const initialMode = searchParams.get("mode") === "signup" ? "signup" : "login";
+  const initialMode =
+    searchParams.get("mode") === "signup" ? "signup" : "login";
   const [mode, setMode] = useState<"login" | "signup">(initialMode);
 
   const [email, setEmail] = useState("");
@@ -40,7 +48,14 @@ function LoginForm() {
   const [fullName, setFullName] = useState("");
   const [loading, setLoading] = useState(false);
   const [oauthLoading, setOauthLoading] = useState(false);
-  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(() => searchParams.get("error") ? { type: "error", text: searchParams.get("error")! } : null);
+  const [message, setMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(() =>
+    searchParams.get("error")
+      ? { type: "error", text: searchParams.get("error")! }
+      : null,
+  );
 
   const supabase = createClient();
 
@@ -50,7 +65,8 @@ function LoginForm() {
 
     try {
       const nextParam = searchParams.get("next");
-      const nextDestination = nextParam || (mode === "signup" ? "/onboard" : "/dashboard");
+      const nextDestination =
+        nextParam || (mode === "signup" ? "/onboard" : "/dashboard");
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
@@ -64,7 +80,8 @@ function LoginForm() {
 
       if (error) throw error;
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Failed to sign in with Google";
+      const msg =
+        err instanceof Error ? err.message : "Failed to sign in with Google";
       setMessage({ type: "error", text: msg });
       setOauthLoading(false);
     }
@@ -104,12 +121,10 @@ function LoginForm() {
 
         if (error) throw error;
 
-        // Check if user is platform admin or has a shop
-        if (email.toLowerCase().includes("moseiboakye@st.knust.edu.gh")) {
-          router.push("/admin");
-        } else {
-          router.push("/dashboard");
-        }
+        const next = searchParams.get("next");
+        router.push(
+          `/auth/continue${next ? `?next=${encodeURIComponent(next)}` : ""}`,
+        );
       }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Authentication failed";
@@ -127,17 +142,20 @@ function LoginForm() {
         <header className="px-6 pt-5 pb-4 flex items-center justify-between border-b border-border relative">
           <Link
             href="/"
+            aria-label="Back to Trimly home"
             className="w-9 h-9 rounded-full flex items-center justify-center text-foreground hover:bg-background transition-colors"
           >
             <span className="text-xl">✕</span>
           </Link>
 
-          {/* GxStyl Logo */}
+          {/* Trimly Logo */}
           <div className="flex items-center gap-2 absolute left-1/2 -translate-x-1/2">
             <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
               <Scissors className="w-4 h-4 fill-current rotate-45" />
             </div>
-            <span className="font-bold text-xl tracking-tight text-foreground">GxStyl</span>
+            <span className="font-bold text-xl tracking-tight text-foreground">
+              Trimly
+            </span>
           </div>
 
           <div className="w-9" />
@@ -184,7 +202,7 @@ function LoginForm() {
             <p className="text-sm text-muted-foreground mt-1">
               {mode === "login"
                 ? "Manage appointments, staff chairs, and revenue."
-                : "Join Ghana's top barbers and salons on GxStyl."}
+                : "Join Ghana's top barbers and salons on Trimly."}
             </p>
           </div>
 
@@ -301,19 +319,25 @@ function LoginForm() {
               )}
             </button>
           </form>
-
         </main>
 
         {/* Footer */}
         <footer className="px-6 py-4 bg-muted border-t border-border text-center text-xs text-muted-foreground">
-          By continuing, you agree to GxStyl&apos;s{" "}
-          <Link href="/terms" className="underline hover:text-foreground transition-colors">
+          By continuing, you agree to Trimly&apos;s{" "}
+          <Link
+            href="/terms"
+            className="underline hover:text-foreground transition-colors"
+          >
             Terms of Service
           </Link>{" "}
           and{" "}
-          <Link href="/privacy" className="underline hover:text-foreground transition-colors">
+          <Link
+            href="/privacy"
+            className="underline hover:text-foreground transition-colors"
+          >
             Privacy Policy
-          </Link>.
+          </Link>
+          .
         </footer>
       </div>
     </div>
@@ -321,6 +345,30 @@ function LoginForm() {
 }
 
 export default function LoginPage() {
+  if (
+    !process.env.NEXT_PUBLIC_SUPABASE_URL ||
+    !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  ) {
+    return (
+      <main className="min-h-screen flex items-center justify-center p-6">
+        <div className="max-w-md rounded-lg border border-border bg-card p-8">
+          <h1 className="text-2xl font-semibold">
+            Sign-in is temporarily unavailable
+          </h1>
+          <p className="mt-4 text-muted-foreground">
+            Please try again later. You can still browse shops without an
+            account.
+          </p>
+          <Link
+            href="/"
+            className="inline-flex mt-6 min-h-11 items-center text-primary underline"
+          >
+            Back to Trimly
+          </Link>
+        </div>
+      </main>
+    );
+  }
   return (
     <React.Suspense
       fallback={

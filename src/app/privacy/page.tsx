@@ -3,8 +3,8 @@ import Link from "next/link";
 import { Scissors, ArrowLeft, Shield } from "lucide-react";
 
 export const metadata = {
-  title: "Privacy Policy — GxStyl",
-  description: "Privacy Policy and data protection terms for GxStyl platform users and clients.",
+  title: "Privacy Policy — Trimly",
+  description: "Privacy Policy and data protection terms for Trimly platform users and clients.",
 };
 
 export default function PrivacyPolicyPage() {
@@ -17,7 +17,7 @@ export default function PrivacyPolicyPage() {
             <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white">
               <Scissors className="w-4 h-4 fill-current rotate-45" />
             </div>
-            <span className="font-extrabold text-xl tracking-tight text-foreground">GxStyl</span>
+            <span className="font-extrabold text-xl tracking-tight text-foreground">Trimly</span>
           </Link>
           <Link
             href="/login"
@@ -47,7 +47,7 @@ export default function PrivacyPolicyPage() {
           <section className="bg-card p-6 rounded-2xl border border-border shadow-xs">
             <h2 className="text-lg font-bold text-foreground mb-3">1. Introduction</h2>
             <p>
-              GxStyl (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) operates the GxStyl appointment scheduling, chair management, and salon booking platform. We are committed to protecting the privacy, accuracy, and security of personal information collected from barbers, salon owners, staff, and clients.
+              Trimly (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) operates the Trimly appointment scheduling, chair management, and salon booking platform. We are committed to protecting the privacy, accuracy, and security of personal information collected from barbers, salon owners, staff, and clients.
             </p>
           </section>
 
@@ -72,7 +72,7 @@ export default function PrivacyPolicyPage() {
           <section className="bg-card p-6 rounded-2xl border border-border shadow-xs">
             <h2 className="text-lg font-bold text-foreground mb-3">3. How We Use Google User Data</h2>
             <p>
-              When you authenticate with Google Sign-In, GxStyl requests only basic identity scopes (<code className="bg-[#f0f0f0] px-1 py-0.5 rounded">openid</code>, <code className="bg-[#f0f0f0] px-1 py-0.5 rounded">email</code>, <code className="bg-[#f0f0f0] px-1 py-0.5 rounded">profile</code>). This data is strictly used to:
+              When you authenticate with Google Sign-In, Trimly requests only basic identity scopes (<code className="bg-[#f0f0f0] px-1 py-0.5 rounded">openid</code>, <code className="bg-[#f0f0f0] px-1 py-0.5 rounded">email</code>, <code className="bg-[#f0f0f0] px-1 py-0.5 rounded">profile</code>). This data is strictly used to:
             </p>
             <ul className="list-disc pl-5 space-y-2 mt-2">
               <li>Authenticate your identity securely without requiring a separate password.</li>

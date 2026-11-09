@@ -9,23 +9,23 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "GxStyl — Book a barber or salon in Ghana",
+  title: "Trimly — Book a barber or salon in Ghana",
   description:
-    "Find barbers and salons in Ghana. Choose your service, book an available time, and skip the wait. Manage your shop and team with GxStyl.",
+    "Find barbers and salons in Ghana. Choose your service, book an available time, and skip the wait. Manage your shop and team with Trimly.",
   manifest: "/manifest.json",
   icons: {
-    icon: "/favicon.ico",
+    icon: "/icon.svg",
     apple: "/icon-192.png",
   },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "GxStyl",
+    title: "Trimly",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#111210",
+  themeColor: "#faf9f6",
   width: "device-width",
   initialScale: 1,
 };
@@ -36,7 +36,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`dark ${inter.variable} font-sans h-full antialiased`}>
+    <html lang="en" className={`${inter.variable} font-sans h-full antialiased`}>
       <head>
         <script
           dangerouslySetInnerHTML={{

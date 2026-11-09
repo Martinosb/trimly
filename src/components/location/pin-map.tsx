@@ -35,7 +35,7 @@ export default function PinMap({ latitude, longitude, onChange }: {
     }
     if (!markerRef.current) {
       markerRef.current = L.marker([latitude, longitude], { draggable: true, icon: L.divIcon({
-        className: "shop-map-pin", html: '<span style="display:block;width:24px;height:24px;border-radius:50%;background:#ff385c;border:3px solid white;box-shadow:0 2px 6px #0005"></span>', iconSize: [24, 24], iconAnchor: [12, 12],
+        className: "shop-map-pin", html: '<span style="display:block;width:24px;height:24px;border-radius:50%;background:#17634b;border:3px solid white;box-shadow:0 2px 6px #0005"></span>', iconSize: [24, 24], iconAnchor: [12, 12],
       }) }).addTo(map);
       markerRef.current.on("dragend", () => { const pin = markerRef.current!.getLatLng(); changeRef.current(pin.lat, pin.lng); });
     } else markerRef.current.setLatLng([latitude, longitude]);

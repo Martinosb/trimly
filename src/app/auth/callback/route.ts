@@ -1,16 +1,22 @@
 import { NextResponse } from "next/server";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
-import { checkIsPlatformAdmin, getOwnerShop, getStaffProfile } from "@/lib/auth/session";
+import {
+  getWorkspaceDestination,
+  safeDestination,
+} from "@/lib/auth/destination";
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
   const requestedNext = searchParams.get("next");
-  const next = requestedNext && /^\/(?!\/)[a-zA-Z0-9/_?=&%-]*$/.test(requestedNext) ? requestedNext : null;
-  const errorParam = searchParams.get("error_description") || searchParams.get("error");
+  const next = safeDestination(requestedNext);
+  const errorParam =
+    searchParams.get("error_description") || searchParams.get("error");
 
   if (errorParam) {
-    return NextResponse.redirect(`${origin}/login?error=${encodeURIComponent(errorParam)}`);
+    return NextResponse.redirect(
+      `${origin}/login?error=${encodeURIComponent(errorParam)}`,
+    );
   }
 
   if (code) {
@@ -29,26 +35,8 @@ export async function GET(request: Request) {
             return NextResponse.redirect(`${origin}${next}`);
           }
 
-          // Check if platform admin
-          const isAdmin = await checkIsPlatformAdmin(user.id, user.email);
-          if (isAdmin) {
-            return NextResponse.redirect(`${origin}/admin`);
-          }
-
-          // Check if existing shop owner
-          const shop = await getOwnerShop(user.id);
-          if (shop) {
-            return NextResponse.redirect(`${origin}/dashboard`);
-          }
-
-          // Check if active staff member
-          const staff = await getStaffProfile(user.id);
-          if (staff) {
-            return NextResponse.redirect(`${origin}/staff`);
-          }
-
-          // If brand new user with no shop or staff profile, direct to shop onboarding
-          return NextResponse.redirect(`${origin}/onboard`);
+          const destination = await getWorkspaceDestination(user.id);
+          return NextResponse.redirect(`${origin}${destination}`);
         }
       } catch (err) {
         console.error("Error during post-auth routing:", err);
@@ -60,5 +48,7 @@ export async function GET(request: Request) {
   }
 
   // Return the user to an error page with instructions
-  return NextResponse.redirect(`${origin}/login?error=Could+not+authenticate+user`);
+  return NextResponse.redirect(
+    `${origin}/login?error=Could+not+authenticate+user`,
+  );
 }

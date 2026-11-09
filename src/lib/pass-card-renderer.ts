@@ -103,7 +103,7 @@ export async function renderPassCardToCanvas(
   ctx.fillRect(cardX, cardY, cardW, 110);
 
   // Brand Name Pill
-  ctx.fillStyle = "#ff385c";
+  ctx.fillStyle = "#17634b";
   ctx.font = 'bold 16px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText("GXSTYL PASS", cardX + 36, cardY + 44);
 
@@ -131,7 +131,7 @@ export async function renderPassCardToCanvas(
   ctx.font = 'bold 13px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
   ctx.fillText("BOOKING REFERENCE", cardX + 36, refY);
 
-  ctx.fillStyle = "#ff385c";
+  ctx.fillStyle = "#17634b";
   ctx.font = 'bold 32px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace';
   ctx.fillText(`#${data.cancellationCode}`, cardX + 36, refY + 36);
 
@@ -297,7 +297,7 @@ export async function renderPassCardToCanvas(
   // Bottom Footer Bar
   ctx.fillStyle = "#94a3b8";
   ctx.font = '13px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
-  ctx.fillText("Official GxStyl Check-in Pass • gxstyl.vercel.app", width / 2, cardY + cardH - 24);
+  ctx.fillText("Official Trimly Check-in Pass • gxstyl.vercel.app", width / 2, cardY + cardH - 24);
   ctx.textAlign = "left";
 
   return canvas;
@@ -311,7 +311,7 @@ export async function savePassImageToDevice(
   canvas: HTMLCanvasElement,
   code: string
 ): Promise<boolean> {
-  const filename = `GxStyl-Pass-${code}.png`;
+  const filename = `Trimly-Pass-${code}.png`;
 
   return new Promise((resolve) => {
     canvas.toBlob(async (blob) => {
@@ -331,8 +331,8 @@ export async function savePassImageToDevice(
         try {
           await navigator.share({
             files: [file],
-            title: `GxStyl Booking Pass #${code}`,
-            text: `Here is my GxStyl booking pass #${code}. Show this upon arrival.`,
+            title: `Trimly Booking Pass #${code}`,
+            text: `Here is my Trimly booking pass #${code}. Show this upon arrival.`,
           });
           resolve(true);
           return;
